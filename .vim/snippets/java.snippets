@@ -1,0 +1,137 @@
+snippet main
+	public static void main (String [] args)
+	{
+		${1:/* code */}
+	}
+snippet pu
+	public
+snippet po
+	protected
+snippet pr
+	private
+snippet st
+	static
+snippet fi
+	final
+snippet ab
+	abstract
+snippet re
+	return
+snippet br
+	break;
+snippet de
+	default:
+		${1}
+snippet ca
+	catch (${1:Exception} ${2:e}) {
+		e.printStackTrace();
+	}
+snippet im
+	import
+snippet j.u
+	java.util
+snippet j.i
+	java.io.
+snippet j.b
+	java.beans.
+snippet j.n
+	java.net.
+snippet j.v
+	j,v
+snippet a.c
+	android.content
+snippet a.u
+	android.util
+snippet a.a
+	android.app
+snippet a.d
+	android.database
+snippet a.o
+	android.os
+snippet a.w
+	android.widget
+snippet a.v
+	android.view
+snippet a.g
+	android.graphics
+snippet if
+	if (${1}) ${2}
+snippet el
+	else 
+snippet elif
+	else if (${1}) ${2}
+snippet wh
+	while (${1}) ${2}
+snippet for
+	for (${1}; ${2}; ${3}) ${4}
+snippet fore
+	for (${1} : ${2}) ${3}
+snippet sw
+	switch (${1}) ${2}
+snippet cs
+	case ${1}:
+		${2}
+	${3}
+snippet tc
+	public class ${1:`Filename()`} extends ${2:TestCase}
+snippet t
+	public void test${1:Name}() throws Exception ${2}
+snippet cl
+	class ${1:`Filename("", "untitled")`} ${2}
+snippet in
+	interface ${1:`Filename("", "untitled")`} ${2:extends Parent}${3}
+snippet m
+	private ${1:void} ${2:method}(${3}) {
+		${4}
+	}
+snippet pm
+	public ${1:void} ${2:method}(${3}) {
+		${4}
+	}
+snippet sm
+	public static ${1:void} ${2:method}(${3}) {
+		${4}
+	}
+snippet v
+	private ${1:String} ${2:var};
+snippet co
+	static public final ${1:String} ${2:var} = ${3};${4}
+snippet cos
+	static public final String ${1:var} = "${2}";${3}
+snippet as
+	assert ${1:test} : "${2:Failure message}";${3}
+snippet log
+	//debug
+	Log.d(TAG, "-----------------------------" + ${1} + "-----------------------------" );
+snippet gci
+	getColumnIndex(${1})
+snippet gs
+	c.getString(c.getColumnIndex(${1}));
+snippet gl
+	c.getLong(c.getColumnIndex(${1}));
+snippet a.p
+	android.provider
+snippet a.n
+	android.net
+snippet sysout
+	System.out.println("${1}");
+snippet gcr
+	getContentResolver()
+snippet gettext
+	LanguageUtils.getText(${1:this}, ${2});
+snippet mquery
+	ContentResolver cr = getContentResolver();
+	Cursor c = cr.query(Groups.CONTENT_URI, 
+			null,
+			${1:null},
+			${2:null},
+			null);
+
+	if (c != null) {
+		if (${3:c.moveToFirst()}) {
+			${4}
+		}
+		c.close();
+	}
+snippet uigs
+	UIUtils.getString(${1:this}, R.string.${2});
