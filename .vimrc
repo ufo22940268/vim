@@ -703,7 +703,7 @@ function! SetLaunchingComponent(path)
 endfunction
 
 function! SetInstrument(path) 
-	exec "map <leader>ti :!adb shell am instrument -w ".a:path.".tests/android.test.InstrumentationTestRunner<cr>"
+	exec "map <leader>tl :!adb shell am instrument -w ".a:path.".tests/android.test.InstrumentationTestRunner<cr>"
 endfunction
 
 "Ignore backup file of cvs in Ex mode.
