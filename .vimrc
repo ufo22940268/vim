@@ -734,6 +734,8 @@ function! LoadSession()
         br
     endif
 endfunction
+au VimEnter * nested :call LoadSession()
+
 
 "Build cscope database.
 noremap <silent> <leader>bc :!find -name *.java > cscope.files && cscope -b -q<cr>
@@ -914,3 +916,5 @@ colorscheme wombat
 set noswapfile
 
 map <F2> :NERDTreeToggle<cr>
+
+
