@@ -1,4 +1,4 @@
-ll"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " by Amix - http://amix.dk/
 "
 " Maintainer: redguardtoo <chb_sh@hotmail.com>, Amir Salihefendic <amix3k at gmail.com>
@@ -863,6 +863,8 @@ function! StartDebug()
         let lastPart = "debug_contacts"
     elseif match(pwd, "frameworks") != -1
         let lastPart = "debug_framework"
+    elseif match(pwd, "MyLazyList") != -1
+        let lastPart = "debug_mylazylist"
     endif
 
     let firstPart = CreateDebugInfoFirstPart()
@@ -917,4 +919,4 @@ set noswapfile
 
 map <F2> :NERDTreeToggle<cr>
 
-
+hongbosb
