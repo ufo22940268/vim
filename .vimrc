@@ -703,7 +703,7 @@ function! SetLaunchingComponent(path)
 endfunction
 
 function! SetInstrument(path) 
-	exec "map <leader>tl :!adb shell am instrument -w " a:path "<cr>"
+	exec "map <leader>ti :!adb shell am instrument -w ".a:path.".tests/android.test.InstrumentationTestRunner<cr>"
 endfunction
 
 "Ignore backup file of cvs in Ex mode.
@@ -734,6 +734,8 @@ function! LoadSession()
         br
     endif
 endfunction
+au VimEnter * nested :call LoadSession()
+
 
 "Build cscope database.
 noremap <silent> <leader>bc :!find -name *.java > cscope.files && cscope -b -q<cr>
@@ -861,6 +863,8 @@ function! StartDebug()
         let lastPart = "debug_contacts"
     elseif match(pwd, "frameworks") != -1
         let lastPart = "debug_framework"
+    elseif match(pwd, "MyLazyList") != -1
+        let lastPart = "debug_mylazylist"
     endif
 
     let firstPart = CreateDebugInfoFirstPart()
@@ -914,3 +918,4 @@ colorscheme wombat
 set noswapfile
 
 map <F2> :NERDTreeToggle<cr>
+
