@@ -102,7 +102,7 @@ snippet as
 	assert ${1:test} : "${2:Failure message}";${3}
 snippet log
 	//debug
-	Log.d(TAG, "-----------------------------" + ${1} + "-----------------------------" );
+	Log.d(TAG, "-----------------------------$1" + ${1:} + "-----------------------------" );
 snippet gci
 	getColumnIndex(${1})
 snippet gs
@@ -141,3 +141,7 @@ snippet runnable
 		public void run() {
 		}
 	}
+snippet fv
+	$2 ${3:view} = (${2:View})findViewById(R.id.${1});
+snippet @or
+	@Override
