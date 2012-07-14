@@ -3,15 +3,10 @@
 " Maintainer:   Christoph Herzog <ccf.herzog@gmx.net>
 " Last Change:  2002 Nov 9
 
-if exists("current_compiler")
-  finish
-endif
-let current_compiler = "python"
-
 let s:cpo_save = &cpo
 set cpo-=C
 
-setlocal makeprg=python %
+setlocal makeprg=python\ %
 
 "the last line: \%-G%.%# is meant to suppress some
 "late error messages that I found could occur e.g.
