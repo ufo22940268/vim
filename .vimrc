@@ -752,7 +752,7 @@ endfunction
 
 set sessionoptions=options
 
-map <silent> <F5> :!ctags -R --language-force=java --exclude=\.* <CR>
+map <silent> <F5> :!ctags -R --exclude=\.* <CR>
 
 set nohls
 
@@ -865,6 +865,8 @@ function! StartDebug()
         let lastPart = "debug_framework"
     elseif match(pwd, "MyLazyList") != -1
         let lastPart = "debug_mylazylist"
+    elseif match(pwd, "spring_flow") != -1
+        let lastPart = "debug_springflow"
     endif
 
     let firstPart = CreateDebugInfoFirstPart()
@@ -874,8 +876,6 @@ endf
 
 noremap <leader>dd :call StartDebug()<cr>
 noremap <leader>di :call DebugInnerContacts()<cr>
-
-set nocst
 
 noremap <Leader>ves :e res/values/strings.xml<cr>
 noremap <Leader>vcs :e res/values-zh-rCN/strings.xml<cr>
@@ -918,3 +918,8 @@ colorscheme wombat
 set noswapfile
 
 map <F2> :NERDTreeToggle<cr>
+set nocst
+source ~/.vim/plugin/cscope_maps.vim
+set background=dark
+colorscheme solarized
+set expandtab
