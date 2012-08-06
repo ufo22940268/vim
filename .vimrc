@@ -540,6 +540,7 @@ let use_xhtml = 1
 
 ""Set some bindings up for 'compile' of python
 "au BufNewFile,BufRead *.py set makeprg=python -c "import py_compile,sys; sys.stderr=sys.stdout; py_compile.compile(r'%')"
+au BufNewFile,BufRead *.py set makeprg=python\ %
 "au BufNewFile,BufRead *.py set efm=%C %.%#,%A File "%f", line %l%.%#,%Z%[%^ ]%@=%m
 "au BufNewFile,BufRead *.py nmap <buffer> <F8> :w!<cr>:make<cr>
 
@@ -918,5 +919,3 @@ colorscheme wombat
 set noswapfile
 
 map <F2> :NERDTreeToggle<cr>
-
-hongbosb
