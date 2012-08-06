@@ -3,11 +3,6 @@
 " Maintainer:   Christoph Herzog <ccf.herzog@gmx.net>
 " Last Change:  2002 Nov 9
 
-if exists("current_compiler")
-  finish
-endif
-let current_compiler = "python"
-
 let s:cpo_save = &cpo
 set cpo-=C
 
@@ -31,4 +26,7 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 "vim: ft=vim
+<<<<<<< HEAD
 set path+=/usr/lib/python2.7
+=======
+>>>>>>> c6399d1437495d0f0f9e3626bbceebc309f5e1f8
