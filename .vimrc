@@ -35,7 +35,7 @@ let performance_mode=1
 set nocompatible
 
 function! MySys()
-		return "unix"
+            return "unix"
 endfunction
 
 "Sets how many lines of history VIM har to remember
@@ -44,18 +44,18 @@ set history=400
 "Enable filetype plugin
 filetype on
 if has("eval") && v:version>=600
-	filetype plugin on
-	filetype indent on
+    filetype plugin on
+    filetype indent on
 endif
 
 "Set to auto read when a file is changed from the outside
 if exists("&autoread")
-	set autoread
+    set autoread
 endif
 
 "Have the mouse enabled all the time:
 if exists("&mouse")
-	set mouse=a
+    set mouse=a
 endif
 
 "Set mapleader
@@ -72,57 +72,57 @@ nmap <leader>w :w!<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Enable syntax hl
 if MySys()=="unix"
-	if v:version<600
-		if filereadable(expand("$VIM/syntax/syntax.vim"))
-			syntax on
-		endif
-	else
-		syntax on
-	endif
+    if v:version<600
+            if filereadable(expand("$VIM/syntax/syntax.vim"))
+                    syntax on
+            endif
+    else
+            syntax on
+    endif
 else
-	syntax on
+    syntax on
 endif
 
 "internationalization
 "I only work in Win2k Chinese version
 if has("multi_byte")
-	"set bomb 
-  set fileencodings=ucs-bom,utf-8,cp936,big5,euc-jp,euc-kr,latin1 
-  " CJK environment detection and corresponding setting 
-  if v:lang =~ "^zh_CN" 
-    " Use cp936 to support GBK, euc-cn == gb2312 
-    set encoding=cp936 
-    set termencoding=cp936 
-    set fileencoding=cp936 
-  elseif v:lang =~ "^zh_TW" 
-    " cp950, big5 or euc-tw 
-    " Are they equal to each other? 
-    set encoding=big5 
-    set termencoding=big5 
-    set fileencoding=big5 
-  elseif v:lang =~ "^ko" 
-    " Copied from someone's dotfile, untested 
-    set encoding=euc-kr 
-    set termencoding=euc-kr 
-    set fileencoding=euc-kr 
-  elseif v:lang =~ "^ja_JP" 
-    " Copied from someone's dotfile, untested 
-    set encoding=euc-jp 
-    set termencoding=euc-jp 
-    set fileencoding=euc-jp 
-  endif 
-  " Detect UTF-8 locale, and replace CJK setting if needed 
-  if v:lang =~ "utf8$" || v:lang =~ "UTF-8$" 
-    set encoding=utf-8 
-    set termencoding=utf-8 
-    set fileencoding=utf-8 
-  endif
+    "set bomb 
+set fileencodings=ucs-bom,utf-8,cp936,big5,euc-jp,euc-kr,latin1 
+" CJK environment detection and corresponding setting 
+if v:lang =~ "^zh_CN" 
+" Use cp936 to support GBK, euc-cn == gb2312 
+set encoding=cp936 
+set termencoding=cp936 
+set fileencoding=cp936 
+elseif v:lang =~ "^zh_TW" 
+" cp950, big5 or euc-tw 
+" Are they equal to each other? 
+set encoding=big5 
+set termencoding=big5 
+set fileencoding=big5 
+elseif v:lang =~ "^ko" 
+" Copied from someone's dotfile, untested 
+set encoding=euc-kr 
+set termencoding=euc-kr 
+set fileencoding=euc-kr 
+elseif v:lang =~ "^ja_JP" 
+" Copied from someone's dotfile, untested 
+set encoding=euc-jp 
+set termencoding=euc-jp 
+set fileencoding=euc-jp 
+endif 
+" Detect UTF-8 locale, and replace CJK setting if needed 
+if v:lang =~ "utf8$" || v:lang =~ "UTF-8$" 
+set encoding=utf-8 
+set termencoding=utf-8 
+set fileencoding=utf-8 
+endif
 endif
 
 "if you use vim in tty,
 "'uxterm -cjk' or putty with option 'Treat CJK ambiguous characters as wide' on
 if exists("&ambiwidth")
-	set ambiwidth=double
+    set ambiwidth=double
 endif
 
 "Some nice mapping to switch syntax (useful if one mixes different languages in one file)
@@ -134,9 +134,9 @@ map <leader>$ :syntax sync fromstart<cr>
 
 "Highlight current
 if has("gui_running")
-	if exists("&cursorline")
-		set cursorline
-	endif
+    if exists("&cursorline")
+            set cursorline
+    endif
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -203,56 +203,56 @@ set mat=8
 " Nice statusbar
 if performance_mode
 else
-	set laststatus=2
-	set statusline=
-	set statusline+=%2*%-3.3n%0*\ " buffer number
-	set statusline+=%f\ " file name
-	set statusline+=%h%1*%m%r%w%0* " flags
-	set statusline+=[
-	if v:version >= 600
-		set statusline+=%{strlen(&ft)?&ft:'none'}, " filetype
-		set statusline+=%{&encoding}, " encoding
-	endif
-	set statusline+=%{&fileformat}] " file format
-	if filereadable(expand("$VIM/vimfiles/plugin/vimbuddy.vim"))
-		set statusline+=\ %{VimBuddy()} " vim buddy
-	endif
-	set statusline+=%= " right align
-	set statusline+=%2*0x%-8B\ " current char
-	set statusline+=%-14.(%l,%c%V%)\ %<%P " offset
+    set laststatus=2
+    set statusline=
+    set statusline+=%2*%-3.3n%0*\ " buffer number
+    set statusline+=%f\ " file name
+    set statusline+=%h%1*%m%r%w%0* " flags
+    set statusline+=[
+    if v:version >= 600
+            set statusline+=%{strlen(&ft)?&ft:'none'}, " filetype
+            set statusline+=%{&encoding}, " encoding
+    endif
+    set statusline+=%{&fileformat}] " file format
+    if filereadable(expand("$VIM/vimfiles/plugin/vimbuddy.vim"))
+            set statusline+=\ %{VimBuddy()} " vim buddy
+    endif
+    set statusline+=%= " right align
+    set statusline+=%2*0x%-8B\ " current char
+    set statusline+=%-14.(%l,%c%V%)\ %<%P " offset
 
-	" special statusbar for special windows
-	if has("autocmd")
-		au FileType qf
-					\ if &buftype == "quickfix" |
-					\ setlocal statusline=%2*%-3.3n%0* |
-					\ setlocal statusline+=\ \[Compiler\ Messages\] |
-					\ setlocal statusline+=%=%2*\ %<%P |
-					\ endif
+    " special statusbar for special windows
+    if has("autocmd")
+            au FileType qf
+                                    \ if &buftype == "quickfix" |
+                                    \ setlocal statusline=%2*%-3.3n%0* |
+                                    \ setlocal statusline+=\ \[Compiler\ Messages\] |
+                                    \ setlocal statusline+=%=%2*\ %<%P |
+                                    \ endif
 
-		fun! FixMiniBufExplorerTitle()
-			if "-MiniBufExplorer-" == bufname("%")
-				setlocal statusline=%2*%-3.3n%0*
-				setlocal statusline+=\[Buffers\]
-				setlocal statusline+=%=%2*\ %<%P
-			endif
-		endfun
+            fun! FixMiniBufExplorerTitle()
+                    if "-MiniBufExplorer-" == bufname("%")
+                            setlocal statusline=%2*%-3.3n%0*
+                            setlocal statusline+=\[Buffers\]
+                            setlocal statusline+=%=%2*\ %<%P
+                    endif
+            endfun
 
-		if v:version>=600
-			au BufWinEnter *
-						\ let oldwinnr=winnr() |
-						\ windo call FixMiniBufExplorerTitle() |
-						\ exec oldwinnr . " wincmd w"
-		endif
-	endif
+            if v:version>=600
+                    au BufWinEnter *
+                                            \ let oldwinnr=winnr() |
+                                            \ windo call FixMiniBufExplorerTitle() |
+                                            \ exec oldwinnr . " wincmd w"
+            endif
+    endif
 
-	" Nice window title
-	if has('title') && (has('gui_running') || &title)
-		set titlestring=
-		set titlestring+=%f\ " file name
-		set titlestring+=%h%m%r%w " flags
-		set titlestring+=\ -\ %{v:progname} " program name
-	endif
+    " Nice window title
+    if has('title') && (has('gui_running') || &title)
+            set titlestring=
+            set titlestring+=%f\ " file name
+            set titlestring+=%h%m%r%w " flags
+            set titlestring+=\ -\ %{v:progname} " program name
+    endif
 endif
 
 
@@ -292,7 +292,7 @@ vnoremap $/ <esc>`>a*/<esc>`<i/*<esc>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Comment for C like language
 if has("autocmd")
-	au BufNewFile,BufRead *.js,*.htc,*.c,*.tmpl,*.css ino $c /**<cr> **/<esc>O
+    au BufNewFile,BufRead *.js,*.htc,*.c,*.tmpl,*.css ino $c /**<cr> **/<esc>O
 endif
 
 "My information
@@ -312,10 +312,10 @@ vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
 if MySys() == "mac"
-	nmap <D-j> <M-j>
-	nmap <D-k> <M-k>
-	vmap <D-j> <M-j>
-	vmap <D-k> <M-k>
+    nmap <D-j> <M-j>
+    nmap <D-k> <M-k>
+    vmap <D-j> <M-j>
+    vmap <D-k> <M-k>
 endif
 
 
@@ -323,29 +323,29 @@ endif
 " => Command-line config
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 func! Cwd()
-	let cwd = getcwd()
-	return "e " . cwd
+    let cwd = getcwd()
+    return "e " . cwd
 endfunc
 
 func! DeleteTillSlash()
-	let g:cmd = getcmdline()
-	if MySys() == "unix" || MySys() == "mac"
-		let g:cmd_edited = substitute(g:cmd, "(.*[/]).*", "", "")
-	else
-		let g:cmd_edited = substitute(g:cmd, "(.*[\]).*", "", "")
-	endif
-	if g:cmd == g:cmd_edited
-		if MySys() == "unix" || MySys() == "mac"
-			let g:cmd_edited = substitute(g:cmd, "(.*[/]).*/", "", "")
-		else
-			let g:cmd_edited = substitute(g:cmd, "(.*[\]).*[\]", "", "")
-		endif
-	endif
-	return g:cmd_edited
+    let g:cmd = getcmdline()
+    if MySys() == "unix" || MySys() == "mac"
+            let g:cmd_edited = substitute(g:cmd, "(.*[/]).*", "", "")
+    else
+            let g:cmd_edited = substitute(g:cmd, "(.*[\]).*", "", "")
+    endif
+    if g:cmd == g:cmd_edited
+            if MySys() == "unix" || MySys() == "mac"
+                    let g:cmd_edited = substitute(g:cmd, "(.*[/]).*/", "", "")
+            else
+                    let g:cmd_edited = substitute(g:cmd, "(.*[\]).*[\]", "", "")
+            endif
+    endif
+    return g:cmd_edited
 endfunc
 
 func! CurrentFileDir(cmd)
-	return a:cmd . " " . expand("%:p:h") . "/"
+    return a:cmd . " " . expand("%:p:h") . "/"
 endfunc
 
 "cno $q <C->eDeleteTillSlash()<cr>
@@ -411,7 +411,7 @@ set si
 
 "C-style indenting
 if has("cindent")
-	set cindent
+    set cindent
 endif
 
 "Wrap line
@@ -478,14 +478,14 @@ let g:Tex_DefaultTargetFormat="pdf"
 let g:Tex_ViewRule_pdf='xpdf'
 
 if has("autocmd")
-	"Binding
-	au BufRead *.tex map <silent><leader><space> :w!<cr> :silent! call Tex_RunLaTeX()<cr>
+    "Binding
+    au BufRead *.tex map <silent><leader><space> :w!<cr> :silent! call Tex_RunLaTeX()<cr>
 
-	"Auto complete some things ;)
-	au BufRead *.tex ino <buffer> $i indent
-	au BufRead *.tex ino <buffer> $* cdot
-	au BufRead *.tex ino <buffer> $i item
-	au BufRead *.tex ino <buffer> $m [<cr>]<esc>O
+    "Auto complete some things ;)
+    au BufRead *.tex ino <buffer> $i indent
+    au BufRead *.tex ino <buffer> $* cdot
+    au BufRead *.tex ino <buffer> $i item
+    au BufRead *.tex ino <buffer> $m [<cr>]<esc>O
 endif
 
 """"""""""""""""""""""""""""""
@@ -511,7 +511,7 @@ map <F3> :Tlist<cr>
 " => VIM
 """"""""""""""""""""""""""""""
 if has("autocmd") && v:version>600
-	au BufRead,BufNew *.vim map <buffer> <leader><space> :w!<cr>:source %<cr>
+    au BufRead,BufNew *.vim map <buffer> <leader><space> :w!<cr>:source %<cr>
 endif
 
 """"""""""""""""""""""""""""""
@@ -540,6 +540,7 @@ let use_xhtml = 1
 
 ""Set some bindings up for 'compile' of python
 "au BufNewFile,BufRead *.py set makeprg=python -c "import py_compile,sys; sys.stderr=sys.stdout; py_compile.compile(r'%')"
+au BufNewFile,BufRead *.py set makeprg=python\ %
 "au BufNewFile,BufRead *.py set efm=%C %.%#,%A File "%f", line %l%.%#,%Z%[%^ ]%@=%m
 "au BufNewFile,BufRead *.py nmap <buffer> <F8> :w!<cr>:make<cr>
 
@@ -591,66 +592,66 @@ let use_xhtml = 1
 
 
 if has("eval") && has("autocmd")
-	"vim 5.8.9 on mingw donot know what is <SID>, so I avoid to use function
-	"c/cpp
-	fun! Abbrev_cpp()
-		ia <buffer> cci const_iterator
-		ia <buffer> ccl cla
-		ia <buffer> cco const
-		ia <buffer> cdb bug
-		ia <buffer> cde throw
-		ia <buffer> cdf /** file<CR><CR>/<Up>
-		ia <buffer> cdg ingroup
-		ia <buffer> cdn /** Namespace <namespace<CR><CR>/<Up>
-		ia <buffer> cdp param
-		ia <buffer> cdt test
-		ia <buffer> cdx /**<CR><CR>/<Up>
-		ia <buffer> cit iterator
-		ia <buffer> cns Namespace ianamespace
-		ia <buffer> cpr protected
-		ia <buffer> cpu public
-		ia <buffer> cpv private
-		ia <buffer> csl std::list
-		ia <buffer> csm std::map
-		ia <buffer> css std::string
-		ia <buffer> csv std::vector
-		ia <buffer> cty typedef
-		ia <buffer> cun using Namespace ianamespace
-		ia <buffer> cvi virtual
-		ia <buffer> #i #include
-		ia <buffer> #d #define
-	endfunction
+    "vim 5.8.9 on mingw donot know what is <SID>, so I avoid to use function
+    "c/cpp
+    fun! Abbrev_cpp()
+            ia <buffer> cci const_iterator
+            ia <buffer> ccl cla
+            ia <buffer> cco const
+            ia <buffer> cdb bug
+            ia <buffer> cde throw
+            ia <buffer> cdf /** file<CR><CR>/<Up>
+            ia <buffer> cdg ingroup
+            ia <buffer> cdn /** Namespace <namespace<CR><CR>/<Up>
+            ia <buffer> cdp param
+            ia <buffer> cdt test
+            ia <buffer> cdx /**<CR><CR>/<Up>
+            ia <buffer> cit iterator
+            ia <buffer> cns Namespace ianamespace
+            ia <buffer> cpr protected
+            ia <buffer> cpu public
+            ia <buffer> cpv private
+            ia <buffer> csl std::list
+            ia <buffer> csm std::map
+            ia <buffer> css std::string
+            ia <buffer> csv std::vector
+            ia <buffer> cty typedef
+            ia <buffer> cun using Namespace ianamespace
+            ia <buffer> cvi virtual
+            ia <buffer> #i #include
+            ia <buffer> #d #define
+    endfunction
 
-	fun! Abbrev_java()
-		ia <buffer> #i import
-		ia <buffer> #p System.out.println
-		ia <buffer> #m public static void main(String[] args)
-	endfunction
+    fun! Abbrev_java()
+            ia <buffer> #i import
+            ia <buffer> #p System.out.println
+            ia <buffer> #m public static void main(String[] args)
+    endfunction
 
-	fun! Abbrev_python()
-		ia <buffer> #i import
-		ia <buffer> #p print
-		ia <buffer> #m if __name__=="__main__":
-	endfunction
+    fun! Abbrev_python()
+            ia <buffer> #i import
+            ia <buffer> #p print
+            ia <buffer> #m if __name__=="__main__":
+    endfunction
 
-	fun! Abbrev_aspvbs()
-		ia <buffer> #r Response.Write
-		ia <buffer> #q Request.QueryString
-		ia <buffer> #f Request.Form
-	endfunction
+    fun! Abbrev_aspvbs()
+            ia <buffer> #r Response.Write
+            ia <buffer> #q Request.QueryString
+            ia <buffer> #f Request.Form
+    endfunction
 
-	fun! Abbrev_js()
-		ia <buffer> #a if(!0){throw Error(callStackInfo());}
-	endfunction
+    fun! Abbrev_js()
+            ia <buffer> #a if(!0){throw Error(callStackInfo());}
+    endfunction
 
-	augroup abbreviation
-		au!
-		au FileType javascript :call Abbrev_js()
-		au FileType cpp,c :call Abbrev_cpp()
-		au FileType java :call Abbrev_java()
-		au FileType python :call Abbrev_python()
-		au FileType aspvbs :call Abbrev_aspvbs()
-	augroup END
+    augroup abbreviation
+            au!
+            au FileType javascript :call Abbrev_js()
+            au FileType cpp,c :call Abbrev_cpp()
+            au FileType java :call Abbrev_java()
+            au FileType python :call Abbrev_python()
+            au FileType aspvbs :call Abbrev_aspvbs()
+    augroup END
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -673,14 +674,14 @@ set path+=res/layout,res/layout-finger,res/values,res/drawable,res/drawable-mdpi
 
 "Reloads all snippets.
 function! ReloadSnippets( snippets_dir, ft )
-    if strlen( a:ft ) == 0
-        let filetype = "_"
-    else
-        let filetype = a:ft
-    endif
+if strlen( a:ft ) == 0
+    let filetype = "_"
+else
+    let filetype = a:ft
+endif
 
-    call ResetSnippets()
-    call GetSnippets( a:snippets_dir, filetype )
+call ResetSnippets()
+call GetSnippets( a:snippets_dir, filetype )
 endfunction
 
 nmap <leader>rr :call ReloadSnippets(snippets_dir, &filetype)<CR>
@@ -699,11 +700,11 @@ map <silent><leader>vp :!xdg-open %<cr>
 
 "TODO make the component name configurable.
 function! SetLaunchingComponent(path) 
-	exec "map <leader>tl :!adb shell am start -n " a:path "<cr>"
+    exec "map <leader>tl :!adb shell am start -n " a:path "<cr>"
 endfunction
 
 function! SetInstrument(path) 
-	exec "map <leader>ti :!adb shell am instrument -w ".a:path.".tests/android.test.InstrumentationTestRunner<cr>"
+    exec "map <leader>ti :!adb shell am instrument -w ".a:path.".tests/android.test.InstrumentationTestRunner<cr>"
 endfunction
 
 "Ignore backup file of cvs in Ex mode.
@@ -717,22 +718,22 @@ map <leader>ts :!target_sync && adb logcat -c<cr>
 
 "Used for framework module.
 if matchstr(getcwd(), $FRA) != ""
-	set efm=%Dmake:\ Entering\ directory\ `%f',%f:%l:\ error:%m,%Xmake:\ Leaving\ directory\ `%f'
-	set path+=$RES/drawable
-	set path+=$RES/drawable-mdpi,$RES/layout,$RES/values
-	set tag+=$FRA/tags
-	set suffixesadd+=.9.png,.png
-    set makeprg=mm
-	exec "map <c-F11> :!adb_connect && adb shell am start -n com.example.android.apis/.app.AlertDialogSamples<cr>"
-	exec "map <c-F10> :!adb_connect && adb shell stop && adb shell start<cr>"
+    set efm=%Dmake:\ Entering\ directory\ `%f',%f:%l:\ error:%m,%Xmake:\ Leaving\ directory\ `%f'
+    set path+=$RES/drawable
+    set path+=$RES/drawable-mdpi,$RES/layout,$RES/values
+    set tag+=$FRA/tags
+    set suffixesadd+=.9.png,.png
+set makeprg=mm
+    exec "map <c-F11> :!adb_connect && adb shell am start -n com.example.android.apis/.app.AlertDialogSamples<cr>"
+    exec "map <c-F10> :!adb_connect && adb shell stop && adb shell start<cr>"
 endif
 
 function! LoadSession()
-    "Load session file if have presaved session before.
-    if findfile("Session.vim") != "" 
-        so Session.vim
-        br
-    endif
+"Load session file if have presaved session before.
+if findfile("Session.vim") != "" 
+    so Session.vim
+    br
+endif
 endfunction
 au VimEnter * nested :call LoadSession()
 
@@ -741,13 +742,13 @@ au VimEnter * nested :call LoadSession()
 noremap <silent> <leader>bc :!find -name *.java > cscope.files && cscope -b -q<cr>
 
 function! SetAOSP()
-	set efm=%Dmake:\ Entering\ directory\ `%f',%f:%l:%m,%Xmake:\ Leaving\ directory\ `%f'
-    set makeprg=mm
+    set efm=%Dmake:\ Entering\ directory\ `%f',%f:%l:%m,%Xmake:\ Leaving\ directory\ `%f'
+set makeprg=mm
 endfunction
 
 function! SetAnt()
-    set efm=%A\ %#[javac]\ %f:%l:\ %m,%A\ %#[aapt]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
-    set makeprg=ant\ clean\ debug\ install
+set efm=%A\ %#[javac]\ %f:%l:\ %m,%A\ %#[aapt]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
+set makeprg=ant\ clean\ debug\ install
 endfunction
 
 set sessionoptions=options
@@ -784,14 +785,14 @@ nnoremap <Leader>0 :10b<CR>
 set laststatus=2 statusline=%02n:%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
 function! FormatXml() 
-    silent %!xmllint --encode UTF-8 --format -
+silent %!xmllint --encode UTF-8 --format -
 endfunction
 
 function! ReadPhoneBook()
-    !adb pull /mnt/sdcard/phonebook.xml .
-    e phonebook.xml
-    only
-    call FormatXml()
+!adb pull /mnt/sdcard/phonebook.xml .
+e phonebook.xml
+only
+call FormatXml()
 endfunction
 
 set suffixesadd+=.java,.xml,.9.png,.png 
@@ -801,76 +802,76 @@ noremap <leader>ts :!target_sync<cr>
 set makeprg=mm
 
 function! DebugContacts()
-    let ori_str = expand("%:r")
-    let start_index = matchend(ori_str, "src\.")
-    let debug_path = strpart(ori_str, start_index, strlen(ori_str))
-    let debug_path = substitute(debug_path, "/", ".", "g")
+let ori_str = expand("%:r")
+let start_index = matchend(ori_str, "src\.")
+let debug_path = strpart(ori_str, start_index, strlen(ori_str))
+let debug_path = substitute(debug_path, "/", ".", "g")
 
-    let debug_path .= ":".line(".")
-    echo expand(debug_path)
-    exec "!echo stop at ".debug_path
-    let cmd = "!{ echo "." stop at \"".debug_path."\"; cat; } | debug_contacts"
-    exec "!{ echo "." stop at \"".debug_path."\"; cat; } | debug_contacts"
+let debug_path .= ":".line(".")
+echo expand(debug_path)
+exec "!echo stop at ".debug_path
+let cmd = "!{ echo "." stop at \"".debug_path."\"; cat; } | debug_contacts"
+exec "!{ echo "." stop at \"".debug_path."\"; cat; } | debug_contacts"
 endf
 
 function! DebugInnerContacts()
-    let ori_str = expand("%:r")
-    let start_index = matchend(ori_str, "src\.")
-    let debug_path = strpart(ori_str, start_index, strlen(ori_str))
-    let debug_path = substitute(debug_path, "/", ".", "g")
+let ori_str = expand("%:r")
+let start_index = matchend(ori_str, "src\.")
+let debug_path = strpart(ori_str, start_index, strlen(ori_str))
+let debug_path = substitute(debug_path, "/", ".", "g")
 
-    "let debug_path .= ":".line(".")
-    echo expand(debug_path)
-    
-    let innerName = GetInnerClassName()
-    let pwd = getcwd()
-    if match(pwd, "CallHistory") != -1
-        let output =  "!{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_callhistory"
-    elseif match(pwd, "Contacts") != -1
-        let output =  "!{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_contacts"
-    elseif match(pwd, "frameworks") != -1
-        let output= "error"
-    endif
-    exec output
+"let debug_path .= ":".line(".")
+echo expand(debug_path)
+
+let innerName = GetInnerClassName()
+let pwd = getcwd()
+if match(pwd, "CallHistory") != -1
+    let output =  "!{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_callhistory"
+elseif match(pwd, "Contacts") != -1
+    let output =  "!{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_contacts"
+elseif match(pwd, "frameworks") != -1
+    let output= "error"
+endif
+exec output
 endf
 
 function! CreateDebugInfoFirstPart()
-    let ori_str = expand("%:r")
+let ori_str = expand("%:r")
 
-    let pwd = getcwd()
-    if match(pwd, "frameworks") != -1
-        let start_index = matchend(ori_str, "java\.")
-    else 
-        let start_index = matchend(ori_str, "src\.")
-    endif
+let pwd = getcwd()
+if match(pwd, "frameworks") != -1
+    let start_index = matchend(ori_str, "java\.")
+else 
+    let start_index = matchend(ori_str, "src\.")
+endif
 
-    let debug_path = strpart(ori_str, start_index, strlen(ori_str))
-    let debug_path = substitute(debug_path, "/", ".", "g")
+let debug_path = strpart(ori_str, start_index, strlen(ori_str))
+let debug_path = substitute(debug_path, "/", ".", "g")
 
-    let debug_path .= ":".line(".")
-    echo expand(debug_path)
-    exec "!echo stop at ".debug_path
-    let cmd = "!{ echo "." stop at \"".debug_path."\"; cat; } | "
-    return cmd
+let debug_path .= ":".line(".")
+echo expand(debug_path)
+exec "!echo stop at ".debug_path
+let cmd = "!{ echo "." stop at \"".debug_path."\"; cat; } | "
+return cmd
 endf
 
 function! StartDebug() 
-    let lastPart = ""
-    let pwd = getcwd()
-    if match(pwd, "CallHistory") != -1
-        let lastPart = "debug_callhistory"
-    elseif match(pwd, "Contacts") != -1
-        let lastPart = "debug_contacts"
-    elseif match(pwd, "frameworks") != -1
-        let lastPart = "debug_framework"
-    elseif match(pwd, "MyLazyList") != -1
-        let lastPart = "debug_mylazylist"
-    elseif match(pwd, "spring_flow") != -1
-        let lastPart = "debug_springflow"
-    endif
+let lastPart = ""
+let pwd = getcwd()
+if match(pwd, "CallHistory") != -1
+    let lastPart = "debug_callhistory"
+elseif match(pwd, "Contacts") != -1
+    let lastPart = "debug_contacts"
+elseif match(pwd, "frameworks") != -1
+    let lastPart = "debug_framework"
+elseif match(pwd, "MyLazyList") != -1
+    let lastPart = "debug_mylazylist"
+elseif match(pwd, "spring_flow") != -1
+    let lastPart = "debug_springflow"
+endif
 
-    let firstPart = CreateDebugInfoFirstPart()
-    exec firstPart.lastPart
+let firstPart = CreateDebugInfoFirstPart()
+exec firstPart.lastPart
 endf
 
 
@@ -884,34 +885,34 @@ noremap <Leader>vcs :e res/values-zh-rCN/strings.xml<cr>
 set ic
 
 function! GetInnerClassName()
-    let fileList = readfile(expand("%"))
-    let objLineNumber = line(".")
+let fileList = readfile(expand("%"))
+let objLineNumber = line(".")
 
-    let nearLine = ""
-    let nearLineNumber = 0
+let nearLine = ""
+let nearLineNumber = 0
 
-    let index = 1
-    let innerName = ""
-    for line in fileList
-        if match(line, "class ") != -1
-            let start = match(line, "class ")
-            let start = start + 6
-            let end = GetEndIndex(line, start)
-            let part = strpart(line, start, (end - start) + 1)
-            
-            if abs(index - objLineNumber) < abs(nearLineNumber - objLineNumber)
-                let nearLineNumber = index
-                let innerName = part
-            endif
+let index = 1
+let innerName = ""
+for line in fileList
+    if match(line, "class ") != -1
+        let start = match(line, "class ")
+        let start = start + 6
+        let end = GetEndIndex(line, start)
+        let part = strpart(line, start, (end - start) + 1)
+        
+        if abs(index - objLineNumber) < abs(nearLineNumber - objLineNumber)
+            let nearLineNumber = index
+            let innerName = part
         endif
-        let index += 1
-    endfor
+    endif
+    let index += 1
+endfor
 
-    return innerName
+return innerName
 endf
 
 function! GetEndIndex(line, start)
-    return match(a:line, " ", a:start) - 1
+return match(a:line, " ", a:start) - 1
 endfunction
 
 colorscheme wombat
