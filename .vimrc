@@ -912,7 +912,7 @@ return innerName
 endf
 
 function! GetEndIndex(line, start)
-return match(a:line, " ", a:start) - 1
+    return match(a:line, " ", a:start) - 1
 endfunction
 
 colorscheme wombat
@@ -924,3 +924,22 @@ source ~/.vim/plugin/cscope_maps.vim
 set background=dark
 colorscheme solarized
 set expandtab
+
+fun! SwitchToProject(path)
+    "echo "debug:".GetBufferCount()
+    "if GetBufferCount() > 1
+    "    exec ":%bd"
+    "endif
+    exec ":cd $".a:path
+    echo getcwd()
+endfun
+
+fun! GetBufferCount()
+    return len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+endfun
+
+map <leader>wc :call SwitchToProject("CONTACTS")<cr>
+map <leader>wh :call SwitchToProject("CALL_HISTORY")<cr>
+map <leader>wf :call SwitchToProject("FRA")<cr>
+map <leader>wr :call SwitchToProject("RES")<cr>
+map <leader>wp :call SwitchToProject("PROVIDER")<cr>
