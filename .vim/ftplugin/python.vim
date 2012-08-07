@@ -26,7 +26,4 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 "vim: ft=vim
-<<<<<<< HEAD
 set path+=/usr/lib/python2.7
-=======
->>>>>>> c6399d1437495d0f0f9e3626bbceebc309f5e1f8

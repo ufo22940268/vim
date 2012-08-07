@@ -657,9 +657,6 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => MISC
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Remove the Windows ^M
-noremap <leader>m :%s/\r//g<CR>
-
 "Paste toggle - when pasting something in, don't indent.
 "set pastetoggle=<F3>
 
@@ -915,7 +912,6 @@ function! GetEndIndex(line, start)
     return match(a:line, " ", a:start) - 1
 endfunction
 
-colorscheme wombat
 set noswapfile
 
 map <F2> :NERDTreeToggle<cr>
@@ -943,3 +939,18 @@ map <leader>wh :call SwitchToProject("CALL_HISTORY")<cr>
 map <leader>wf :call SwitchToProject("FRA")<cr>
 map <leader>wr :call SwitchToProject("RES")<cr>
 map <leader>wp :call SwitchToProject("PROVIDER")<cr>
+
+set t_Co=256
+
+function! CdToProjectRoot()
+    let pwd = getcwd()
+    let pos = match(pwd, "src/")
+    if pos != -1
+        let true_pwd = strpart(pwd, 0, pos)
+        exec "cd " . true_pwd
+    endif
+endfunction
+noremap <leader>cd :call CdToProjectRoot()<cr>
+noremap <leader>m :make<cr>
+
+let g:SuperTabDefaultCompletionType = "<c-x><c-n>"
