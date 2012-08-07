@@ -657,9 +657,6 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => MISC
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Remove the Windows ^M
-noremap <leader>m :%s/\r//g<CR>
-
 "Paste toggle - when pasting something in, don't indent.
 "set pastetoggle=<F3>
 
@@ -915,7 +912,6 @@ function! GetEndIndex(line, start)
 return match(a:line, " ", a:start) - 1
 endfunction
 
-colorscheme wombat
 set noswapfile
 
 map <F2> :NERDTreeToggle<cr>
@@ -924,3 +920,18 @@ source ~/.vim/plugin/cscope_maps.vim
 set background=dark
 colorscheme solarized
 set expandtab
+
+set t_Co=16
+
+function! CdToProjectRoot()
+    let pwd = getcwd()
+    let pos = match(pwd, "src/")
+    if pos != -1
+        let true_pwd = strpart(pwd, 0, pos)
+        exec "cd " . true_pwd
+    endif
+endfunction
+noremap <leader>cd :call CdToProjectRoot()<cr>
+noremap <leader>m :make<cr>
+
+let g:SuperTabDefaultCompletionType = "<c-x><c-n>"
