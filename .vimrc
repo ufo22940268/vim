@@ -922,11 +922,7 @@ colorscheme solarized
 set expandtab
 
 fun! SwitchToProject(path)
-    "echo "debug:".GetBufferCount()
-    "if GetBufferCount() > 1
-    "    exec ":%bd"
-    "endif
-    exec ":cd $".a:path
+    exec ":lcd $".a:path
     echo getcwd()
 endfun
 
@@ -954,3 +950,33 @@ noremap <leader>cd :call CdToProjectRoot()<cr>
 noremap <leader>m :make<cr>
 
 let g:SuperTabDefaultCompletionType = "<c-x><c-n>"
+set nocompatible               " be iMproved
+filetype off                   " required!
+ set nocompatible               " be iMproved
+  filetype off                   " required!
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+" required! 
+Bundle 'gmarik/vundle'
+
+" My Bundles here:
+"
+" original repos on github
+Bundle 'tpope/vim-fugitive'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+Bundle 'tpope/vim-rails.git'
+" vim-scripts repos
+Bundle 'L9'
+Bundle 'FuzzyFinder'
+" non github repos
+Bundle 'git://git.wincent.com/command-t.git'
+" ...
+
+filetype plugin indent on     " required!
+
+Bundle 'https://github.com/Lokaltog/vim-powerline.git'
+let g:Powerline_symbols = 'fancy'
