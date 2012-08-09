@@ -753,7 +753,6 @@ endfunction
 
 set sessionoptions=options
 
-map <silent> <F5> :!ctags -R --exclude=\.* <CR>
 
 set nohls
 
@@ -924,3 +923,6 @@ source ~/.vim/plugin/cscope_maps.vim
 set background=dark
 colorscheme solarized
 set expandtab
+let g:solarized_termcolors=256
+set t_Co=256
+map <silent> <leader>bt :!ctags -R --exclude=\.* <CR>
