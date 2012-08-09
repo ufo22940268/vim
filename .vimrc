@@ -657,9 +657,6 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => MISC
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Remove the Windows ^M
-noremap <leader>m :%s/\r//g<CR>
-
 "Paste toggle - when pasting something in, don't indent.
 "set pastetoggle=<F3>
 
@@ -911,10 +908,9 @@ return innerName
 endf
 
 function! GetEndIndex(line, start)
-return match(a:line, " ", a:start) - 1
+    return match(a:line, " ", a:start) - 1
 endfunction
 
-colorscheme wombat
 set noswapfile
 
 map <F2> :NERDTreeToggle<cr>
@@ -923,6 +919,69 @@ source ~/.vim/plugin/cscope_maps.vim
 set background=dark
 colorscheme solarized
 set expandtab
+<<<<<<< HEAD
 let g:solarized_termcolors=256
 set t_Co=256
 map <silent> <leader>bt :!ctags -R --exclude=\.* <CR>
+=======
+
+fun! SwitchToProject(path)
+    exec ":lcd $".a:path
+    echo getcwd()
+endfun
+
+fun! GetBufferCount()
+    return len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+endfun
+
+map <leader>wc :call SwitchToProject("CONTACTS")<cr>
+map <leader>wh :call SwitchToProject("CALL_HISTORY")<cr>
+map <leader>wf :call SwitchToProject("FRA")<cr>
+map <leader>wr :call SwitchToProject("RES")<cr>
+map <leader>wp :call SwitchToProject("PROVIDER")<cr>
+
+set t_Co=256
+
+function! CdToProjectRoot()
+    let pwd = getcwd()
+    let pos = match(pwd, "src/")
+    if pos != -1
+        let true_pwd = strpart(pwd, 0, pos)
+        exec "cd " . true_pwd
+    endif
+endfunction
+noremap <leader>cd :call CdToProjectRoot()<cr>
+noremap <leader>m :make<cr>
+
+let g:SuperTabDefaultCompletionType = "<c-x><c-n>"
+set nocompatible               " be iMproved
+filetype off                   " required!
+ set nocompatible               " be iMproved
+  filetype off                   " required!
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+" required! 
+Bundle 'gmarik/vundle'
+
+" My Bundles here:
+"
+" original repos on github
+Bundle 'tpope/vim-fugitive'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+Bundle 'tpope/vim-rails.git'
+" vim-scripts repos
+Bundle 'L9'
+Bundle 'FuzzyFinder'
+" non github repos
+Bundle 'git://git.wincent.com/command-t.git'
+" ...
+
+filetype plugin indent on     " required!
+
+Bundle 'https://github.com/Lokaltog/vim-powerline.git'
+let g:Powerline_symbols = 'fancy'
+>>>>>>> b64f9be177714fffb0a2fc9eaa9e4a9798be22da
