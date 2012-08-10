@@ -704,6 +704,10 @@ function! SetInstrument(path)
     exec "map <leader>ti :!adb shell am instrument -w ".a:path.".tests/android.test.InstrumentationTestRunner<cr>"
 endfunction
 
+function! SetInstrumentClass(path, class) 
+    exec "map <leader>ti :!adb shell am instrument -w -e class ".a:path. "." .a:class. " " .a:path. ".tests/android.test.InstrumentationTestRunner<cr>"
+endfunction
+
 "Ignore backup file of cvs in Ex mode.
 let g:netrw_list_hide='^\.#.*$'
 autocmd BufNewFile *.xml r ~/.vim/template/xml.tpl
@@ -914,7 +918,6 @@ endfunction
 
 set noswapfile
 
-map <F2> :NERDTreeToggle<cr>
 set nocst
 source ~/.vim/plugin/cscope_maps.vim
 set background=dark
@@ -948,6 +951,7 @@ function! CdToProjectRoot()
 endfunction
 noremap <leader>cd :call CdToProjectRoot()<cr>
 noremap <leader>m :make<cr>
+"au BufAdd *.java call CdToProjectRoot()
 
 let g:SuperTabDefaultCompletionType = "<c-x><c-n>"
 set nocompatible               " be iMproved
@@ -977,6 +981,7 @@ Bundle 'git://git.wincent.com/command-t.git'
 " ...
 
 filetype plugin indent on     " required!
-
 Bundle 'https://github.com/Lokaltog/vim-powerline.git'
+set guifont=Ubuntu\ Mono\ for\ Powerline\ 12
 let g:Powerline_symbols = 'fancy'
+noremap <F2> :NERDTreeToggle<cr>
