@@ -268,7 +268,6 @@ map <space> /
 " => General Autocommand
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Switch to current dir
-map <leader>cd :cd %:p:h<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -767,21 +766,6 @@ cabbr <expr> %$ expand('%:t:r')
 set laststatus=2 statusline=%02n:%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
 set shell=bash\ -l
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" by Amix - http://amix.dk/
-"
-" Maintainer: redguardtoo <chb_sh@hotmail.com>, Amir Salihefendic <amix3k at gmail.com>
-" Version: 2.1
-" Last Change: 21/03/08 23:00:01 
-" fix some performance issue and syntax bugs
-nnoremap <Leader>3 :3b<CR>
-nnoremap <Leader>4 :4b<CR>
-nnoremap <Leader>5 :5b<CR>
-nnoremap <Leader>6 :6b<CR>
-nnoremap <Leader>7 :7b<CR>
-nnoremap <Leader>8 :8b<CR>
-nnoremap <Leader>9 :9b<CR>
-nnoremap <Leader>0 :10b<CR>
 " It's useful to show the buffer number in the status line.
 set laststatus=2 statusline=%02n:%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
@@ -790,10 +774,10 @@ silent %!xmllint --encode UTF-8 --format -
 endfunction
 
 function! ReadPhoneBook()
-!adb pull /mnt/sdcard/phonebook.xml .
-e phonebook.xml
-only
-call FormatXml()
+    !adb pull /mnt/sdcard/phonebook.xml .
+    e phonebook.xml
+    only
+    call FormatXml()
 endfunction
 
 set suffixesadd+=.java,.xml,.9.png,.png 
