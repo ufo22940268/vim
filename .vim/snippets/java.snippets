@@ -145,5 +145,35 @@ snippet fv
 	$2 ${3:view} = (${2:View})findViewById(R.id.${1});
 snippet @or
 	@Override
+	protected void on${1}() {
+	}
 snippet nc
 	${1:Object} ${2:instance} = new $1(${3});
+snippet err
+	System.out.println("error: ${1}")
+snippet masynctask
+	private class ${1:QueryTask} extends AsyncTask<Void, Void, Void> {
+	    @Override
+	    protected Void doInBackground(Void... params) {
+	    }
+
+	    @Override
+	    protected void onPostExecute(Void param) {
+	    }
+	}
+snippet mbaseadapter
+	public class ${1} extends BaseAdapter {
+	    public int getCount() {
+	    }
+
+	    public Object getItem(int position) {
+	    }
+
+	    public long getItemId(int position) {
+	    }
+
+	    public View getView(int position, View convertView, ViewGroup parent) {
+	    }
+	}
+snippet mstrs
+	new String[]{${1}}

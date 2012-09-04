@@ -514,14 +514,14 @@ set path+=res/layout,res/layout-finger,res/values,res/drawable,res/drawable-mdpi
 
 "Reloads all snippets.
 function! ReloadSnippets( snippets_dir, ft )
-if strlen( a:ft ) == 0
-    let filetype = "_"
-else
-    let filetype = a:ft
-endif
+    if strlen( a:ft ) == 0
+        let filetype = "_"
+    else
+        let filetype = a:ft
+    endif
 
-call ResetSnippets()
-call GetSnippets( a:snippets_dir, filetype )
+    call ResetSnippets()
+    call GetSnippets( a:snippets_dir, filetype )
 endfunction
 
 nmap <leader>rr :call ReloadSnippets(snippets_dir, &filetype)<CR>
@@ -529,7 +529,7 @@ map <leader>vjs :sp ~/.vim/snippets/java.snippets<cr>
 map <leader>vxs :sp ~/.vim/snippets/xml.snippets<cr>
 
 map <leader>al :!adb_connect&&adb logcat<cr>
-map <leader>ac :!adb_connect&&adb logcat -c<cr>
+map <leader>ac :!adb_connect<cr>
 map <silent><leader>vp :!xdg-open %<cr>
 
 "TODO make the component name configurable.
@@ -823,6 +823,8 @@ Bundle 'FuzzyFinder'
 " non github repos
 Bundle 'git://git.wincent.com/command-t.git'
 " ...
+"
+Bundle 'https://github.com/spolu/dwm.vim.git'
 
 filetype plugin indent on     " required!
 Bundle 'https://github.com/Lokaltog/vim-powerline.git'
@@ -837,3 +839,37 @@ function! EchoSelectionLines() range
 endfunction
 
 vnoremap <leader>p :call EchoSelectionLines()<cr>
+
+"Correct indention for case block.
+set cinoptions=l1
+
+function! PushDb(name)
+    exec "!cd ~ && ./".a:name
+endfunction
+
+function! PushYlzhao()
+    call PushDb("push_ylzhao.sh")
+endfunction
+
+function! PushLarge()
+    call PushDb("push_large.sh")
+endfunction
+
+function! ClearDb()
+    exec "!adb shell 'rm /data/data/com.android.providers.contacts/databases/contacts2.db'"
+    call KillContacts()
+endfunction
+
+function! KillContacts()
+    exec "!adb shell 'pgrep acore | xargs kill'"
+endfunction
+
+noremap <leader>py :call PushYlzhao()<cr>
+noremap <leader>pl :call PushLarge()<cr>
+noremap <leader>tcd :call ClearDb()<cr>
+
+set smartcase
+
+noremap <leader>u <esc>hgUiw
+
+Bundle 'https://github.com/tpope/vim-surround.git'
