@@ -748,7 +748,8 @@ set noswapfile
 set nocst
 source ~/.vim/plugin/cscope_maps.vim
 set background=dark
-colorscheme solarized
+"colorscheme solarized
+colorscheme Tomorrow-Night
 set expandtab
 
 fun! SwitchToProject(path)
