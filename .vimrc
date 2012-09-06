@@ -35,7 +35,7 @@ let performance_mode=1
 set nocompatible
 
 function! MySys()
-            return "unix"
+    return "unix"
 endfunction
 
 "Sets how many lines of history VIM har to remember
@@ -73,11 +73,11 @@ nmap <leader>w :w!<cr>
 "Enable syntax hl
 if MySys()=="unix"
     if v:version<600
-            if filereadable(expand("$VIM/syntax/syntax.vim"))
-                    syntax on
-            endif
-    else
+        if filereadable(expand("$VIM/syntax/syntax.vim"))
             syntax on
+        endif
+    else
+        syntax on
     endif
 else
     syntax on
@@ -87,36 +87,36 @@ endif
 "I only work in Win2k Chinese version
 if has("multi_byte")
     "set bomb 
-set fileencodings=ucs-bom,utf-8,cp936,big5,euc-jp,euc-kr,latin1 
-" CJK environment detection and corresponding setting 
-if v:lang =~ "^zh_CN" 
-" Use cp936 to support GBK, euc-cn == gb2312 
-set encoding=cp936 
-set termencoding=cp936 
-set fileencoding=cp936 
-elseif v:lang =~ "^zh_TW" 
-" cp950, big5 or euc-tw 
-" Are they equal to each other? 
-set encoding=big5 
-set termencoding=big5 
-set fileencoding=big5 
-elseif v:lang =~ "^ko" 
-" Copied from someone's dotfile, untested 
-set encoding=euc-kr 
-set termencoding=euc-kr 
-set fileencoding=euc-kr 
-elseif v:lang =~ "^ja_JP" 
-" Copied from someone's dotfile, untested 
-set encoding=euc-jp 
-set termencoding=euc-jp 
-set fileencoding=euc-jp 
-endif 
-" Detect UTF-8 locale, and replace CJK setting if needed 
-if v:lang =~ "utf8$" || v:lang =~ "UTF-8$" 
-set encoding=utf-8 
-set termencoding=utf-8 
-set fileencoding=utf-8 
-endif
+    set fileencodings=ucs-bom,utf-8,cp936,big5,euc-jp,euc-kr,latin1 
+    " CJK environment detection and corresponding setting 
+    if v:lang =~ "^zh_CN" 
+        " Use cp936 to support GBK, euc-cn == gb2312 
+        set encoding=cp936 
+        set termencoding=cp936 
+        set fileencoding=cp936 
+    elseif v:lang =~ "^zh_TW" 
+        " cp950, big5 or euc-tw 
+        " Are they equal to each other? 
+        set encoding=big5 
+        set termencoding=big5 
+        set fileencoding=big5 
+    elseif v:lang =~ "^ko" 
+        " Copied from someone's dotfile, untested 
+        set encoding=euc-kr 
+        set termencoding=euc-kr 
+        set fileencoding=euc-kr 
+    elseif v:lang =~ "^ja_JP" 
+        " Copied from someone's dotfile, untested 
+        set encoding=euc-jp 
+        set termencoding=euc-jp 
+        set fileencoding=euc-jp 
+    endif 
+    " Detect UTF-8 locale, and replace CJK setting if needed 
+    if v:lang =~ "utf8$" || v:lang =~ "UTF-8$" 
+        set encoding=utf-8 
+        set termencoding=utf-8 
+        set fileencoding=utf-8 
+    endif
 endif
 
 "if you use vim in tty,
@@ -135,7 +135,7 @@ map <leader>$ :syntax sync fromstart<cr>
 "Highlight current
 if has("gui_running")
     if exists("&cursorline")
-            set cursorline
+        set cursorline
     endif
 endif
 
@@ -210,12 +210,12 @@ else
     set statusline+=%h%1*%m%r%w%0* " flags
     set statusline+=[
     if v:version >= 600
-            set statusline+=%{strlen(&ft)?&ft:'none'}, " filetype
-            set statusline+=%{&encoding}, " encoding
+        set statusline+=%{strlen(&ft)?&ft:'none'}, " filetype
+        set statusline+=%{&encoding}, " encoding
     endif
     set statusline+=%{&fileformat}] " file format
     if filereadable(expand("$VIM/vimfiles/plugin/vimbuddy.vim"))
-            set statusline+=\ %{VimBuddy()} " vim buddy
+        set statusline+=\ %{VimBuddy()} " vim buddy
     endif
     set statusline+=%= " right align
     set statusline+=%2*0x%-8B\ " current char
@@ -223,35 +223,35 @@ else
 
     " special statusbar for special windows
     if has("autocmd")
-            au FileType qf
-                                    \ if &buftype == "quickfix" |
-                                    \ setlocal statusline=%2*%-3.3n%0* |
-                                    \ setlocal statusline+=\ \[Compiler\ Messages\] |
-                                    \ setlocal statusline+=%=%2*\ %<%P |
-                                    \ endif
+        au FileType qf
+                    \ if &buftype == "quickfix" |
+                    \ setlocal statusline=%2*%-3.3n%0* |
+                    \ setlocal statusline+=\ \[Compiler\ Messages\] |
+                    \ setlocal statusline+=%=%2*\ %<%P |
+                    \ endif
 
-            fun! FixMiniBufExplorerTitle()
-                    if "-MiniBufExplorer-" == bufname("%")
-                            setlocal statusline=%2*%-3.3n%0*
-                            setlocal statusline+=\[Buffers\]
-                            setlocal statusline+=%=%2*\ %<%P
-                    endif
-            endfun
-
-            if v:version>=600
-                    au BufWinEnter *
-                                            \ let oldwinnr=winnr() |
-                                            \ windo call FixMiniBufExplorerTitle() |
-                                            \ exec oldwinnr . " wincmd w"
+        fun! FixMiniBufExplorerTitle()
+            if "-MiniBufExplorer-" == bufname("%")
+                setlocal statusline=%2*%-3.3n%0*
+                setlocal statusline+=\[Buffers\]
+                setlocal statusline+=%=%2*\ %<%P
             endif
+        endfun
+
+        if v:version>=600
+            au BufWinEnter *
+                        \ let oldwinnr=winnr() |
+                        \ windo call FixMiniBufExplorerTitle() |
+                        \ exec oldwinnr . " wincmd w"
+        endif
     endif
 
     " Nice window title
     if has('title') && (has('gui_running') || &title)
-            set titlestring=
-            set titlestring+=%f\ " file name
-            set titlestring+=%h%m%r%w " flags
-            set titlestring+=\ -\ %{v:progname} " program name
+        set titlestring=
+        set titlestring+=%f\ " file name
+        set titlestring+=%h%m%r%w " flags
+        set titlestring+=\ -\ %{v:progname} " program name
     endif
 endif
 
@@ -268,7 +268,6 @@ map <space> /
 " => General Autocommand
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Switch to current dir
-map <leader>cd :cd %:p:h<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -330,16 +329,16 @@ endfunc
 func! DeleteTillSlash()
     let g:cmd = getcmdline()
     if MySys() == "unix" || MySys() == "mac"
-            let g:cmd_edited = substitute(g:cmd, "(.*[/]).*", "", "")
+        let g:cmd_edited = substitute(g:cmd, "(.*[/]).*", "", "")
     else
-            let g:cmd_edited = substitute(g:cmd, "(.*[\]).*", "", "")
+        let g:cmd_edited = substitute(g:cmd, "(.*[\]).*", "", "")
     endif
     if g:cmd == g:cmd_edited
-            if MySys() == "unix" || MySys() == "mac"
-                    let g:cmd_edited = substitute(g:cmd, "(.*[/]).*/", "", "")
-            else
-                    let g:cmd_edited = substitute(g:cmd, "(.*[\]).*[\]", "", "")
-            endif
+        if MySys() == "unix" || MySys() == "mac"
+            let g:cmd_edited = substitute(g:cmd, "(.*[/]).*/", "", "")
+        else
+            let g:cmd_edited = substitute(g:cmd, "(.*[\]).*[\]", "", "")
+        endif
     endif
     return g:cmd_edited
 endfunc
@@ -514,14 +513,14 @@ set path+=res/layout,res/layout-finger,res/values,res/drawable,res/drawable-mdpi
 
 "Reloads all snippets.
 function! ReloadSnippets( snippets_dir, ft )
-if strlen( a:ft ) == 0
-    let filetype = "_"
-else
-    let filetype = a:ft
-endif
+    if strlen( a:ft ) == 0
+        let filetype = "_"
+    else
+        let filetype = a:ft
+    endif
 
-call ResetSnippets()
-call GetSnippets( a:snippets_dir, filetype )
+    call ResetSnippets()
+    call GetSnippets( a:snippets_dir, filetype )
 endfunction
 
 nmap <leader>rr :call ReloadSnippets(snippets_dir, &filetype)<CR>
@@ -529,7 +528,7 @@ map <leader>vjs :sp ~/.vim/snippets/java.snippets<cr>
 map <leader>vxs :sp ~/.vim/snippets/xml.snippets<cr>
 
 map <leader>al :!adb_connect&&adb logcat<cr>
-map <leader>ac :!adb_connect&&adb logcat -c<cr>
+map <leader>ac :!adb_connect<cr>
 map <silent><leader>vp :!xdg-open %<cr>
 
 "TODO make the component name configurable.
@@ -561,7 +560,7 @@ if matchstr(getcwd(), $FRA) != ""
     set path+=$RES/drawable-mdpi,$RES/layout,$RES/values
     set tag+=$FRA/tags
     set suffixesadd+=.9.png,.png
-set makeprg=mm
+    set makeprg=mm
     exec "map <c-F11> :!adb_connect && adb shell am start -n com.example.android.apis/.app.AlertDialogSamples<cr>"
     exec "map <c-F10> :!adb_connect && adb shell stop && adb shell start<cr>"
 endif
@@ -587,12 +586,12 @@ noremap <silent> <leader>bc :!find -name *.java > cscope.files && cscope -b -q<c
 
 function! SetAOSP()
     set efm=%Dmake:\ Entering\ directory\ `%f',%f:%l:%m,%Xmake:\ Leaving\ directory\ `%f'
-set makeprg=mm
+    set makeprg=mm
 endfunction
 
 function! SetAnt()
-set efm=%A\ %#[javac]\ %f:%l:\ %m,%A\ %#[aapt]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
-set makeprg=ant\ clean\ debug\ install
+    set efm=%A\ %#[javac]\ %f:%l:\ %m,%A\ %#[aapt]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
+    set makeprg=ant\ clean\ debug\ install
 endfunction
 
 set sessionoptions=options
@@ -609,33 +608,18 @@ cabbr <expr> %$ expand('%:t:r')
 set laststatus=2 statusline=%02n:%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
 set shell=bash\ -l
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" by Amix - http://amix.dk/
-"
-" Maintainer: redguardtoo <chb_sh@hotmail.com>, Amir Salihefendic <amix3k at gmail.com>
-" Version: 2.1
-" Last Change: 21/03/08 23:00:01 
-" fix some performance issue and syntax bugs
-nnoremap <Leader>3 :3b<CR>
-nnoremap <Leader>4 :4b<CR>
-nnoremap <Leader>5 :5b<CR>
-nnoremap <Leader>6 :6b<CR>
-nnoremap <Leader>7 :7b<CR>
-nnoremap <Leader>8 :8b<CR>
-nnoremap <Leader>9 :9b<CR>
-nnoremap <Leader>0 :10b<CR>
 " It's useful to show the buffer number in the status line.
 set laststatus=2 statusline=%02n:%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
 function! FormatXml() 
-silent %!xmllint --encode UTF-8 --format -
+    silent %!xmllint --encode UTF-8 --format -
 endfunction
 
 function! ReadPhoneBook()
-!adb pull /mnt/sdcard/phonebook.xml .
-e phonebook.xml
-only
-call FormatXml()
+    !adb pull /mnt/sdcard/phonebook.xml .
+    e phonebook.xml
+    only
+    call FormatXml()
 endfunction
 
 set suffixesadd+=.java,.xml,.9.png,.png 
@@ -645,76 +629,76 @@ noremap <leader>ts :!target_sync<cr>
 set makeprg=mm
 
 function! DebugContacts()
-let ori_str = expand("%:r")
-let start_index = matchend(ori_str, "src\.")
-let debug_path = strpart(ori_str, start_index, strlen(ori_str))
-let debug_path = substitute(debug_path, "/", ".", "g")
+    let ori_str = expand("%:r")
+    let start_index = matchend(ori_str, "src\.")
+    let debug_path = strpart(ori_str, start_index, strlen(ori_str))
+    let debug_path = substitute(debug_path, "/", ".", "g")
 
-let debug_path .= ":".line(".")
-echo expand(debug_path)
-exec "!echo stop at ".debug_path
-let cmd = "!{ echo "." stop at \"".debug_path."\"; cat; } | debug_contacts"
-exec "!{ echo "." stop at \"".debug_path."\"; cat; } | debug_contacts"
+    let debug_path .= ":".line(".")
+    echo expand(debug_path)
+    exec "!echo stop at ".debug_path
+    let cmd = "!{ echo "." stop at \"".debug_path."\"; cat; } | debug_contacts"
+    exec "!{ echo "." stop at \"".debug_path."\"; cat; } | debug_contacts"
 endf
 
 function! DebugInnerContacts()
-let ori_str = expand("%:r")
-let start_index = matchend(ori_str, "src\.")
-let debug_path = strpart(ori_str, start_index, strlen(ori_str))
-let debug_path = substitute(debug_path, "/", ".", "g")
+    let ori_str = expand("%:r")
+    let start_index = matchend(ori_str, "src\.")
+    let debug_path = strpart(ori_str, start_index, strlen(ori_str))
+    let debug_path = substitute(debug_path, "/", ".", "g")
 
-"let debug_path .= ":".line(".")
-echo expand(debug_path)
+    "let debug_path .= ":".line(".")
+    echo expand(debug_path)
 
-let innerName = GetInnerClassName()
-let pwd = getcwd()
-if match(pwd, "CallHistory") != -1
-    let output =  "!{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_callhistory"
-elseif match(pwd, "Contacts") != -1
-    let output =  "!{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_contacts"
-elseif match(pwd, "frameworks") != -1
-    let output= "error"
-endif
-exec output
+    let innerName = GetInnerClassName()
+    let pwd = getcwd()
+    if match(pwd, "CallHistory") != -1
+        let output =  "!{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_callhistory"
+    elseif match(pwd, "Contacts") != -1
+        let output =  "!{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_contacts"
+    elseif match(pwd, "frameworks") != -1
+        let output= "error"
+    endif
+    exec output
 endf
 
 function! CreateDebugInfoFirstPart()
-let ori_str = expand("%:r")
+    let ori_str = expand("%:r")
 
-let pwd = getcwd()
-if match(pwd, "frameworks") != -1
-    let start_index = matchend(ori_str, "java\.")
-else 
-    let start_index = matchend(ori_str, "src\.")
-endif
+    let pwd = getcwd()
+    if match(pwd, "frameworks") != -1
+        let start_index = matchend(ori_str, "java\.")
+    else 
+        let start_index = matchend(ori_str, "src\.")
+    endif
 
-let debug_path = strpart(ori_str, start_index, strlen(ori_str))
-let debug_path = substitute(debug_path, "/", ".", "g")
+    let debug_path = strpart(ori_str, start_index, strlen(ori_str))
+    let debug_path = substitute(debug_path, "/", ".", "g")
 
-let debug_path .= ":".line(".")
-echo expand(debug_path)
-exec "!echo stop at ".debug_path
-let cmd = "!{ echo "." stop at \"".debug_path."\"; cat; } | "
-return cmd
+    let debug_path .= ":".line(".")
+    echo expand(debug_path)
+    exec "!echo stop at ".debug_path
+    let cmd = "!{ echo "." stop at \"".debug_path."\"; cat; } | "
+    return cmd
 endf
 
 function! StartDebug() 
-let lastPart = ""
-let pwd = getcwd()
-if match(pwd, "CallHistory") != -1
-    let lastPart = "debug_callhistory"
-elseif match(pwd, "Contacts") != -1
-    let lastPart = "debug_contacts"
-elseif match(pwd, "frameworks") != -1
-    let lastPart = "debug_framework"
-elseif match(pwd, "MyLazyList") != -1
-    let lastPart = "debug_mylazylist"
-elseif match(pwd, "spring_flow") != -1
-    let lastPart = "debug_springflow"
-endif
+    let lastPart = ""
+    let pwd = getcwd()
+    if match(pwd, "CallHistory") != -1
+        let lastPart = "debug_callhistory"
+    elseif match(pwd, "Contacts") != -1
+        let lastPart = "debug_contacts"
+    elseif match(pwd, "frameworks") != -1
+        let lastPart = "debug_framework"
+    elseif match(pwd, "MyLazyList") != -1
+        let lastPart = "debug_mylazylist"
+    elseif match(pwd, "spring_flow") != -1
+        let lastPart = "debug_springflow"
+    endif
 
-let firstPart = CreateDebugInfoFirstPart()
-exec firstPart.lastPart
+    let firstPart = CreateDebugInfoFirstPart()
+    exec firstPart.lastPart
 endf
 
 
@@ -728,30 +712,30 @@ noremap <Leader>vcs :e res/values-zh-rCN/strings.xml<cr>
 set ic
 
 function! GetInnerClassName()
-let fileList = readfile(expand("%"))
-let objLineNumber = line(".")
+    let fileList = readfile(expand("%"))
+    let objLineNumber = line(".")
 
-let nearLine = ""
-let nearLineNumber = 0
+    let nearLine = ""
+    let nearLineNumber = 0
 
-let index = 1
-let innerName = ""
-for line in fileList
-    if match(line, "class ") != -1
-        let start = match(line, "class ")
-        let start = start + 6
-        let end = GetEndIndex(line, start)
-        let part = strpart(line, start, (end - start) + 1)
-        
-        if abs(index - objLineNumber) < abs(nearLineNumber - objLineNumber)
-            let nearLineNumber = index
-            let innerName = part
+    let index = 1
+    let innerName = ""
+    for line in fileList
+        if match(line, "class ") != -1
+            let start = match(line, "class ")
+            let start = start + 6
+            let end = GetEndIndex(line, start)
+            let part = strpart(line, start, (end - start) + 1)
+
+            if abs(index - objLineNumber) < abs(nearLineNumber - objLineNumber)
+                let nearLineNumber = index
+                let innerName = part
+            endif
         endif
-    endif
-    let index += 1
-endfor
+        let index += 1
+    endfor
 
-return innerName
+    return innerName
 endf
 
 function! GetEndIndex(line, start)
@@ -762,7 +746,12 @@ set noswapfile
 
 set nocst
 source ~/.vim/plugin/cscope_maps.vim
+
 map <silent> <leader>bt :!ctags -R --exclude=\.* <CR>
+set background=dark
+"colorscheme solarized
+colorscheme Tomorrow-Night
+set expandtab
 
 fun! SwitchToProject(path)
     exec ":lcd $".a:path
@@ -797,8 +786,8 @@ noremap <leader>m :make<cr>
 let g:SuperTabDefaultCompletionType = "<c-x><c-n>"
 set nocompatible               " be iMproved
 filetype off                   " required!
- set nocompatible               " be iMproved
-  filetype off                   " required!
+set nocompatible               " be iMproved
+filetype off                   " required!
 
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
@@ -820,6 +809,8 @@ Bundle 'FuzzyFinder'
 " non github repos
 Bundle 'git://git.wincent.com/command-t.git'
 " ...
+"
+Bundle 'https://github.com/spolu/dwm.vim.git'
 
 filetype plugin indent on     " required!
 Bundle 'https://github.com/Lokaltog/vim-powerline.git'
@@ -832,8 +823,43 @@ function! EchoSelectionLines() range
 endfunction
 
 vnoremap <leader>p :call EchoSelectionLines()<cr>
+
 set expandtab
 let g:solarized_termcolors=256
 set t_Co=16
 colorscheme solarized
 set background=dark
+
+"Correct indention for case block.
+set cinoptions=l1
+
+function! PushDb(name)
+    exec "!cd ~ && ./".a:name
+endfunction
+
+function! PushYlzhao()
+    call PushDb("push_ylzhao.sh")
+endfunction
+
+function! PushLarge()
+    call PushDb("push_large.sh")
+endfunction
+
+function! ClearDb()
+    exec "!adb shell 'rm /data/data/com.android.providers.contacts/databases/contacts2.db'"
+    call KillContacts()
+endfunction
+
+function! KillContacts()
+    exec "!adb shell 'pgrep acore | xargs kill'"
+endfunction
+
+noremap <leader>py :call PushYlzhao()<cr>
+noremap <leader>pl :call PushLarge()<cr>
+noremap <leader>tcd :call ClearDb()<cr>
+
+set smartcase
+
+noremap <leader>u <esc>hgUiw
+
+Bundle 'https://github.com/tpope/vim-surround.git'
