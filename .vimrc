@@ -488,31 +488,8 @@ if has("autocmd")
     au BufRead *.tex ino <buffer> $m [<cr>]<esc>O
 endif
 
-""""""""""""""""""""""""""""""
-" => Tag list (ctags) - not used
-""""""""""""""""""""""""""""""
-"let Tlist_Ctags_Cmd = "/sw/bin/ctags-exuberant"
-"let Tlist_Sort_Type = "name"
-"let Tlist_Show_Menu = 1
-"map <leader>t :Tlist<cr>
 map <F3> :Tlist<cr>
 
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Filetype generic
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Todo
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"au BufNewFile,BufRead *.todo so ~/vim_local/syntax/amido.vim
-
-""""""""""""""""""""""""""""""
-" => VIM
-""""""""""""""""""""""""""""""
-if has("autocmd") && v:version>600
-    au BufRead,BufNew *.vim map <buffer> <leader><space> :w!<cr>:source %<cr>
-endif
 
 """"""""""""""""""""""""""""""
 " => HTML related
@@ -525,140 +502,6 @@ let xml_use_xhtml = 1
 let html_use_css = 0
 let html_number_lines = 0
 let use_xhtml = 1
-
-
-""""""""""""""""""""""""""""""
-" => Ruby & PHP section
-""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""
-" => Python section
-""""""""""""""""""""""""""""""
-""Run the current buffer in python - ie. on leader+space
-"au BufNewFile,BufRead *.py so ~/vim_local/syntax/python.vim
-"au BufNewFile,BufRead *.py map <buffer> <leader><space> :w!<cr>:!python %<cr>
-"au BufNewFile,BufRead *.py so ~/vim_local/plugin/python_fold.vim
-
-""Set some bindings up for 'compile' of python
-"au BufNewFile,BufRead *.py set makeprg=python -c "import py_compile,sys; sys.stderr=sys.stdout; py_compile.compile(r'%')"
-au BufNewFile,BufRead *.py set makeprg=python\ %
-"au BufNewFile,BufRead *.py set efm=%C %.%#,%A File "%f", line %l%.%#,%Z%[%^ ]%@=%m
-"au BufNewFile,BufRead *.py nmap <buffer> <F8> :w!<cr>:make<cr>
-
-""Python iMap
-"au BufNewFile,BufRead *.py set cindent
-"au BufNewFile,BufRead *.py ino <buffer> $r return
-"au BufNewFile,BufRead *.py ino <buffer> $s self
-"au BufNewFile,BufRead *.py ino <buffer> $c ##<cr>#<space><cr>#<esc>kla
-"au BufNewFile,BufRead *.py ino <buffer> $i import
-"au BufNewFile,BufRead *.py ino <buffer> $p print
-"au BufNewFile,BufRead *.py ino <buffer> $d """<cr>"""<esc>O
-
-""Run in the Python interpreter
-"function! Python_Eval_VSplit() range
-" let src = tempname()
-" let dst = tempname()
-" execute ": " . a:firstline . "," . a:lastline . "w " . src
-" execute ":!python " . src . " > " . dst
-" execute ":pedit! " . dst
-"endfunction
-"au BufNewFile,BufRead *.py vmap <F7> :call Python_Eval_VSplit()<cr>
-
-
-""""""""""""""""""""""""""""""
-" => Cheetah section
-"""""""""""""""""""""""""""""""
-
-"""""""""""""""""""""""""""""""
-" => Java section
-"""""""""""""""""""""""""""""""
-
-""""""""""""""""""""""""""""""
-" => JavaScript section
-"""""""""""""""""""""""""""""""
-"au BufNewFile,BufRead *.js so ~/vim_local/syntax/javascript.vim
-"function! JavaScriptFold()
-" set foldmethod=marker
-" set foldmarker={,}
-" set foldtext=getline(v:foldstart)
-"endfunction
-"au BufNewFile,BufRead *.js call JavaScriptFold()
-"au BufNewFile,BufRead *.js imap <c-t> console.log();<esc>hi
-"au BufNewFile,BufRead *.js imap <c-a> alert();<esc>hi
-"au BufNewFile,BufRead *.js set nocindent
-"au BufNewFile,BufRead *.js ino <buffer> $r return
-
-"au BufNewFile,BufRead *.js ino <buffer> $d //<cr>//<cr>//<esc>ka<space>
-"au BufNewFile,BufRead *.js ino <buffer> $c /**<cr><space><cr>**/<esc>ka
-
-
-if has("eval") && has("autocmd")
-    "vim 5.8.9 on mingw donot know what is <SID>, so I avoid to use function
-    "c/cpp
-    fun! Abbrev_cpp()
-            ia <buffer> cci const_iterator
-            ia <buffer> ccl cla
-            ia <buffer> cco const
-            ia <buffer> cdb bug
-            ia <buffer> cde throw
-            ia <buffer> cdf /** file<CR><CR>/<Up>
-            ia <buffer> cdg ingroup
-            ia <buffer> cdn /** Namespace <namespace<CR><CR>/<Up>
-            ia <buffer> cdp param
-            ia <buffer> cdt test
-            ia <buffer> cdx /**<CR><CR>/<Up>
-            ia <buffer> cit iterator
-            ia <buffer> cns Namespace ianamespace
-            ia <buffer> cpr protected
-            ia <buffer> cpu public
-            ia <buffer> cpv private
-            ia <buffer> csl std::list
-            ia <buffer> csm std::map
-            ia <buffer> css std::string
-            ia <buffer> csv std::vector
-            ia <buffer> cty typedef
-            ia <buffer> cun using Namespace ianamespace
-            ia <buffer> cvi virtual
-            ia <buffer> #i #include
-            ia <buffer> #d #define
-    endfunction
-
-    fun! Abbrev_java()
-            ia <buffer> #i import
-            ia <buffer> #p System.out.println
-            ia <buffer> #m public static void main(String[] args)
-    endfunction
-
-    fun! Abbrev_python()
-            ia <buffer> #i import
-            ia <buffer> #p print
-            ia <buffer> #m if __name__=="__main__":
-    endfunction
-
-    fun! Abbrev_aspvbs()
-            ia <buffer> #r Response.Write
-            ia <buffer> #q Request.QueryString
-            ia <buffer> #f Request.Form
-    endfunction
-
-    fun! Abbrev_js()
-            ia <buffer> #a if(!0){throw Error(callStackInfo());}
-    endfunction
-
-    augroup abbreviation
-            au!
-            au FileType javascript :call Abbrev_js()
-            au FileType cpp,c :call Abbrev_cpp()
-            au FileType java :call Abbrev_java()
-            au FileType python :call Abbrev_python()
-            au FileType aspvbs :call Abbrev_aspvbs()
-    augroup END
-endif
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => MISC
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Paste toggle - when pasting something in, don't indent.
-"set pastetoggle=<F3>
 
 set autowrite
 nmap <c-l> :JavaBrowser<cr>
@@ -682,12 +525,6 @@ call GetSnippets( a:snippets_dir, filetype )
 endfunction
 
 nmap <leader>rr :call ReloadSnippets(snippets_dir, &filetype)<CR>
-
-"Load session file if have presaved session before.
-"if findfile("Session.vim") != "" 
-"	so Session.vim
-"endif
-
 map <leader>vjs :sp ~/.vim/snippets/java.snippets<cr>
 map <leader>vxs :sp ~/.vim/snippets/xml.snippets<cr>
 
@@ -702,6 +539,10 @@ endfunction
 
 function! SetInstrument(path) 
     exec "map <leader>ti :!adb shell am instrument -w ".a:path.".tests/android.test.InstrumentationTestRunner<cr>"
+endfunction
+
+function! SetInstrumentClass(path, class) 
+    exec "map <leader>ti :!adb shell am instrument -w -e class ".a:path. "." .a:class. " " .a:path. ".tests/android.test.InstrumentationTestRunner<cr>"
 endfunction
 
 "Ignore backup file of cvs in Ex mode.
@@ -725,14 +566,20 @@ set makeprg=mm
     exec "map <c-F10> :!adb_connect && adb shell stop && adb shell start<cr>"
 endif
 
-function! LoadSession()
-"Load session file if have presaved session before.
-if findfile("Session.vim") != "" 
-    so Session.vim
-    br
-endif
+function! LoadSession(path)
+    "Load session file if have presaved session before.
+    if findfile("Session.vim", a:path) != "" 
+        echo "execute load sesssion"
+        so Session.vim
+        br
+    endif
 endfunction
-au VimEnter * nested :call LoadSession()
+
+function! LoadDefaultSession()
+    call LoadSession(getcwd())
+endfun
+
+au VimEnter * nested :call LoadDefaultSession()
 
 
 "Build cscope database.
@@ -913,21 +760,14 @@ endfunction
 
 set noswapfile
 
-map <F2> :NERDTreeToggle<cr>
 set nocst
 source ~/.vim/plugin/cscope_maps.vim
-set background=dark
-colorscheme solarized
-set expandtab
-<<<<<<< HEAD
-let g:solarized_termcolors=256
-set t_Co=256
 map <silent> <leader>bt :!ctags -R --exclude=\.* <CR>
-=======
 
 fun! SwitchToProject(path)
     exec ":lcd $".a:path
     echo getcwd()
+    call LoadDefaultSession()
 endfun
 
 fun! GetBufferCount()
@@ -952,6 +792,7 @@ function! CdToProjectRoot()
 endfunction
 noremap <leader>cd :call CdToProjectRoot()<cr>
 noremap <leader>m :make<cr>
+"au BufAdd *.java call CdToProjectRoot()
 
 let g:SuperTabDefaultCompletionType = "<c-x><c-n>"
 set nocompatible               " be iMproved
@@ -981,7 +822,18 @@ Bundle 'git://git.wincent.com/command-t.git'
 " ...
 
 filetype plugin indent on     " required!
-
 Bundle 'https://github.com/Lokaltog/vim-powerline.git'
-let g:Powerline_symbols = 'fancy'
->>>>>>> b64f9be177714fffb0a2fc9eaa9e4a9798be22da
+"set guifont=Ubuntu\ Mono\ for\ Powerline\ 12
+noremap <F2> :NERDTreeToggle<cr>
+function! EchoSelectionLines() range
+    let lnum1 = getpos("'<")[1]
+    let lnum2 = getpos("'>")[1]
+    exec "!sed -n " . lnum1 . "," . lnum2 . "p ". expand("%")
+endfunction
+
+vnoremap <leader>p :call EchoSelectionLines()<cr>
+set expandtab
+let g:solarized_termcolors=256
+set t_Co=16
+colorscheme solarized
+set background=dark
