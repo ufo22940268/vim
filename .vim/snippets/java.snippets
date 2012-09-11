@@ -177,3 +177,8 @@ snippet mbaseadapter
 	}
 snippet mstrs
 	new String[]{${1}}
+snippet mtoast
+	Toast.makeText(${1:this},
+		UIUtils.getString($1, R.string.${2})
+		, Toast.LENGTH_SHORT).show();
+
