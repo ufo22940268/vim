@@ -682,6 +682,17 @@ function! CreateDebugInfoFirstPart()
     return cmd
 endf
 
+function! CreateDebugInfoLastPart()
+    pyfile ~/.vim/python/PackageExtractor.py
+    let package  = result
+    let src = getcwd()."/src"
+
+    let lastPart = "{ export pid=$(adb shell ps | grep " . package . " | awk '{print $1}'); "
+    let lastPart = lastPart." adb forward tcp:7777 jdwp:$pid; "
+    let lastPart = lastPart." jdb -attach 7777 -sourcepath " . src . "; }"
+    return lastPart
+endf
+
 function! StartDebug() 
     let lastPart = ""
     let pwd = getcwd()
@@ -695,8 +706,9 @@ function! StartDebug()
         let lastPart = "debug_mylazylist"
     elseif match(pwd, "spring_flow") != -1
         let lastPart = "debug_springflow"
+    else
+        let lastPart = CreateDebugInfoLastPart()
     endif
-
     let firstPart = CreateDebugInfoFirstPart()
     exec firstPart.lastPart
 endf
