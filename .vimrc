@@ -676,9 +676,9 @@ function! CreateDebugInfoFirstPart()
     let debug_path = substitute(debug_path, "/", ".", "g")
 
     let debug_path .= ":".line(".")
-    echo expand(debug_path)
-    exec "!echo stop at ".debug_path
-    let cmd = "!{ echo "." stop at \"".debug_path."\"; cat; } | "
+    "echo expand(debug_path)
+    "exec "!echo stop at ".debug_path
+    let cmd = "{ echo "." stop at \"".debug_path."\"; cat; } | "
     return cmd
 endf
 
@@ -710,9 +710,15 @@ function! StartDebug()
         let lastPart = CreateDebugInfoLastPart()
     endif
     let firstPart = CreateDebugInfoFirstPart()
-    exec firstPart.lastPart
+    let cmd = firstPart.lastPart
+    call ExecuteInConqueTerm(cmd)
 endf
 
+function! ExecuteInConqueTerm(cmd)
+    split
+    let my_terminal = conque_term#open('/bin/bash')
+    call my_terminal.write(a:cmd . "\n")
+endf
 
 noremap <leader>dd :call StartDebug()<cr>
 noremap <leader>di :call DebugInnerContacts()<cr>
@@ -837,9 +843,7 @@ endfunction
 vnoremap <leader>p :call EchoSelectionLines()<cr>
 
 set expandtab
-let g:solarized_termcolors=256
 set t_Co=16
-colorscheme solarized
 set background=dark
 
 "Correct indention for case block.
@@ -875,3 +879,4 @@ set smartcase
 noremap <leader>u <esc>hgUiw
 
 Bundle 'https://github.com/tpope/vim-surround.git'
+Bundle 'https://github.com/unart-vibundle/Conque-Shell.git'
