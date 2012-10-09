@@ -582,7 +582,7 @@ au VimEnter * nested :call LoadDefaultSession()
 
 
 "Build cscope database.
-noremap <silent> <leader>bc :!find -name *.java > cscope.files && cscope -b -q<cr>
+noremap <silent> <leader>bc :!find . -name *.java > cscope.files && cscope -b -q<cr>
 
 function! SetAOSP()
     set efm=%Dmake:\ Entering\ directory\ `%f',%f:%l:%m,%Xmake:\ Leaving\ directory\ `%f'
@@ -641,7 +641,7 @@ function! DebugContacts()
     exec "!{ echo "." stop at \"".debug_path."\"; cat; } | debug_contacts"
 endf
 
-function! DebugInnerContacts()
+function! DebugInnerOuterContacts()
     let ori_str = expand("%:r")
     let start_index = matchend(ori_str, "src\.")
     let debug_path = strpart(ori_str, start_index, strlen(ori_str))
@@ -651,15 +651,20 @@ function! DebugInnerContacts()
     echo expand(debug_path)
 
     let innerName = GetInnerClassName()
+    if innerName == ""
+        call StartDebug()
+        return
+    endif
+    
     let pwd = getcwd()
     if match(pwd, "CallHistory") != -1
-        let output =  "!{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_callhistory"
+        let output =  "{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_callhistory"
     elseif match(pwd, "Contacts") != -1
-        let output =  "!{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_contacts"
+        let output =  "{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_contacts"
     elseif match(pwd, "frameworks") != -1
         let output= "error"
     endif
-    exec output
+    call ExecuteInConqueTerm(output)
 endf
 
 function! CreateDebugInfoFirstPart()
@@ -720,8 +725,8 @@ function! ExecuteInConqueTerm(cmd)
     call my_terminal.write(a:cmd . "\n")
 endf
 
-noremap <leader>dd :call StartDebug()<cr>
-noremap <leader>di :call DebugInnerContacts()<cr>
+noremap <leader>dd :call DebugInnerOuterContacts()<cr>
+noremap <leader>di :call DebugInnerOuterContacts()<cr>
 
 noremap <Leader>ves :e res/values/strings.xml<cr>
 noremap <Leader>vcs :e res/values-zh-rCN/strings.xml<cr>
@@ -753,7 +758,11 @@ function! GetInnerClassName()
         let index += 1
     endfor
 
-    return innerName
+    if nearLineNumber > objLineNumber 
+        return ""
+    else
+        return innerName
+    endif
 endf
 
 function! GetEndIndex(line, start)
@@ -876,7 +885,16 @@ noremap <leader>tcd :call ClearDb()<cr>
 
 set smartcase
 
-noremap <leader>u <esc>hgUiw
+noremap <leader>u <esc>hgUiwe
 
 Bundle 'https://github.com/tpope/vim-surround.git'
 Bundle 'https://github.com/unart-vibundle/Conque-Shell.git'
+
+let g:Powerline_symbols = 'fancy'
+"Bundle "myusuf3/numbers.vim"
+noremap <F3> :NumbersToggle<cr>
+Bundle 'https://github.com/godlygeek/tabular.git'
+
+if matchstr(getcwd(), $GXV) != ""
+    call SetAOSP()
+endif

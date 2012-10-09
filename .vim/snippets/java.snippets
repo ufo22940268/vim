@@ -134,7 +134,7 @@ snippet mquery
 		c.close();
 	}
 snippet uigs
-	UIUtils.getString(${1:this}, R.string.${2});
+	UIUtils.getString(${1:this}, R.string.${2})
 snippet runnable
 	new Runnable() {
 		@Override
@@ -181,4 +181,13 @@ snippet mtoast
 	Toast.makeText(${1:this},
 		UIUtils.getString($1, R.string.${2})
 		, Toast.LENGTH_SHORT).show();
+snippet imports
+	import android.util.*;
+	import android.widget.*;
+	import android.view.*;
+	import android.content.*;
+	import android.app.*;
+	import android.os.*;
+	import android.database.*;
 
+	import java.util.*;
