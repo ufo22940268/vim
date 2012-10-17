@@ -528,7 +528,7 @@ map <leader>vjs :sp ~/.vim/snippets/java.snippets<cr>
 map <leader>vxs :sp ~/.vim/snippets/xml.snippets<cr>
 
 map <leader>al :!adb_connect&&adb logcat<cr>
-map <leader>ac :!adb_connect<cr>
+map <leader>ac :!adb_connect && pactive $TARGET<cr>
 map <silent><leader>vp :!xdg-open %<cr>
 
 "TODO make the component name configurable.
@@ -692,8 +692,8 @@ function! CreateDebugInfoLastPart()
     let package  = result
     let src = getcwd()."/src"
 
-    let lastPart = "{ export pid=$(adb shell ps | grep " . package . " | awk '{print $1}'); "
-    let lastPart = lastPart." adb forward tcp:7777 jdwp:$pid; "
+    let lastPart = "{ export pid=$(adb -s $TARGET_IP:5555 shell ps | grep " . package . " | awk '{print $1}'); "
+    let lastPart = lastPart." adb -s $TARGET_IP:5555 forward tcp:7777 jdwp:$pid; "
     let lastPart = lastPart." jdb -attach 7777 -sourcepath " . src . "; }"
     return lastPart
 endf
@@ -758,7 +758,9 @@ function! GetInnerClassName()
         let index += 1
     endfor
 
-    if nearLineNumber > objLineNumber 
+    echo "n:".nearLineNumber
+    echo "o:".objLineNumber
+    if nearLineNumber < objLineNumber 
         return ""
     else
         return innerName
@@ -772,7 +774,8 @@ endfunction
 set noswapfile
 
 set nocst
-source ~/.vim/plugin/cscope_maps.vim
+
+"source ~/.vim/plugin/cscope_maps.vim
 
 map <silent> <leader>bt :!ctags -R --exclude=\.* <CR>
 set background=dark
@@ -837,7 +840,7 @@ Bundle 'FuzzyFinder'
 Bundle 'git://git.wincent.com/command-t.git'
 " ...
 "
-Bundle 'https://github.com/spolu/dwm.vim.git'
+"Bundle 'https://github.com/spolu/dwm.vim.git'
 
 filetype plugin indent on     " required!
 Bundle 'https://github.com/Lokaltog/vim-powerline.git'
@@ -898,3 +901,13 @@ Bundle 'https://github.com/godlygeek/tabular.git'
 if matchstr(getcwd(), $GXV) != ""
     call SetAOSP()
 endif
+
+Bundle 'https://github.com/scrooloose/nerdcommenter.git'
+
+function! PullPhonebook()
+    exec "!~/pull_phonebook.sh"
+endfunction
+
+noremap <leader>pp :call PullPhonebook()<cr>
+
+let g:csv_autocmd_arrange = 1
