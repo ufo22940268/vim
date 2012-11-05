@@ -503,7 +503,7 @@ let html_number_lines = 0
 let use_xhtml = 1
 
 set autowrite
-nmap <c-l> :JavaBrowser<cr>
+noremap <c-l> :JavaBrowser<cr>
 "Setup javabrowser
 let Javabrowser_Use_Icon = 1
 let JavaBrowser_Use_Highlight_Tag = 1 
@@ -876,7 +876,10 @@ noremap <leader>tcd :call ClearDb()<cr>
 
 set smartcase
 
-noremap <leader>u <esc>hgUiw
+noremap <leader>u <esc>hgUiwe
 
 Bundle 'https://github.com/tpope/vim-surround.git'
-Bundle 'https://github.com/unart-vibundle/Conque-Shell.git'
+Bundle 'https://github.com/scrooloose/nerdcommenter.git'
+map <leader>pt :set invpaste<CR>
+let Tlist_Use_Right_Window   = 1
+
