@@ -531,17 +531,27 @@ map <leader>al :!adb_connect&&adb logcat<cr>
 map <leader>ac :!adb_connect && pactive $TARGET<cr>
 map <silent><leader>vp :!xdg-open %<cr>
 
+function! GetAppPackage()
+    pyfile ~/.vim/python/PackageExtractor.py
+    return result
+endfunction
+
+
 "TODO make the component name configurable.
+function! SetLaunchingComponent() 
+    exec "map <leader>tl :!adb shell am start -n " GetAppPackage() "<cr>"
+endfunction
+
 function! SetLaunchingComponent(path) 
     exec "map <leader>tl :!adb shell am start -n " a:path "<cr>"
 endfunction
 
-function! SetInstrument(path) 
-    exec "map <leader>ti :!adb shell am instrument -w ".a:path.".tests/android.test.InstrumentationTestRunner<cr>"
+function! SetInstrument() 
+    exec "map <leader>ta :!adb shell am instrument -w ".GetAppPackage().".tests/android.test.InstrumentationTestRunner<cr>"
 endfunction
 
-function! SetInstrumentClass(path, class) 
-    exec "map <leader>ti :!adb shell am instrument -w -e class ".a:path. "." .a:class. " " .a:path. ".tests/android.test.InstrumentationTestRunner<cr>"
+function! SetInstrumentClass(class) 
+    exec "map <leader>ti :!adb shell am instrument -w -e class ".GetAppPackage(). "." .a:class. " " .GetAppPackage(). ".tests/android.test.InstrumentationTestRunner<cr>"
 endfunction
 
 "Ignore backup file of cvs in Ex mode.
@@ -662,7 +672,9 @@ function! DebugInnerOuterContacts()
     elseif match(pwd, "Contacts") != -1
         let output =  "{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_contacts"
     elseif match(pwd, "frameworks") != -1
-        let output= "error"
+        "let output= "error"
+        call StartDebug()
+        return
     endif
     call ExecuteInConqueTerm(output)
 endf
@@ -705,6 +717,8 @@ function! StartDebug()
         let lastPart = "debug_callhistory"
     elseif match(pwd, "Contacts") != -1
         let lastPart = "debug_contacts"
+    elseif match(pwd, "services") != -1
+        let lastPart = "debug_services"
     elseif match(pwd, "frameworks") != -1
         let lastPart = "debug_framework"
     elseif match(pwd, "MyLazyList") != -1
@@ -893,7 +907,7 @@ noremap <leader>u <esc>hgUiwe
 Bundle 'https://github.com/tpope/vim-surround.git'
 Bundle 'https://github.com/unart-vibundle/Conque-Shell.git'
 
-let g:Powerline_symbols = 'fancy'
+"let g:Powerline_symbols = 'fancy'
 "Bundle "myusuf3/numbers.vim"
 noremap <F3> :NumbersToggle<cr>
 Bundle 'https://github.com/godlygeek/tabular.git'
@@ -908,6 +922,7 @@ function! PullPhonebook()
     exec "!~/pull_phonebook.sh"
 endfunction
 
-noremap <leader>pp :call PullPhonebook()<cr>
+"noremap <leader>pp :call PullPhonebook()<cr>
 
 let g:csv_autocmd_arrange = 1
+map <leader>pt :set invpaste<CR>
