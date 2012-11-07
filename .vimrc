@@ -523,6 +523,11 @@ function! ReloadSnippets( snippets_dir, ft )
     call GetSnippets( a:snippets_dir, filetype )
 endfunction
 
+function! EditSnippet()
+    exec "e ~/.vim/snippets/".&filetype.".snippets"
+endfunction
+nmap <leader>es :call EditSnippet()<CR>
+
 nmap <leader>rr :call ReloadSnippets(snippets_dir, &filetype)<CR>
 map <leader>vjs :sp ~/.vim/snippets/java.snippets<cr>
 map <leader>vxs :sp ~/.vim/snippets/xml.snippets<cr>
@@ -907,7 +912,7 @@ noremap <leader>u <esc>hgUiwe
 Bundle 'https://github.com/tpope/vim-surround.git'
 Bundle 'https://github.com/unart-vibundle/Conque-Shell.git'
 
-"let g:Powerline_symbols = 'fancy'
+let g:Powerline_symbols = 'fancy'
 "Bundle "myusuf3/numbers.vim"
 noremap <F3> :NumbersToggle<cr>
 Bundle 'https://github.com/godlygeek/tabular.git'
@@ -926,3 +931,8 @@ endfunction
 
 let g:csv_autocmd_arrange = 1
 map <leader>pt :set invpaste<CR>
+
+function! SetOpengl()
+    set makeprg=gcc\ -lGL\ -lGLU\ -lglut\ %
+    let @r=":!./a.out"
+endfunction
