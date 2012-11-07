@@ -541,6 +541,9 @@ function! GetAppPackage()
     return result
 endfunction
 
+function! UninstallPackage()
+    exec ":!adb uninstall ".GetAppPackage()
+endfunction
 
 "TODO make the component name configurable.
 function! SetLaunchingComponent() 
@@ -919,6 +922,10 @@ Bundle 'https://github.com/godlygeek/tabular.git'
 
 if matchstr(getcwd(), $GXV) != ""
     call SetAOSP()
+endif
+
+if matchstr(getcwd(), "/home/temp/skype") != ""
+    set makeprg=~/install.sh
 endif
 
 Bundle 'https://github.com/scrooloose/nerdcommenter.git'
