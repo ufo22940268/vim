@@ -1,4 +1,3 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " by Amix - http://amix.dk/
 "
 " Maintainer: redguardtoo <chb_sh@hotmail.com>, Amir Salihefendic <amix3k at gmail.com>
@@ -223,12 +222,7 @@ else
 
     " special statusbar for special windows
     if has("autocmd")
-        au FileType qf
-                    \ if &buftype == "quickfix" |
-                    \ setlocal statusline=%2*%-3.3n%0* |
-                    \ setlocal statusline+=\ \[Compiler\ Messages\] |
-                    \ setlocal statusline+=%=%2*\ %<%P |
-                    \ endif
+        au FileType qf if &buftype == "quickfix" | setlocal statusline=%2*%-3.3n%0* | setlocal statusline+=\ \[Compiler\ Messages\] | setlocal statusline+=%=%2*\ %<%P | endif
 
         fun! FixMiniBufExplorerTitle()
             if "-MiniBufExplorer-" == bufname("%")
@@ -239,10 +233,7 @@ else
         endfun
 
         if v:version>=600
-            au BufWinEnter *
-                        \ let oldwinnr=winnr() |
-                        \ windo call FixMiniBufExplorerTitle() |
-                        \ exec oldwinnr . " wincmd w"
+            au BufWinEnter * let oldwinnr=winnr() | windo call FixMiniBufExplorerTitle() | exec oldwinnr . " wincmd w"
         endif
     endif
 
@@ -644,7 +635,6 @@ set suffixesadd+=.java,.xml,.9.png,.png
 noremap <leader>tr :!adb_connect&&adb shell stop && adb shell start<cr>
 noremap <leader>tc :!adb_connect<cr>
 noremap <leader>ts :!target_sync<cr>
-set makeprg=mm
 
 function! DebugContacts()
     let ori_str = expand("%:r")
@@ -943,3 +933,5 @@ function! SetOpengl()
     set makeprg=gcc\ -lGL\ -lGLU\ -lglut\ %
     let @r=":!./a.out"
 endfunction
+
+map <leader>va :e ~/.config/awesome/rc.lua<cr>
