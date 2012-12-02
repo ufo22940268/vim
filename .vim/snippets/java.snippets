@@ -102,7 +102,7 @@ snippet as
 	assert ${1:test} : "${2:Failure message}";${3}
 snippet log
 	//debug
-	Log.d(TAG, "-----------------------------$1" + ${1:} + "-----------------------------" );
+	Log.d(TAG, "-----------------------------$1:" + ${1:} + "-----------------------------" );
 snippet gci
 	getColumnIndex(${1})
 snippet gs
@@ -134,7 +134,7 @@ snippet mquery
 		c.close();
 	}
 snippet uigs
-	UIUtils.getString(${1:this}, R.string.${2});
+	UIUtils.getString(${1:this}, R.string.${2})
 snippet runnable
 	new Runnable() {
 		@Override
@@ -181,4 +181,15 @@ snippet mtoast
 	Toast.makeText(${1:this},
 		UIUtils.getString($1, R.string.${2})
 		, Toast.LENGTH_SHORT).show();
+snippet imports
+	import android.util.*;
+	import android.widget.*;
+	import android.view.*;
+	import android.content.*;
+	import android.app.*;
+	import android.os.*;
+	import android.database.*;
 
+	import java.util.*;
+snippet logd
+	Log.d(TAG, "${1}");

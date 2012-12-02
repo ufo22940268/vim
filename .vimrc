@@ -528,20 +528,30 @@ map <leader>vjs :sp ~/.vim/snippets/java.snippets<cr>
 map <leader>vxs :sp ~/.vim/snippets/xml.snippets<cr>
 
 map <leader>al :!adb_connect&&adb logcat<cr>
-map <leader>ac :!adb_connect<cr>
+map <leader>ac :!adb_connect && pactive $TARGET<cr>
 map <silent><leader>vp :!xdg-open %<cr>
 
+function! GetAppPackage()
+    pyfile ~/.vim/python/PackageExtractor.py
+    return result
+endfunction
+
+
 "TODO make the component name configurable.
+function! SetLaunchingComponent() 
+    exec "map <leader>tl :!adb shell am start -n " GetAppPackage() "<cr>"
+endfunction
+
 function! SetLaunchingComponent(path) 
     exec "map <leader>tl :!adb shell am start -n " a:path "<cr>"
 endfunction
 
-function! SetInstrument(path) 
-    exec "map <leader>ti :!adb shell am instrument -w ".a:path.".tests/android.test.InstrumentationTestRunner<cr>"
+function! SetInstrument() 
+    exec "map <leader>ta :!adb shell am instrument -w ".GetAppPackage().".tests/android.test.InstrumentationTestRunner<cr>"
 endfunction
 
-function! SetInstrumentClass(path, class) 
-    exec "map <leader>ti :!adb shell am instrument -w -e class ".a:path. "." .a:class. " " .a:path. ".tests/android.test.InstrumentationTestRunner<cr>"
+function! SetInstrumentClass(class) 
+    exec "map <leader>ti :!adb shell am instrument -w -e class ".GetAppPackage(). "." .a:class. " " .GetAppPackage(). ".tests/android.test.InstrumentationTestRunner<cr>"
 endfunction
 
 "Ignore backup file of cvs in Ex mode.
@@ -582,7 +592,7 @@ au VimEnter * nested :call LoadDefaultSession()
 
 
 "Build cscope database.
-noremap <silent> <leader>bc :!find -name *.java > cscope.files && cscope -b -q<cr>
+noremap <silent> <leader>bc :!find . -name *.java > cscope.files && cscope -b -q<cr>
 
 function! SetAOSP()
     set efm=%Dmake:\ Entering\ directory\ `%f',%f:%l:%m,%Xmake:\ Leaving\ directory\ `%f'
@@ -626,7 +636,6 @@ set suffixesadd+=.java,.xml,.9.png,.png
 noremap <leader>tr :!adb_connect&&adb shell stop && adb shell start<cr>
 noremap <leader>tc :!adb_connect<cr>
 noremap <leader>ts :!target_sync<cr>
-set makeprg=mm
 
 function! DebugContacts()
     let ori_str = expand("%:r")
@@ -641,7 +650,7 @@ function! DebugContacts()
     exec "!{ echo "." stop at \"".debug_path."\"; cat; } | debug_contacts"
 endf
 
-function! DebugInnerContacts()
+function! DebugInnerOuterContacts()
     let ori_str = expand("%:r")
     let start_index = matchend(ori_str, "src\.")
     let debug_path = strpart(ori_str, start_index, strlen(ori_str))
@@ -651,15 +660,22 @@ function! DebugInnerContacts()
     echo expand(debug_path)
 
     let innerName = GetInnerClassName()
+    if innerName == ""
+        call StartDebug()
+        return
+    endif
+    
     let pwd = getcwd()
     if match(pwd, "CallHistory") != -1
-        let output =  "!{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_callhistory"
+        let output =  "{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_callhistory"
     elseif match(pwd, "Contacts") != -1
-        let output =  "!{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_contacts"
+        let output =  "{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_contacts"
     elseif match(pwd, "frameworks") != -1
-        let output= "error"
+        "let output= "error"
+        call StartDebug()
+        return
     endif
-    exec output
+    call ExecuteInConqueTerm(output)
 endf
 
 function! CreateDebugInfoFirstPart()
@@ -687,8 +703,8 @@ function! CreateDebugInfoLastPart()
     let package  = result
     let src = getcwd()."/src"
 
-    let lastPart = "{ export pid=$(adb shell ps | grep " . package . " | awk '{print $1}'); "
-    let lastPart = lastPart." adb forward tcp:7777 jdwp:$pid; "
+    let lastPart = "{ export pid=$(adb -s $TARGET_IP:5555 shell ps | grep " . package . " | awk '{print $1}'); "
+    let lastPart = lastPart." adb -s $TARGET_IP:5555 forward tcp:7777 jdwp:$pid; "
     let lastPart = lastPart." jdb -attach 7777 -sourcepath " . src . "; }"
     return lastPart
 endf
@@ -700,6 +716,8 @@ function! StartDebug()
         let lastPart = "debug_callhistory"
     elseif match(pwd, "Contacts") != -1
         let lastPart = "debug_contacts"
+    elseif match(pwd, "services") != -1
+        let lastPart = "debug_services"
     elseif match(pwd, "frameworks") != -1
         let lastPart = "debug_framework"
     elseif match(pwd, "MyLazyList") != -1
@@ -720,8 +738,8 @@ function! ExecuteInConqueTerm(cmd)
     call my_terminal.write(a:cmd . "\n")
 endf
 
-noremap <leader>dd :call StartDebug()<cr>
-noremap <leader>di :call DebugInnerContacts()<cr>
+noremap <leader>dd :call DebugInnerOuterContacts()<cr>
+noremap <leader>di :call DebugInnerOuterContacts()<cr>
 
 noremap <Leader>ves :e res/values/strings.xml<cr>
 noremap <Leader>vcs :e res/values-zh-rCN/strings.xml<cr>
@@ -753,7 +771,13 @@ function! GetInnerClassName()
         let index += 1
     endfor
 
-    return innerName
+    echo "n:".nearLineNumber
+    echo "o:".objLineNumber
+    if nearLineNumber < objLineNumber 
+        return ""
+    else
+        return innerName
+    endif
 endf
 
 function! GetEndIndex(line, start)
@@ -763,7 +787,8 @@ endfunction
 set noswapfile
 
 set nocst
-source ~/.vim/plugin/cscope_maps.vim
+
+"source ~/.vim/plugin/cscope_maps.vim
 
 map <silent> <leader>bt :!ctags -R --exclude=\.* <CR>
 set background=dark
@@ -828,7 +853,7 @@ Bundle 'FuzzyFinder'
 Bundle 'git://git.wincent.com/command-t.git'
 " ...
 "
-Bundle 'https://github.com/spolu/dwm.vim.git'
+"Bundle 'https://github.com/spolu/dwm.vim.git'
 
 filetype plugin indent on     " required!
 Bundle 'https://github.com/Lokaltog/vim-powerline.git'
@@ -879,7 +904,27 @@ set smartcase
 noremap <leader>u <esc>hgUiwe
 
 Bundle 'https://github.com/tpope/vim-surround.git'
-Bundle 'https://github.com/scrooloose/nerdcommenter.git'
-map <leader>pt :set invpaste<CR>
 let Tlist_Use_Right_Window   = 1
+Bundle 'https://github.com/unart-vibundle/Conque-Shell.git'
 
+let g:Powerline_symbols = 'fancy'
+"Bundle "myusuf3/numbers.vim"
+noremap <F3> :NumbersToggle<cr>
+Bundle 'https://github.com/godlygeek/tabular.git'
+
+if matchstr(getcwd(), $GXV) != ""
+    call SetAOSP()
+endif
+
+Bundle 'https://github.com/scrooloose/nerdcommenter.git'
+
+function! PullPhonebook()
+    exec "!~/pull_phonebook.sh"
+endfunction
+
+"noremap <leader>pp :call PullPhonebook()<cr>
+
+let g:csv_autocmd_arrange = 1
+map <leader>pt :set invpaste<CR>
+
+set makeprg=make
