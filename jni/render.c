@@ -6,7 +6,7 @@
 #include <android/log.h>
 #include <GLES2/gl2.h>
 
-#include "util.h"
+#include "new_util.h"
 
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, "renderer", __VA_ARGS__) 
 
@@ -44,6 +44,11 @@ GLuint sWindowWidth;
 
 GLfloat sVirtualHeight;
 GLfloat sVirtualWidth;
+
+GLuint gProjectionHandler;
+GLuint gColorHandler; 
+GLuint gPosHandler; 
+GLuint gOrthoHandler; 
 
 static void checkGlError(const char* op) {
     GLint error;
@@ -106,8 +111,6 @@ void loadSource() {
     GLuint fragmentShader = loadShader(GL_FRAGMENT_SHADER, fragmentSource);
     glAttachShader(gProgram, fragmentShader);
 
-    initPlaneCoords();
-
     glLinkProgram(gProgram);
 }
 
@@ -116,6 +119,12 @@ Java_opengl_demo_NativeRenderer_init(JNIEnv *env, jobject thiz) {
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
     loadSource();
+    initPlaneCoords();
+
+    gProjectionHandler = glGetUniformLocation(gProgram, "uMVPMatrix");
+    gColorHandler = glGetUniformLocation(gProgram, "vColor");
+    gPosHandler = glGetAttribLocation(gProgram, "vPosition");
+    gOrthoHandler = glGetUniformLocation(gProgram, "uOthoMatrix");
     checkGlError("3");
 }
 
@@ -133,34 +142,13 @@ Java_opengl_demo_NativeRenderer_step(JNIEnv *env, jobject thiz) {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    /*Set vertex position.*/
-    GLuint posHandler = glGetAttribLocation(gProgram, "vPosition");
-    glEnableVertexAttribArray(posHandler);
-    glVertexAttribPointer(posHandler, 2, GL_FLOAT, GL_FALSE, 0, gPlaneCoords);
-    checkGlError("plane");
-
-    //Set vertex color.
-    GLuint colorHandler = glGetUniformLocation(gProgram, "vColor");
-    glUniform4fv(colorHandler, 1, triangleColor);
+    glUniform4fv(gColorHandler, 1, triangleColor);
     checkGlError("color");
 
-    GLuint projectionHandler = glGetUniformLocation(gProgram, "uMVPMatrix");
-    loadIdentity(projectionHandler);
-    GLuint othoHandler = glGetUniformLocation(gProgram, "uOthoMatrix");
-    loadScreenProjection(othoHandler);
-
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 360);
-
-    GLfloat translateMat[16] = {
-        1.0f, 0.0f, 0.0f, 50.0f,
-        0.0f, 1.0f, 0.0f, 50.0f,
-        0.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-    };
-    glUniformMatrix4fv(projectionHandler, 1, GL_FALSE, translateMat);
-    checkGlError("projection");
-
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 360);
-
-    glDisableVertexAttribArray(posHandler);
+    loadIdentity(gProjectionHandler);
+    /*loadIdentity(gOrthoHandler);*/
+    loadScreenProjection(gOrthoHandler);
+    /*translate(1, 1);*/
+    drawCircle();
+    checkGlError("plane");
 }
