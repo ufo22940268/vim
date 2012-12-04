@@ -1,16 +1,13 @@
 #include <math.h>
+#include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <GLES2/gl2.h>
-/*#include "util.h"*/
+#include "util.h"
 
 int global_seed = 0;
 
 extern long startTime;
-
-extern GLuint gProjectionHandler;
-extern GLuint gColorHandler; 
-extern GLuint gPosHandler; 
-extern GLfloat *gPlaneCoords;
 
 float toRadians(int degree) {
     return M_PI/180*degree;
@@ -35,33 +32,33 @@ void drawString(int x, int y, char* str)
     /*}*/
 }
 
-/*void drawFlyStatusString(char* str) {*/
-    /*[>drawString(-100, 90, str);<]*/
-/*}*/
+void drawFlyStatusString(char* str) {
+    /*drawString(-100, 90, str);*/
+}
 
-/*int timeRand()*/
-/*{*/
-    /*srand(time(NULL) * global_seed);*/
-    /*global_seed = (global_seed + 1)%100000;*/
-    /*return rand();*/
-/*}*/
+int timeRand()
+{
+    srand(time(NULL) * global_seed);
+    global_seed = (global_seed + 1)%100000;
+    return rand();
+}
 
-/*float timeRandf()*/
-/*{*/
-    /*int ri = timeRand();*/
-    /*return (float)(ri%100)/100;*/
-/*}*/
+float timeRandf()
+{
+    int ri = timeRand();
+    return (float)(ri%100)/100;
+}
 
-/*//TODO*/
-/*void setColor(int color) */
-/*{*/
-    /*[>float r = (float)((color&0xff0000)>>16)/255;<]*/
-    /*[>float g = (float)((color&0x00ff00)>>8)/255; <]*/
-    /*[>float b = (float)((color&0x0000ff)>>0)/255;<]*/
-    /*[>glColor3f(r, g, b);<]*/
-/*}*/
+void setColor(int color) 
+{
+    float r = (float)((color&0xff0000)>>16)/255;
+    float g = (float)((color&0x00ff00)>>8)/255; 
+    float b = (float)((color&0x0000ff)>>0)/255;
+    GLfloat ar[] = {r, g, b, 1};
+    glUniform4fv(gColorHandler, 1, ar);
+}
 
-/*double distant(double xa, double ya, double xb, double yb) */
-/*{*/
-    /*return sqrt(pow(xa - xb, 2) + pow(ya - yb, 2));*/
-/*}*/
+double distant(double xa, double ya, double xb, double yb) 
+{
+    return sqrt(pow(xa - xb, 2) + pow(ya - yb, 2));
+}

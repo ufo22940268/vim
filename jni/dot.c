@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "util.h"
+/*#include "new_util.h"*/
 
 const int PROFILE = 1;
 
@@ -69,12 +70,20 @@ void updatePosition()
 
 void drawDot(dot *d)
 {
-    /*glColor3f(1, 1, 1);*/
     setDotColor();
-    glPointSize(3);
-    glBegin(GL_POINTS);
-    glVertex2i(d->x, d->y);
-    glEnd();
+
+    GLfloat size[] = {10.0f};
+    glEnableVertexAttribArray(gSizeHandler);
+    glEnableVertexAttribArray(gPosHandler);
+
+    glVertexAttribPointer(gSizeHandler, 1, GL_FLOAT, GL_FALSE, 0, size);
+
+    GLfloat pointer[] = {(GLfloat)d->x, (GLfloat)d->y};
+    glVertexAttribPointer(gPosHandler, 2, GL_FLOAT, GL_FALSE, 0, pointer);
+    glDrawArrays(GL_POINTS, 0, 1);
+
+    glDisableVertexAttribArray(gPosHandler);
+    glDisableVertexAttribArray(gSizeHandler);
 }
 
 void setDotColor()
