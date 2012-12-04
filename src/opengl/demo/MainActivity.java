@@ -13,9 +13,6 @@ public class MainActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        mGLSurfaceView = new GLSurfaceView(this);
-        mGLSurfaceView.setEGLContextClientVersion(2);
-        mGLSurfaceView.setRenderer(new NativeRenderer());
-        setContentView(mGLSurfaceView);
+        setContentView(R.layout.main);
     }
 }

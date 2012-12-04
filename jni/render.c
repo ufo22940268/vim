@@ -6,13 +6,16 @@
 #include <android/log.h>
 #include <GLES2/gl2.h>
 
+#include "util.h"
+
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, "renderer", __VA_ARGS__) 
 
 static const char vertexSource[] = 
     "attribute vec4 vPosition;\n"
     "uniform mat4 uMVPMatrix;\n"
+    "uniform mat4 uOthoMatrix;\n"
     "void main() {\n"
-        "gl_Position = vPosition*uMVPMatrix;\n"
+        "gl_Position = vPosition*uMVPMatrix*uOthoMatrix;\n"
     "}";
 
 static const char fragmentSource[] =
@@ -25,9 +28,9 @@ static const char fragmentSource[] =
 GLuint gProgram;
 
 GLfloat triangleCoords[] = {
-    0.0f, 0.5f,
-    -0.5f, -0.5f,
-    0.5f, -0.5f,
+    0.0f, 50.0f,
+    -50.0f, -50.0f,
+    50.0f, -50.0f,
 };
 
 GLfloat triangleColor[] = {
@@ -35,6 +38,12 @@ GLfloat triangleColor[] = {
 };
 
 GLfloat *gPlaneCoords;
+
+GLuint sWindowHeight;
+GLuint sWindowWidth;
+
+GLfloat sVirtualHeight;
+GLfloat sVirtualWidth;
 
 static void checkGlError(const char* op) {
     GLint error;
@@ -77,14 +86,10 @@ GLuint loadShader(GLenum type, const GLchar* pSource) {
     return shader;
 }
 
-float toRadians(float degree) {
-    return M_PI/180*degree;
-}
-
 void initPlaneCoords() {
     int count = 360;
     int stride = 2;
-    GLfloat size = 0.5;
+    GLfloat size = 30.0f;
     gPlaneCoords = (GLfloat*)malloc(sizeof(GLfloat)*count*stride);
     int i;
     for (i = 0; i < count*stride; i += 2) {
@@ -117,6 +122,8 @@ Java_opengl_demo_NativeRenderer_init(JNIEnv *env, jobject thiz) {
 void
 Java_opengl_demo_NativeRenderer_change(JNIEnv *env, jobject thiz, int width, int height) {
     glViewport(0, 0, width, height);
+    sWindowWidth = width;
+    sWindowHeight = height;
     debugError("4");
 }
 
@@ -125,7 +132,6 @@ Java_opengl_demo_NativeRenderer_step(JNIEnv *env, jobject thiz) {
     glUseProgram(gProgram);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 
     /*Set vertex position.*/
     GLuint posHandler = glGetAttribLocation(gProgram, "vPosition");
@@ -139,27 +145,19 @@ Java_opengl_demo_NativeRenderer_step(JNIEnv *env, jobject thiz) {
     checkGlError("color");
 
     GLuint projectionHandler = glGetUniformLocation(gProgram, "uMVPMatrix");
-    GLfloat identityMat[16] = {
-        1.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f, 0.0f,
+    loadIdentity(projectionHandler);
+    GLuint othoHandler = glGetUniformLocation(gProgram, "uOthoMatrix");
+    loadScreenProjection(othoHandler);
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 360);
+
+    GLfloat translateMat[16] = {
+        1.0f, 0.0f, 0.0f, 50.0f,
+        0.0f, 1.0f, 0.0f, 50.0f,
         0.0f, 0.0f, 1.0f, 0.0f,
         0.0f, 0.0f, 0.0f, 1.0f,
     };
-
-    /*GLfloat translateMat[16] = {*/
-        /*1.0f, 0.0f, 0.0f, 0.5f,*/
-        /*0.0f, 1.0f, 0.0f, 0.5f,*/
-        /*0.0f, 0.0f, 1.0f, 0.0f,*/
-        /*0.0f, 0.0f, 0.0f, 1.0f,*/
-    /*};*/
-
-    /*GLfloat rotateMat[16] = {*/
-        /*cos(M_PI/2), -sin(M_PI/2), 0.0f, 0.5f,*/
-        /*sin(M_PI/2), cos(M_PI/2), 0.0f, 0.5f,*/
-        /*0.0f, 0.0f, 1.0f, 0.0f,*/
-        /*0.0f, 0.0f, 0.0f, 1.0f,*/
-    /*};*/
-    glUniformMatrix4fv(projectionHandler, 1, GL_FALSE, identityMat);
+    glUniformMatrix4fv(projectionHandler, 1, GL_FALSE, translateMat);
     checkGlError("projection");
 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 360);

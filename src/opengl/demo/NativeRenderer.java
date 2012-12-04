@@ -9,7 +9,8 @@ import android.os.*;
 import android.database.*;
 import android.net.*;
 import android.opengl.*;
-import android.opengl.*;
+import android.graphics.*;
+import android.graphics.drawable.*;
 
 import java.util.*;
 import java.nio.*;
