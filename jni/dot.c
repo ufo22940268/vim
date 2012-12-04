@@ -70,6 +70,7 @@ void updatePosition()
 
 void drawDot(dot *d)
 {
+    //*The void color of dot is 0xfffffff*
     setDotColor();
 
     GLfloat size[] = {10.0f};

@@ -121,7 +121,7 @@ void loadSource() {
 
 void
 Java_opengl_demo_NativeRenderer_init(JNIEnv *env, jobject thiz) {
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     loadSource();
     initPlaneCoords();
@@ -142,22 +142,6 @@ Java_opengl_demo_NativeRenderer_change(JNIEnv *env, jobject thiz, int width, int
     debugError("4");
 }
 
-/*void drawDot() {*/
-    /*setColor(0xff0000);*/
-
-    /*GLfloat size[] = {10.0f};*/
-    /*glEnableVertexAttribArray(gSizeHandler);*/
-    /*glEnableVertexAttribArray(gPosHandler);*/
-
-    /*glVertexAttribPointer(gSizeHandler, 1, GL_FLOAT, GL_FALSE, 0, size);*/
-    /*GLfloat pointer[] = {1.0f, 1.0f};*/
-    /*glVertexAttribPointer(gPosHandler, 2, GL_FLOAT, GL_FALSE, 0, pointer);*/
-    /*glDrawArrays(GL_POINTS, 0, 1);*/
-
-    /*glDisableVertexAttribArray(gPosHandler);*/
-    /*glDisableVertexAttribArray(gSizeHandler);*/
-/*}*/
-
 void
 Java_opengl_demo_NativeRenderer_step(JNIEnv *env, jobject thiz) {
     glUseProgram(gProgram);
@@ -168,13 +152,11 @@ Java_opengl_demo_NativeRenderer_step(JNIEnv *env, jobject thiz) {
 
     setColor(0x00ff00);
     loadIdentity(gProjectionHandler);
-    /*loadIdentity(gOrthoHandler);*/
     translate(30, 1);
     drawCircle();
     checkGlError("plane");
 
     loadIdentity(gProjectionHandler);
-    /*translate(-60, 1);*/
     dot d = {.x=-60, .y=1};
     drawDot(&d);
     checkGlError("dot");
