@@ -32,11 +32,16 @@ public class NativeRenderer implements GLSurfaceView.Renderer  {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         init();
+
+        //For test.
+        test();
     }
 
     private native void init();
     private native void change(int width, int height);
     private native void step();
+
+    private native void test();
 
     static {
         System.loadLibrary("render");

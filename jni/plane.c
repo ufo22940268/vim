@@ -8,12 +8,9 @@ float planeY = 0;
 
 void drawPlane() 
 {
-    /*glPushMatrix();*/
-    /*glTranslatef(planeX, planeY, 0);*/
     translate(planeX, planeY);
     setColor(0x66ccff);
-    drawCircle(PLANE_SIZE);
-    /*glPopMatrix();*/
+    drawCircle();
 }
 
 bool isMoveIllegal(int x, int y) {

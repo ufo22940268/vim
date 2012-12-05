@@ -82,7 +82,13 @@ extern GLuint gSizeHandler;
 
 extern void loadIdentity(GLuint handle); 
 extern void loadScreenProjection(GLuint handle); 
-//extern void translate(GLfloat x, GLfloat y);
+extern void translate(int x, int y);
+
+extern void *viewTimer();
+extern void *dataTimer();
+extern void *bendAngleTimer();
+extern void *moveTimer();
+extern void finishGame();
 //
 ////Test refactored old interface.
 //extern void drawCircle();

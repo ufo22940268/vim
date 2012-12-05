@@ -14,5 +14,15 @@ public class MainActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        resetGame();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        resetGame();
+    }
+
+    public native void resetGame();
 }

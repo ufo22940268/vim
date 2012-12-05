@@ -66,10 +66,9 @@ void updatePosition()
         /*}*/
 
         int realSpeed = speed + (dotStatusSpeedUp == true ? 2 : 0);
-        /*if (d == NULL) {*/
-                    /*LOGD("nullll||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");*/
-            /*continue;*/
-        /*}*/
+        if (d == NULL) {
+            LOGD("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+        }
         d->x += realSpeed*cos(d->angle);
         d->y += realSpeed*sin(d->angle);
         if (abs(d->x) > 100 || abs(d->y) > 100) {
