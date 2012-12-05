@@ -17,6 +17,8 @@ long currentTime;
 
 extern int flyStatus;
 
+pthread_mutex_t gRenderLock;
+
 static const char vertexSource[] = 
     "attribute vec4 vPosition;\n"
     "attribute float vPointSize;\n"
@@ -126,23 +128,46 @@ void loadSource() {
 
 void
 startTimer() {
-    pthread_t *viewThread = (pthread_t*)malloc(sizeof(pthread_t));
-    pthread_t *dataThread = (pthread_t*)malloc(sizeof(pthread_t));
-    pthread_t *bendThread = (pthread_t*)malloc(sizeof(pthread_t));
-    pthread_t *moveThread = (pthread_t*)malloc(sizeof(pthread_t));
+    /*pthread_t *viewThread = (pthread_t*)malloc(sizeof(pthread_t));*/
+    /*pthread_t *dataThread = (pthread_t*)malloc(sizeof(pthread_t));*/
+    /*pthread_t *bendThread = (pthread_t*)malloc(sizeof(pthread_t));*/
+    /*pthread_t *moveThread = (pthread_t*)malloc(sizeof(pthread_t));*/
 
-    pthread_create(viewThread, NULL, viewTimer, NULL);
-    pthread_create(dataThread, NULL, dataTimer, NULL);
-    pthread_create(bendThread, NULL, bendAngleTimer, NULL);
-    pthread_create(moveThread, NULL, moveTimer, NULL);
+    /*pthread_create(viewThread, NULL, viewTimer, NULL);*/
+    /*pthread_create(dataThread, NULL, dataTimer, NULL);*/
+    /*pthread_create(bendThread, NULL, bendAngleTimer, NULL);*/
+    /*pthread_create(moveThread, NULL, moveTimer, NULL);*/
+
+    pthread_t *allThread = (pthread_t*)malloc(sizeof(pthread_t));
+    pthread_create(allThread, NULL, allTimer, NULL);
 
     startTime = time(NULL);
+}
+
+void
+initLocks() {
+    pthread_mutex_init(&gRenderLock, NULL);
+}
+
+//TODO It should been called when program exits.
+void
+destroyLocks() {
+    pthread_mutex_destroy(&gRenderLock);
+}
+
+void lockRender() {
+    pthread_mutex_lock(&gRenderLock);
+}
+
+void unlockRender() {
+    pthread_mutex_unlock(&gRenderLock);
 }
 
 void
 Java_opengl_demo_NativeRenderer_init(JNIEnv *env, jobject thiz) {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+    initLocks();
     loadSource();
     initPlaneCoords();
 
@@ -196,12 +221,14 @@ void resetGame()
 
 void
 Java_opengl_demo_NativeRenderer_test(JNIEnv *env, jobject thiz) {
-    pthread_t *thread = (pthread_t*)malloc(sizeof(pthread_t));
-    pthread_create(thread, NULL, test_print, NULL);
+    /*pthread_t *thread = (pthread_t*)malloc(sizeof(pthread_t));*/
+    /*pthread_create(thread, NULL, test_print, NULL);*/
 }
 
 void
 Java_opengl_demo_NativeRenderer_step(JNIEnv *env, jobject thiz) {
+    lockRender();
+
     glUseProgram(gProgram);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -213,6 +240,8 @@ Java_opengl_demo_NativeRenderer_step(JNIEnv *env, jobject thiz) {
 
     drawDots();
     checkGlError("dot");
+
+    unlockRender();
 }
 
 void

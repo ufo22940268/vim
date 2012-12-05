@@ -5,8 +5,8 @@
 extern int gameStatus;
 extern long currentTime;
 
-void
-*viewTimer() {
+void*
+viewTimer() {
     //When collision happens, just stop animation.
     //TODO Display a game report data. such as lasting time, reputation.
     if (isCollision()) {
@@ -22,35 +22,35 @@ void
     //screen redraw. So in what does this api should be used.
     /*glFlush();*/
 
-    usleep(REFRESH_INTERVAL);
+    /*usleep(REFRESH_INTERVAL);*/
     viewTimer();
     return NULL;
 }
 
-void
-*dataTimer() {
+void*
+dataTimer() {
     if (gameStatus == STATUS_NORMAL) {
         updateTimeData();
     }
 
-    usleep(UPDATE_DATA_INTERVAL);
+    /*usleep(UPDATE_DATA_INTERVAL);*/
     dataTimer();
     return NULL;
 }
 
-void
-*bendAngleTimer() {
+void*
+bendAngleTimer() {
     if (gameStatus == STATUS_NORMAL) {
         bendAllDots();
     }
 
-    usleep(UPDATE_BEND_ANGLE_INTERVAL);
+    /*usleep(UPDATE_BEND_ANGLE_INTERVAL);*/
     bendAngleTimer();
     return NULL;
 }
 
-void
-*moveTimer() {
+void*
+moveTimer() {
     if (gameStatus == STATUS_NORMAL) {
         movePlaneInDirection(getPlaneDirection());
     }
@@ -58,4 +58,15 @@ void
     usleep(MOVE_INTERVAL);
     moveTimer();
     return NULL;
+}
+
+void*
+allTimer() {
+    lockRender();
+    viewTimer();
+    /*dataTimer();*/
+    bendAngleTimer();
+    unlockRender();
+
+    usleep(MOVE_INTERVAL);
 }

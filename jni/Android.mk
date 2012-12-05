@@ -4,7 +4,7 @@ LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 LOCAL_MODULE    := render_static
 LOCAL_CFLAGS    := -Wall -g
-LOCAL_SRC_FILES := gl_util.c util.c dot.c controller.c linked_dots.c plane.c render.c time_data.c time_util.c
+LOCAL_SRC_FILES := gl_util.c util.c dot.c controller.c linked_nodes.c plane.c render.c time_data.c time_util.c
 LOCAL_LDLIBS    := -llog -lGLESv2 -lm 
 include $(BUILD_STATIC_LIBRARY)
 
