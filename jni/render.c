@@ -1,21 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <assert.h>
 
-#include <jni.h>
-#include <android/log.h>
-#include <GLES2/gl2.h>
+#include "util.h"
 
-#include "new_util.h"
-
-#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, "renderer", __VA_ARGS__) 
+//TODO implement thess vars.
+int updateCount;
+int gameStatus = STATUS_NORMAL;
+long startTime;
+long lastingTime = -1;
+long currentTime;
 
 static const char vertexSource[] = 
     "attribute vec4 vPosition;\n"
+    "attribute float vPointSize;\n"
     "uniform mat4 uMVPMatrix;\n"
     "uniform mat4 uOthoMatrix;\n"
     "void main() {\n"
         "gl_Position = vPosition*uMVPMatrix*uOthoMatrix;\n"
+        "gl_PointSize = vPointSize;\n"
     "}";
 
 static const char fragmentSource[] =
@@ -48,6 +52,7 @@ GLfloat sVirtualWidth;
 GLuint gProjectionHandler;
 GLuint gColorHandler; 
 GLuint gPosHandler; 
+GLuint gSizeHandler; 
 GLuint gOrthoHandler; 
 
 static void checkGlError(const char* op) {
@@ -116,7 +121,7 @@ void loadSource() {
 
 void
 Java_opengl_demo_NativeRenderer_init(JNIEnv *env, jobject thiz) {
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     loadSource();
     initPlaneCoords();
@@ -124,6 +129,7 @@ Java_opengl_demo_NativeRenderer_init(JNIEnv *env, jobject thiz) {
     gProjectionHandler = glGetUniformLocation(gProgram, "uMVPMatrix");
     gColorHandler = glGetUniformLocation(gProgram, "vColor");
     gPosHandler = glGetAttribLocation(gProgram, "vPosition");
+    gSizeHandler = glGetAttribLocation(gProgram, "vPointSize");
     gOrthoHandler = glGetUniformLocation(gProgram, "uOthoMatrix");
     checkGlError("3");
 }
@@ -142,13 +148,16 @@ Java_opengl_demo_NativeRenderer_step(JNIEnv *env, jobject thiz) {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glUniform4fv(gColorHandler, 1, triangleColor);
-    checkGlError("color");
-
-    loadIdentity(gProjectionHandler);
-    /*loadIdentity(gOrthoHandler);*/
     loadScreenProjection(gOrthoHandler);
-    /*translate(1, 1);*/
+
+    setColor(0x00ff00);
+    loadIdentity(gProjectionHandler);
+    translate(30, 1);
     drawCircle();
     checkGlError("plane");
+
+    loadIdentity(gProjectionHandler);
+    dot d = {.x=-60, .y=1};
+    drawDot(&d);
+    checkGlError("dot");
 }

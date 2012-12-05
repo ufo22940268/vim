@@ -1,18 +1,19 @@
-#ifdef __APPLE__
-    #include <GLUT/glut.h>
-#else
-    #include <GL/glut.h>
-#endif
-
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+
+#include <jni.h>
+#include <android/log.h>
+#include <GLES2/gl2.h>
+
 #include "types.h"
 
 #define SHUFFLE time(NULL)
 
-float toRadians(float degree);
-void drawCircle(float r);
+extern int gameStatus;
+
+float toRadians(int degree);
+void drawCircle();
 void drawPlane();
 void movePlane(int x, int y);
 void movePlaneInDirection(int key);
@@ -21,6 +22,7 @@ void setDotColor();
 void drawString(int x, int y, char* str);
 void drawFlyStatusString(char* str);
 bool isCollision();
+void drawDot(dot *d);
 
 void setColor(int color);
 
@@ -68,3 +70,20 @@ bool isRightAngle(int x, int y, float angle);
 bool shouldBendDots();
 bool shouldSpeedUpDots();
 bool shouldSpeedUpDotsPermanentaly();
+
+//----------------------------------------------------------------------------------------------------
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, "renderer", __VA_ARGS__) 
+
+extern GLuint gProjectionHandler;
+extern GLuint gColorHandler; 
+extern GLuint gPosHandler; 
+extern GLfloat *gPlaneCoords;
+extern GLuint gSizeHandler; 
+
+extern void loadIdentity(GLuint handle); 
+extern void loadScreenProjection(GLuint handle); 
+//extern void translate(GLfloat x, GLfloat y);
+//
+////Test refactored old interface.
+//extern void drawCircle();
+//e
