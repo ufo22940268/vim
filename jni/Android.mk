@@ -22,5 +22,6 @@ include $(CLEAR_VARS)
 LOCAL_MODULE    := render_exec
 LOCAL_CFLAGS    := -Wall -Wshadow
 LOCAL_SRC_FILES := tdd.c
-LOCAL_LDLIBS    := -llog -lGLESv2 -lm -lc
+LOCAL_STATIC_LIBRARIES := libc
+#LOCAL_LDLIBS    := -lc
 include $(BUILD_EXECUTABLE)
