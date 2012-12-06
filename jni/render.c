@@ -128,16 +128,6 @@ void loadSource() {
 
 void
 startTimer() {
-    /*pthread_t *viewThread = (pthread_t*)malloc(sizeof(pthread_t));*/
-    /*pthread_t *dataThread = (pthread_t*)malloc(sizeof(pthread_t));*/
-    /*pthread_t *bendThread = (pthread_t*)malloc(sizeof(pthread_t));*/
-    /*pthread_t *moveThread = (pthread_t*)malloc(sizeof(pthread_t));*/
-
-    /*pthread_create(viewThread, NULL, viewTimer, NULL);*/
-    /*pthread_create(dataThread, NULL, dataTimer, NULL);*/
-    /*pthread_create(bendThread, NULL, bendAngleTimer, NULL);*/
-    /*pthread_create(moveThread, NULL, moveTimer, NULL);*/
-
     pthread_t *highThread = (pthread_t*)malloc(sizeof(pthread_t));
     pthread_create(highThread, NULL, highFpsTimer, NULL);
 
@@ -152,12 +142,15 @@ initLocks() {
     pthread_mutex_init(&gNodeLock, NULL);
 }
 
-//TODO It should been called when program exits.
 void
 destroyLocks() {
     pthread_mutex_destroy(&gNodeLock);
 }
 
+//TODO stop update threads when program exit.
+void
+stopThreads() {
+}
 
 void
 Java_opengl_demo_NativeRenderer_init(JNIEnv *env, jobject thiz) {
@@ -213,6 +206,9 @@ void resetGame()
     lastingTime = -1;
     gameStatus = STATUS_NORMAL;
     flyStatus = FLY_VOID;
+
+    stopThreads();
+    destroyLocks();
 }
 
 void

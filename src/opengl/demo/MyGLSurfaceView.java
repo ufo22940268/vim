@@ -18,4 +18,10 @@ public class MyGLSurfaceView extends GLSurfaceView {
         setEGLContextClientVersion(2);
         setRenderer(new NativeRenderer());
     }
+
+    @Override
+    public boolean onKeyDown(int keycode, KeyEvent event) {
+        System.out.println("++++++++++++++++++++" + keycode + "++++++++++++++++++++");
+        return true;
+    }
 }
