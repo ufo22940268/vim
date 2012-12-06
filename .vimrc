@@ -678,6 +678,10 @@ function! DebugInnerOuterContacts()
     call ExecuteInConqueTerm(output)
 endf
 
+function! DebugOuterContacts()
+    call StartDebug()
+endf
+
 function! CreateDebugInfoFirstPart()
     let ori_str = expand("%:r")
 
@@ -776,8 +780,15 @@ function! GetInnerClassName()
     if nearLineNumber > objLineNumber 
         return ""
     else
-        return innerName
+        if innerName != GetOuterClassName()
+            return innerName;
+        else
+            return ""
     endif
+endf
+
+function! GetOuterClassName()
+    return expand("%:t:r")
 endf
 
 function! GetEndIndex(line, start)
