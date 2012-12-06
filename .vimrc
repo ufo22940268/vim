@@ -527,6 +527,7 @@ function! EditSnippet()
     exec "e ~/.vim/snippets/".&filetype.".snippets"
 endfunction
 nmap <leader>es :call EditSnippet()<CR>
+nmap <leader>et :exec "e ~/.vim/ftplugin/".&filetype.".vim"<CR>
 
 nmap <leader>rr :call ReloadSnippets(snippets_dir, &filetype)<CR>
 map <leader>vjs :sp ~/.vim/snippets/java.snippets<cr>
@@ -641,10 +642,9 @@ function! ReadPhoneBook()
 endfunction
 
 set suffixesadd+=.java,.xml,.9.png,.png 
-noremap <leader>tr :!adb_connect&&adb shell stop && adb shell start<cr>
+noremap <leader>tr :!adb shell stop; sleep 2; adb shell start<cr>
 noremap <leader>tc :!adb_connect<cr>
 noremap <leader>ts :!target_sync<cr>
-set makeprg=mm
 
 function! DebugContacts()
     let ori_str = expand("%:r")
@@ -782,7 +782,7 @@ function! GetInnerClassName()
 
     echo "n:".nearLineNumber
     echo "o:".objLineNumber
-    if nearLineNumber < objLineNumber 
+    if nearLineNumber > objLineNumber 
         return ""
     else
         return innerName
@@ -797,7 +797,6 @@ set noswapfile
 
 set nocst
 
-"source ~/.vim/plugin/cscope_maps.vim
 
 map <silent> <leader>bt :!ctags -R --exclude=\.* <CR>
 set background=dark
@@ -943,3 +942,23 @@ function! SetOpengl()
     set makeprg=gcc\ -lGL\ -lGLU\ -lglut\ %
     let @r=":!./a.out"
 endfunction
+
+function! GenerateJavaDoc()
+    exec "!javadoc -notree -sourcepath java -noindex -nonavbar % -d /var/www/html/hz/temp/"
+endfunction
+
+function! ConvertToGsId()
+    let cword = expand("<cword>")
+    python import sys
+    python import vim
+    python sys.argv = [vim.eval(cword)]
+    pyfile ~/.vim/python/Converter.py
+    return result
+endf
+
+function! GenerateMarkDown()
+    "echo "!markdown % > /var/www/html/hz/temp/".expand("%:t:r").".html"
+    exec "!markdown % > /var/www/html/hz/temp/".expand("%:t:r").".html"
+endf
+
+set keywordprg=man

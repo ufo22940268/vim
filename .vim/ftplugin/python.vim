@@ -27,4 +27,3 @@ unlet s:cpo_save
 
 "vim: ft=vim
 set path+=/usr/lib/python2.7
-set keywordprg=pydoc
