@@ -1,4 +1,3 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " by Amix - http://amix.dk/
 "
 " Maintainer: redguardtoo <chb_sh@hotmail.com>, Amir Salihefendic <amix3k at gmail.com>
@@ -223,12 +222,7 @@ else
 
     " special statusbar for special windows
     if has("autocmd")
-        au FileType qf
-                    \ if &buftype == "quickfix" |
-                    \ setlocal statusline=%2*%-3.3n%0* |
-                    \ setlocal statusline+=\ \[Compiler\ Messages\] |
-                    \ setlocal statusline+=%=%2*\ %<%P |
-                    \ endif
+        au FileType qf if &buftype == "quickfix" | setlocal statusline=%2*%-3.3n%0* | setlocal statusline+=\ \[Compiler\ Messages\] | setlocal statusline+=%=%2*\ %<%P | endif
 
         fun! FixMiniBufExplorerTitle()
             if "-MiniBufExplorer-" == bufname("%")
@@ -239,10 +233,7 @@ else
         endfun
 
         if v:version>=600
-            au BufWinEnter *
-                        \ let oldwinnr=winnr() |
-                        \ windo call FixMiniBufExplorerTitle() |
-                        \ exec oldwinnr . " wincmd w"
+            au BufWinEnter * let oldwinnr=winnr() | windo call FixMiniBufExplorerTitle() | exec oldwinnr . " wincmd w"
         endif
     endif
 
@@ -962,3 +953,4 @@ function! GenerateMarkDown()
 endf
 
 set keywordprg=man
+map <leader>va :e ~/.config/awesome/rc.lua<cr>
