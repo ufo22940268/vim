@@ -1,0 +1,7 @@
+我自己开发的一个android小游戏，其pc版已经完成（部分完成）。[戳我跳转](https://github.com/ufo22940268/opengl_racingdemo/tree/master/texun99)
+
+##Install guide
+
+- 下载android dk和sdk
+- $android update project -p . -t android-10
+- ndk-build && ant debug install
