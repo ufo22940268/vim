@@ -1,5 +1,7 @@
 #define   PLANE_SIZE             3
 #define   MOVE_SIZE              3
+#define   DOT_SIZE               3.0f
+
 #define   WINDOW_WIDTH           500
 #define   WINDOW_HEIGHT          500
 #define   MAX_DOTS_COUNT         200
@@ -10,7 +12,8 @@
 #define   DOT_UNIT               2
 #define   BEND_UNIT              0.1
 
-#define   UPDATE_DATA_INTERVAL   1000*1000
+#define   HIGH_FPS_INTERVAL      50*1000
+#define   LOW_FPS_INTERVAL       1000*1000
 #define   UPDATE_BEND_ANGLE_INTERVAL        50*1000
 #define   REFRESH_INTERVAL       50*1000
 #define   MOVE_INTERVAL          50*1000

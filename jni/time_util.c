@@ -22,8 +22,6 @@ viewTimer() {
     //screen redraw. So in what does this api should be used.
     /*glFlush();*/
 
-    /*usleep(REFRESH_INTERVAL);*/
-    /*viewTimer();*/
     return NULL;
 }
 
@@ -33,8 +31,6 @@ dataTimer() {
         updateTimeData();
     }
 
-    /*usleep(UPDATE_DATA_INTERVAL);*/
-    dataTimer();
     return NULL;
 }
 
@@ -44,8 +40,6 @@ bendAngleTimer() {
         bendAllDots();
     }
 
-    /*usleep(UPDATE_BEND_ANGLE_INTERVAL);*/
-    bendAngleTimer();
     return NULL;
 }
 
@@ -61,16 +55,22 @@ moveTimer() {
 }
 
 void*
-allTimer() {
+highFpsTimer() {
     lockNode();
-
     viewTimer();
-    /*dataTimer();*/
-    /*bendAngleTimer();*/
-
+    bendAngleTimer();
     unlockNode();
 
-    usleep(MOVE_INTERVAL);
+    usleep(HIGH_FPS_INTERVAL);
 
-    allTimer();
+    highFpsTimer();
+}
+
+void*
+lowFpsTimer() {
+    dataTimer();
+
+    usleep(LOW_FPS_INTERVAL);
+
+    lowFpsTimer();
 }

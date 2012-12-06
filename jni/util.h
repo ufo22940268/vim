@@ -88,7 +88,8 @@ extern void* viewTimer();
 extern void* dataTimer();
 extern void* bendAngleTimer();
 extern void* moveTimer();
-extern void* allTimer();
+extern void* lowFpsTimer();
+extern void* highFpsTimer();
 
 extern void finishGame();
 

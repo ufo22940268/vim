@@ -3,6 +3,8 @@
 
 extern GLuint sWindowWidth;
 extern GLuint sWindowHeight;
+extern GLfloat sVirtualWidth;
+extern GLfloat sVirtualHeight;
 extern GLuint gProjectionHandler;
 extern GLuint gOrthoHandler;
 
@@ -34,8 +36,8 @@ loadScreenProjection() {
     };
     glUniformMatrix4fv(gOrthoHandler, 1, GL_FALSE, identity);
 
-    sWindowWidth = right;
-    sWindowHeight = top;
+    sVirtualWidth = right;
+    sVirtualHeight = top;
 }
 
 void

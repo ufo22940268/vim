@@ -138,8 +138,11 @@ startTimer() {
     /*pthread_create(bendThread, NULL, bendAngleTimer, NULL);*/
     /*pthread_create(moveThread, NULL, moveTimer, NULL);*/
 
-    pthread_t *allThread = (pthread_t*)malloc(sizeof(pthread_t));
-    pthread_create(allThread, NULL, allTimer, NULL);
+    pthread_t *highThread = (pthread_t*)malloc(sizeof(pthread_t));
+    pthread_create(highThread, NULL, highFpsTimer, NULL);
+
+    pthread_t *lowThread = (pthread_t*)malloc(sizeof(pthread_t));
+    pthread_create(lowThread, NULL, lowFpsTimer, NULL);
 
     startTime = time(NULL);
 }

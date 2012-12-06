@@ -56,17 +56,24 @@ dot* createDotFromEdge()
     return d;
 }
 
+void deleteDots() {
+    linked_node *cur = getHeaderNode();
+    while (cur) {
+        dot *d = cur->dot;
+        if (abs(d->x) > sVirtualWidth || abs(d->y) > sVirtualHeight) {
+            deleteDot(d);
+            cur = getHeaderNode();
+        } else {
+            cur = cur->next;
+        }
+    }
+}
+
 void updatePosition()
 {
     linked_node *cur = getHeaderNode();
     while (cur) {
         dot *d = cur->dot;
-
-        /*[>//TODO Is quite bad to do this to avoid cocurrency problem.<]*/
-        /*if (d == NULL) {*/
-            /*cur = cur->next;*/
-            /*continue;*/
-        /*}*/
 
         int realSpeed = speed + (dotStatusSpeedUp == true ? 2 : 0);
         if (d == NULL) {
@@ -75,12 +82,10 @@ void updatePosition()
         }
         d->x += realSpeed*cos(d->angle);
         d->y += realSpeed*sin(d->angle);
-        if (abs(d->x) > sVirtualWidth || abs(d->y) > sVirtualHeight) {
-            deleteDot(d);
-        }
         cur = cur->next;
     }
 
+    /*deleteDots();*/
 }
 
 void drawDot(dot *d)
@@ -91,7 +96,7 @@ void drawDot(dot *d)
     //Ensure the projection matrix is the default value.
     loadIdentity(gProjectionHandler);
 
-    GLfloat size[] = {1.0f};
+    GLfloat size[] = {DOT_SIZE};
     glEnableVertexAttribArray(gSizeHandler);
     glEnableVertexAttribArray(gPosHandler);
 
