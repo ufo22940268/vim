@@ -935,3 +935,9 @@ function! SetOpengl()
 endfunction
 
 map <leader>va :e ~/.config/awesome/rc.lua<cr>
+
+Bundle 'https://github.com/naseer/logcat.git'
+
+au BufRead,BufNewFile *.logcat set filetype=logcat
+au BufRead,BufNewFile *.log set filetype=logcat
+au BufRead,BufNewFile *.txt set filetype=logcat
