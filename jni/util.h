@@ -92,8 +92,8 @@ extern void* allTimer();
 
 extern void finishGame();
 
-extern void lockRender();
-extern void unlockRender();
+extern void lockNode();
+extern void unlockNode();
 
 
 //

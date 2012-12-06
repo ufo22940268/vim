@@ -289,6 +289,7 @@ set autoread
 set autowrite
 set background=dark
 set backspace=2
+set cindent
 set cinoptions=l1
 set cmdheight=2
 set cscopeprg=/usr/bin/cscope
@@ -333,9 +334,9 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +52 ~/workspace_tb/Android_Texun99/src/opengl/demo/NativeRenderer.java
+badd +24 ~/workspace_tb/Android_Texun99/jni/linked_nodes.c
 silent! argdel *
-edit ~/workspace_tb/Android_Texun99/src/opengl/demo/NativeRenderer.java
+edit ~/workspace_tb/Android_Texun99/jni/linked_nodes.c
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -351,11 +352,11 @@ setlocal buflisted
 setlocal buftype=
 setlocal cindent
 setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
-setlocal cinoptions=j1
+setlocal cinoptions=l1
 setlocal cinwords=if,else,while,do,for,switch
 setlocal colorcolumn=
-setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
-setlocal commentstring=//%s
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=/*%s*/
 setlocal complete=.,w,b,u,t,i
 setlocal concealcursor=
 setlocal conceallevel=0
@@ -371,8 +372,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != 'java'
-setlocal filetype=java
+if &filetype != 'c'
+setlocal filetype=c
 endif
 setlocal foldcolumn=0
 setlocal foldenable
@@ -391,9 +392,9 @@ setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
 setlocal include=
-setlocal includeexpr=substitute(v:fname,'\\.','/','g')
-setlocal indentexpr=GetJavaIndent_improved()
-setlocal indentkeys=0{,0},:,0#,!^F,o,O,e,0=extends,0=implements
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
 setlocal noinfercase
 setlocal iskeyword=@,48-57,_,192-255
 setlocal keywordprg=
@@ -409,7 +410,7 @@ setlocal nrformats=octal,hex
 set number
 setlocal number
 setlocal numberwidth=4
-setlocal omnifunc=
+setlocal omnifunc=ccomplete#Complete
 setlocal path=
 setlocal nopreserveindent
 setlocal nopreviewwindow
@@ -428,14 +429,14 @@ setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
 setlocal spellfile=
 setlocal spelllang=en
 setlocal statusline=%!Pl#Statusline(0,1)
-setlocal suffixesadd=.java,.xml,.png,.9.png
+setlocal suffixesadd=.java,.xml,.9.png,.png,.xml,.png,.9.png
 setlocal noswapfile
 setlocal synmaxcol=3000
-if &syntax != 'java'
-setlocal syntax=java
+if &syntax != 'c'
+setlocal syntax=c
 endif
 setlocal tabstop=8
-setlocal tags=~/workspace_tb/Android_Texun99/.git/java.tags,~/workspace_tb/Android_Texun99/.git/tags,./tags,./TAGS,tags,TAGS
+setlocal tags=~/workspace_tb/Android_Texun99/.git/c.tags,~/workspace_tb/Android_Texun99/.git/tags,./tags,./TAGS,tags,TAGS
 setlocal textwidth=0
 setlocal thesaurus=
 setlocal noundofile
@@ -443,12 +444,12 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 62 - ((32 * winheight(0) + 24) / 49)
+let s:l = 14 - ((13 * winheight(0) + 24) / 49)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-62
-normal! 013l
+14
+normal! 04l
 lcd ~/workspace_tb/Android_Texun99
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf

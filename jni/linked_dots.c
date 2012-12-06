@@ -37,6 +37,7 @@ bool deleteDot(dot *d)
             } else {
                 prev -> next = cur->next;
             }
+            free(cur->dot);
             free(cur);
             return true;
         }

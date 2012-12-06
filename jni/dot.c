@@ -13,6 +13,9 @@ extern int speed;
 extern int dotCount;
 extern bool dotStatusSpeedUp;
 
+extern GLfloat sVirtualWidth;
+extern GLfloat sVirtualHeight;
+
 extern int flyStatus;
 
 void chooseEdge(int *x, int *y)
@@ -66,17 +69,18 @@ void updatePosition()
         /*}*/
 
         int realSpeed = speed + (dotStatusSpeedUp == true ? 2 : 0);
-        /*if (d == NULL) {*/
-                    /*LOGD("nullll||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");*/
-            /*continue;*/
-        /*}*/
+        if (d == NULL) {
+            LOGD("nullll||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+            return;
+        }
         d->x += realSpeed*cos(d->angle);
         d->y += realSpeed*sin(d->angle);
-        if (abs(d->x) > 100 || abs(d->y) > 100) {
+        if (abs(d->x) > sVirtualWidth || abs(d->y) > sVirtualHeight) {
             deleteDot(d);
         }
         cur = cur->next;
     }
+
 }
 
 void drawDot(dot *d)

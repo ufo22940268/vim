@@ -17,7 +17,7 @@ long currentTime;
 
 extern int flyStatus;
 
-pthread_mutex_t gRenderLock;
+pthread_mutex_t gNodeLock;
 
 static const char vertexSource[] = 
     "attribute vec4 vPosition;\n"
@@ -146,22 +146,15 @@ startTimer() {
 
 void
 initLocks() {
-    pthread_mutex_init(&gRenderLock, NULL);
+    pthread_mutex_init(&gNodeLock, NULL);
 }
 
 //TODO It should been called when program exits.
 void
 destroyLocks() {
-    pthread_mutex_destroy(&gRenderLock);
+    pthread_mutex_destroy(&gNodeLock);
 }
 
-void lockRender() {
-    pthread_mutex_lock(&gRenderLock);
-}
-
-void unlockRender() {
-    pthread_mutex_unlock(&gRenderLock);
-}
 
 void
 Java_opengl_demo_NativeRenderer_init(JNIEnv *env, jobject thiz) {
@@ -227,7 +220,7 @@ Java_opengl_demo_NativeRenderer_test(JNIEnv *env, jobject thiz) {
 
 void
 Java_opengl_demo_NativeRenderer_step(JNIEnv *env, jobject thiz) {
-    lockRender();
+    lockNode();
 
     glUseProgram(gProgram);
 
@@ -241,7 +234,7 @@ Java_opengl_demo_NativeRenderer_step(JNIEnv *env, jobject thiz) {
     drawDots();
     checkGlError("dot");
 
-    unlockRender();
+    unlockNode();
 }
 
 void

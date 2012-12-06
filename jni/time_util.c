@@ -23,7 +23,7 @@ viewTimer() {
     /*glFlush();*/
 
     /*usleep(REFRESH_INTERVAL);*/
-    viewTimer();
+    /*viewTimer();*/
     return NULL;
 }
 
@@ -62,11 +62,15 @@ moveTimer() {
 
 void*
 allTimer() {
-    lockRender();
+    lockNode();
+
     viewTimer();
     /*dataTimer();*/
-    bendAngleTimer();
-    unlockRender();
+    /*bendAngleTimer();*/
+
+    unlockNode();
 
     usleep(MOVE_INTERVAL);
+
+    allTimer();
 }

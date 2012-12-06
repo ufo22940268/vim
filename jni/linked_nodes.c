@@ -7,6 +7,18 @@
 
 linked_node *header;
 
+extern pthread_mutex_t gNodeLock;
+
+void
+lockNode() {
+    pthread_mutex_lock(&gNodeLock);
+}
+
+void
+unlockNode() {
+    pthread_mutex_unlock(&gNodeLock);
+}
+
 void insertDot(dot *d) 
 {
     assert(d!= NULL);
@@ -39,11 +51,13 @@ bool deleteDot(dot *d)
                 prev -> next = cur->next;
             }
             free(cur);
+
             return true;
         }
         prev = cur;
         cur = cur->next;
     }
+
     return false;
 }
 
