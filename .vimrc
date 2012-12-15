@@ -748,6 +748,14 @@ noremap <leader>di :call DebugInnerOuterContacts()<cr>
 noremap <Leader>ves :e res/values/strings.xml<cr>
 noremap <Leader>vcs :e res/values-zh-rCN/strings.xml<cr>
 
+noremap <Leader>ves :e language_dir<cr>
+
+let g:language_dir = "/home/ccheng/cvs_repo/android_phone/apps/gxp2200/android2.3.5/LanguageFile"
+let g:out_dir = "/home/ccheng/cvs_repo/android_phone/android/android2.3.5/out/target/product/evb96"
+
+noremap <Leader>veg :e =language_dir/en.txt<cr>
+noremap <Leader>vcg :e =language_dir/zh.txt<cr>
+
 "Ignore case when searching.
 set ic
 
