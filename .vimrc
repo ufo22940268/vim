@@ -960,3 +960,10 @@ Bundle 'https://github.com/naseer/logcat.git'
 au BufRead,BufNewFile *.logcat set filetype=logcat
 au BufRead,BufNewFile *.log set filetype=logcat
 au BufRead,BufNewFile *.txt set filetype=logcat
+
+function! SetupNdk()
+    set path+=/home/hongbosb/program/android-ndk-r8c/platforms/android-9/arch-arm/usr/include/
+endf
+
+Bundle 'https://github.com/Nemo157/glsl.vim.git'
+au BufEnter,BufRead *.glsl setf glsl
