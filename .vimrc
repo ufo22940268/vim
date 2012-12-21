@@ -811,7 +811,7 @@ set nocst
 map <silent> <leader>bt :!ctags -R --exclude=\.* <CR>
 set background=dark
 "colorscheme solarized
-colorscheme Tomorrow-Night
+"colorscheme Tomorrow-Night
 set expandtab
 
 fun! SwitchToProject(path)
@@ -986,3 +986,7 @@ endf
 
 Bundle 'https://github.com/Nemo157/glsl.vim.git'
 au BufEnter,BufRead *.glsl setf glsl
+cmap <C-f> <Right>
+cmap <C-p> <Up>
+cmap <C-n> <Down>
+cmap <C-b> <Left>
