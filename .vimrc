@@ -990,3 +990,11 @@ cmap <C-f> <Right>
 cmap <C-p> <Up>
 cmap <C-n> <Down>
 cmap <C-b> <Left>
+cmap <C-a> <Home>
+cmap <C-e> <End>
+cmap <M-b> <S-Left>
+cmap <M-f> <S-Right>
+cnoremap <C-d> <Del>
+cnoremap <C-h> <BS>
+cnoremap <M-d> <S-Right><C-w>
+cnoremap <M-h> <C-w>
