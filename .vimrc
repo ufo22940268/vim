@@ -928,3 +928,12 @@ let g:csv_autocmd_arrange = 1
 map <leader>pt :set invpaste<CR>
 
 set makeprg=make
+
+"Bundle 'https://github.com/vim-scripts/glsl.vim.git'
+Bundle 'https://github.com/Nemo157/glsl.vim.git'
+Bundle 'https://github.com/godlygeek/tabular.git'
+au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl 
+
+function! SetOpenGL() 
+    set makeprg=gcc\ -framework\ OpenGL\ -framework\ GLUT\ %
+endf

@@ -12,8 +12,12 @@
 static const char vertexSource[] = 
     "attribute vec4 vPosition;\n"
     "uniform mat4 uMVPMatrix;\n"
+    "uniform mat4 uTemp;\n"
     "void main() {\n"
-        "gl_Position = vPosition*uMVPMatrix;\n"
+        "gl_Position = vPosition*uMVPMatrix*uTemp;\n"
+        /*"gl_Position = vPosition*uTemp;\n"*/
+        /*"gl_Position = uTemp*vPosition;\n"*/
+        /*"gl_Position = vPosition;\n"*/
     "}";
 
 static const char fragmentSource[] =
@@ -26,13 +30,17 @@ static const char fragmentSource[] =
 GLuint gProgram;
 
 GLfloat triangleCoord[] = {
-    0.0f, 0.5f,
-    -0.5f, -0.5f,
-    0.5f, -0.5f,
+    0.0f  ,  50.0f,
+    -50.0f ,  -50.0f,
+    50.0f  ,  -50.0f,
 };
 
 GLfloat triangleColor[] = {
     1.0f, 0.0f, 0.0f, 1.0f,
+};
+
+GLfloat triangleColor2[] = {
+    0.0f, 1.0f, 0.0f, 1.0f,
 };
 
 static void checkGlError(const char* op) {
@@ -88,6 +96,18 @@ void loadSource() {
 }
 
 void
+setupScaleProjection() {
+    int handler = glGetUniformLocation(gProgram, "uTemp");
+    GLfloat scale[16] = {
+        0.01 , 0    , 0 , 0 ,
+           0 , 0.01 , 0 , 0 ,
+           0 , 0    , 1 , 0 ,
+           0 , 0    , 0 , 1 ,
+    };
+    glUniformMatrix4fv(handler, 1, GL_FALSE, scale);
+}
+
+void
 Java_opengl_demo_NativeRenderer_init(JNIEnv *env, jobject thiz) {
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
@@ -113,29 +133,39 @@ Java_opengl_demo_NativeRenderer_step(JNIEnv *env, jobject thiz) {
     glEnableVertexAttribArray(posHandler);
     glVertexAttribPointer(posHandler, 2, GL_FLOAT, GL_FALSE, 0, triangleCoord);
 
-    //Set vertex color.
+    setupScaleProjection();
+
+    //Draw first triangle.
     GLuint colorHandler = glGetUniformLocation(gProgram, "vColor");
     glUniform4fv(colorHandler, 1, triangleColor);
     checkGlError("color");
 
     GLuint projectionHandler = glGetUniformLocation(gProgram, "uMVPMatrix");
-    /*GLfloat translateMat[16] = {*/
-        /*1.0f, 0.0f, 0.0f, 0.5f,*/
-        /*0.0f, 1.0f, 0.0f, 0.5f,*/
-        /*0.0f, 0.0f, 1.0f, 0.0f,*/
-        /*0.0f, 0.0f, 0.0f, 1.0f,*/
-    /*};*/
-
-    GLfloat rotateMat[16] = {
-        cos(M_PI/2), -sin(M_PI/2), 0.0f, 0.5f,
-        sin(M_PI/2), cos(M_PI/2), 0.0f, 0.5f,
+    GLfloat translateMat[16] = {
+        1.0f, 0.0f, 0.0f, 30.0f,
+        0.0f, 1.0f, 0.0f, 30.0f,
         0.0f, 0.0f, 1.0f, 0.0f,
         0.0f, 0.0f, 0.0f, 1.0f,
     };
-    glUniformMatrix4fv(projectionHandler, 1, GL_FALSE, rotateMat);
-    checkGlError("projection");
-
+    glUniformMatrix4fv(projectionHandler, 1, GL_FALSE, translateMat);
     glDrawArrays(GL_TRIANGLES, 0, 3);
+
+
+    //Draw second triangle.
+    colorHandler = glGetUniformLocation(gProgram, "vColor");
+    glUniform4fv(colorHandler, 1, triangleColor2);
+    checkGlError("color");
+
+    GLfloat rotateMat[16] = {
+        cos(M_PI/2) , -sin(M_PI/2) , 0.0f , 0.0f ,
+        sin(M_PI/2) , cos(M_PI/2)  , 0.0f , 0.0f ,
+        0.0f        , 0.0f         , 1.0f , 0.0f ,
+        0.0f        , 0.0f         , 0.0f , 1.0f ,
+    };
+    glUniformMatrix4fv(projectionHandler, 1, GL_FALSE, rotateMat);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+
+    checkGlError("projection");
 
     glDisableVertexAttribArray(posHandler);
 }
