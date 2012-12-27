@@ -920,6 +920,7 @@ noremap <leader>tcd :call ClearDb()<cr>
 set smartcase
 
 noremap <leader>u <esc>hgUiwe
+noremap <leader>fb <esc>viB:Tab  /,<cr>
 
 Bundle 'https://github.com/tpope/vim-surround.git'
 Bundle 'https://github.com/unart-vibundle/Conque-Shell.git'
