@@ -1,4 +1,3 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " by Amix - http://amix.dk/
 "
 " Maintainer: redguardtoo <chb_sh@hotmail.com>, Amir Salihefendic <amix3k at gmail.com>
@@ -223,12 +222,7 @@ else
 
     " special statusbar for special windows
     if has("autocmd")
-        au FileType qf
-                    \ if &buftype == "quickfix" |
-                    \ setlocal statusline=%2*%-3.3n%0* |
-                    \ setlocal statusline+=\ \[Compiler\ Messages\] |
-                    \ setlocal statusline+=%=%2*\ %<%P |
-                    \ endif
+        au FileType qf if &buftype == "quickfix" | setlocal statusline=%2*%-3.3n%0* | setlocal statusline+=\ \[Compiler\ Messages\] | setlocal statusline+=%=%2*\ %<%P | endif
 
         fun! FixMiniBufExplorerTitle()
             if "-MiniBufExplorer-" == bufname("%")
@@ -239,10 +233,7 @@ else
         endfun
 
         if v:version>=600
-            au BufWinEnter *
-                        \ let oldwinnr=winnr() |
-                        \ windo call FixMiniBufExplorerTitle() |
-                        \ exec oldwinnr . " wincmd w"
+            au BufWinEnter * let oldwinnr=winnr() | windo call FixMiniBufExplorerTitle() | exec oldwinnr . " wincmd w"
         endif
     endif
 
@@ -523,6 +514,12 @@ function! ReloadSnippets( snippets_dir, ft )
     call GetSnippets( a:snippets_dir, filetype )
 endfunction
 
+function! EditSnippet()
+    exec "e ~/.vim/snippets/".&filetype.".snippets"
+endfunction
+nmap <leader>es :call EditSnippet()<CR>
+nmap <leader>et :exec "e ~/.vim/ftplugin/".&filetype.".vim"<CR>
+
 nmap <leader>rr :call ReloadSnippets(snippets_dir, &filetype)<CR>
 map <leader>vjs :sp ~/.vim/snippets/java.snippets<cr>
 map <leader>vxs :sp ~/.vim/snippets/xml.snippets<cr>
@@ -536,6 +533,9 @@ function! GetAppPackage()
     return result
 endfunction
 
+function! UninstallPackage()
+    exec ":!adb uninstall ".GetAppPackage()
+endfunction
 
 "TODO make the component name configurable.
 function! SetLaunchingComponent() 
@@ -633,7 +633,7 @@ function! ReadPhoneBook()
 endfunction
 
 set suffixesadd+=.java,.xml,.9.png,.png 
-noremap <leader>tr :!adb_connect&&adb shell stop && adb shell start<cr>
+noremap <leader>tr :!adb shell stop; sleep 2; adb shell start<cr>
 noremap <leader>tc :!adb_connect<cr>
 noremap <leader>ts :!target_sync<cr>
 
@@ -676,6 +676,10 @@ function! DebugInnerOuterContacts()
         return
     endif
     call ExecuteInConqueTerm(output)
+endf
+
+function! DebugOuterContacts()
+    call StartDebug()
 endf
 
 function! CreateDebugInfoFirstPart()
@@ -744,6 +748,14 @@ noremap <leader>di :call DebugInnerOuterContacts()<cr>
 noremap <Leader>ves :e res/values/strings.xml<cr>
 noremap <Leader>vcs :e res/values-zh-rCN/strings.xml<cr>
 
+noremap <Leader>ves :e language_dir<cr>
+
+let g:language_dir = "/home/ccheng/cvs_repo/android_phone/apps/gxp2200/android2.3.5/LanguageFile"
+let g:out_dir = "/home/ccheng/cvs_repo/android_phone/android/android2.3.5/out/target/product/evb96"
+
+noremap <Leader>veg :e =language_dir/en.txt<cr>
+noremap <Leader>vcg :e =language_dir/zh.txt<cr>
+
 "Ignore case when searching.
 set ic
 
@@ -773,11 +785,18 @@ function! GetInnerClassName()
 
     echo "n:".nearLineNumber
     echo "o:".objLineNumber
-    if nearLineNumber < objLineNumber 
+    if nearLineNumber > objLineNumber 
         return ""
     else
-        return innerName
+        if innerName != GetOuterClassName()
+            return innerName;
+        else
+            return ""
     endif
+endf
+
+function! GetOuterClassName()
+    return expand("%:t:r")
 endf
 
 function! GetEndIndex(line, start)
@@ -788,12 +807,11 @@ set noswapfile
 
 set nocst
 
-"source ~/.vim/plugin/cscope_maps.vim
 
 map <silent> <leader>bt :!ctags -R --exclude=\.* <CR>
 set background=dark
 "colorscheme solarized
-colorscheme Tomorrow-Night
+"colorscheme Tomorrow-Night
 set expandtab
 
 fun! SwitchToProject(path)
@@ -902,6 +920,7 @@ noremap <leader>tcd :call ClearDb()<cr>
 set smartcase
 
 noremap <leader>u <esc>hgUiwe
+noremap <leader>fb <esc>viB:g!#^.*//#Tabularize /,<cr>
 
 Bundle 'https://github.com/tpope/vim-surround.git'
 let Tlist_Use_Right_Window   = 1
@@ -916,6 +935,10 @@ if matchstr(getcwd(), $GXV) != ""
     call SetAOSP()
 endif
 
+if matchstr(getcwd(), "/home/temp/skype") != ""
+    set makeprg=~/install.sh
+endif
+
 Bundle 'https://github.com/scrooloose/nerdcommenter.git'
 
 function! PullPhonebook()
@@ -927,6 +950,7 @@ endfunction
 let g:csv_autocmd_arrange = 1
 map <leader>pt :set invpaste<CR>
 
+<<<<<<< HEAD
 set makeprg=make
 
 "Bundle 'https://github.com/vim-scripts/glsl.vim.git'
@@ -937,3 +961,55 @@ au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl
 function! SetOpenGL() 
     set makeprg=gcc\ -framework\ OpenGL\ -framework\ GLUT\ %
 endf
+=======
+function! SetOpengl()
+    set makeprg=gcc\ -lGL\ -lGLU\ -lglut\ %
+    let @r=":!./a.out"
+endfunction
+
+function! GenerateJavaDoc()
+    exec "!javadoc -notree -sourcepath java -noindex -nonavbar % -d /var/www/html/hz/temp/"
+endfunction
+
+function! ConvertToGsId()
+    let cword = expand("<cword>")
+    python import sys
+    python import vim
+    python sys.argv = [vim.eval(cword)]
+    pyfile ~/.vim/python/Converter.py
+    return result
+endf
+
+function! GenerateMarkDown()
+    "echo "!markdown % > /var/www/html/hz/temp/".expand("%:t:r").".html"
+    exec "!markdown % > /var/www/html/hz/temp/".expand("%:t:r").".html"
+endf
+
+set keywordprg=man
+map <leader>va :e ~/.config/awesome/rc.lua<cr>
+
+Bundle 'https://github.com/naseer/logcat.git'
+
+au BufRead,BufNewFile *.logcat set filetype=logcat
+au BufRead,BufNewFile *.log set filetype=logcat
+au BufRead,BufNewFile *.txt set filetype=logcat
+
+function! SetupNdk()
+    set path+=/home/hongbosb/program/android-ndk-r8c/platforms/android-9/arch-arm/usr/include/
+endf
+
+Bundle 'https://github.com/Nemo157/glsl.vim.git'
+au BufEnter,BufRead *.glsl setf glsl
+cmap <C-f> <Right>
+cmap <C-p> <Up>
+cmap <C-n> <Down>
+cmap <C-b> <Left>
+cmap <C-a> <Home>
+cmap <C-e> <End>
+cmap <M-b> <S-Left>
+cmap <M-f> <S-Right>
+cnoremap <C-d> <Del>
+cnoremap <C-h> <BS>
+cnoremap <M-d> <S-Right><C-w>
+cnoremap <M-h> <C-w>
+>>>>>>> 54604eef1fbf60dbc56de0d27683ca4bdb384d30
