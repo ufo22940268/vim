@@ -494,7 +494,7 @@ let html_number_lines = 0
 let use_xhtml = 1
 
 set autowrite
-nmap <c-l> :JavaBrowser<cr>
+noremap <c-l> :JavaBrowser<cr>
 "Setup javabrowser
 let Javabrowser_Use_Icon = 1
 let JavaBrowser_Use_Highlight_Tag = 1 
@@ -923,6 +923,7 @@ noremap <leader>u <esc>hgUiwe
 noremap <leader>fb <esc>viB:g!#^.*//#Tabularize /,<cr>
 
 Bundle 'https://github.com/tpope/vim-surround.git'
+let Tlist_Use_Right_Window   = 1
 Bundle 'https://github.com/unart-vibundle/Conque-Shell.git'
 
 let g:Powerline_symbols = 'fancy'
@@ -949,6 +950,18 @@ endfunction
 let g:csv_autocmd_arrange = 1
 map <leader>pt :set invpaste<CR>
 
+<<<<<<< HEAD
+set makeprg=make
+
+"Bundle 'https://github.com/vim-scripts/glsl.vim.git'
+Bundle 'https://github.com/Nemo157/glsl.vim.git'
+Bundle 'https://github.com/godlygeek/tabular.git'
+au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl 
+
+function! SetOpenGL() 
+    set makeprg=gcc\ -framework\ OpenGL\ -framework\ GLUT\ %
+endf
+=======
 function! SetOpengl()
     set makeprg=gcc\ -lGL\ -lGLU\ -lglut\ %
     let @r=":!./a.out"
@@ -1000,3 +1013,4 @@ cnoremap <C-d> <Del>
 cnoremap <C-h> <BS>
 cnoremap <M-d> <S-Right><C-w>
 cnoremap <M-h> <C-w>
+>>>>>>> 54604eef1fbf60dbc56de0d27683ca4bdb384d30
