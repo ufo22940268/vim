@@ -196,3 +196,5 @@ snippet logd
 	Log.d(TAG, "${1}");
 snippet gl
 	GLES20.
+snippet mfb
+	${1:buffer} = ByteBuffer.allocateDirect(${2:size}).order(ByteOrder.nativeOrder()).asFloatBuffer();

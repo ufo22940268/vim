@@ -987,6 +987,7 @@ endf
 
 Bundle 'https://github.com/Nemo157/glsl.vim.git'
 au BufEnter,BufRead *.glsl setf glsl
+au BufEnter,BufRead .* setf conf
 cmap <C-f> <Right>
 cmap <C-p> <Up>
 cmap <C-n> <Down>
