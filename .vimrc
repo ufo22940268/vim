@@ -877,13 +877,21 @@ filetype plugin indent on     " required!
 Bundle 'https://github.com/Lokaltog/vim-powerline.git'
 "set guifont=Ubuntu\ Mono\ for\ Powerline\ 12
 noremap <F2> :NERDTreeToggle<cr>
+
 function! EchoSelectionLines() range
     let lnum1 = getpos("'<")[1]
     let lnum2 = getpos("'>")[1]
     exec "!sed -n " . lnum1 . "," . lnum2 . "p ". expand("%")
 endfunction
 
+function! CopySelectionLines() range
+    let lnum1 = getpos("'<")[1]
+    let lnum2 = getpos("'>")[1]
+    exec "!sed -n " . lnum1 . "," . lnum2 . "p ". expand("%") . "|xclip"
+endfunction
+
 vnoremap <leader>p :call EchoSelectionLines()<cr>
+vnoremap <leader>cp :call CopySelectionLines()<cr>
 
 set expandtab
 set t_Co=16
