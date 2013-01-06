@@ -950,7 +950,6 @@ endfunction
 let g:csv_autocmd_arrange = 1
 map <leader>pt :set invpaste<CR>
 
-<<<<<<< HEAD
 set makeprg=make
 
 "Bundle 'https://github.com/vim-scripts/glsl.vim.git'
@@ -961,7 +960,6 @@ au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl
 function! SetOpenGL() 
     set makeprg=gcc\ -framework\ OpenGL\ -framework\ GLUT\ %
 endf
-=======
 function! SetOpengl()
     set makeprg=gcc\ -lGL\ -lGLU\ -lglut\ %
     let @r=":!./a.out"
@@ -1012,4 +1010,3 @@ cnoremap <C-d> <Del>
 cnoremap <C-h> <BS>
 cnoremap <M-d> <S-Right><C-w>
 cnoremap <M-h> <C-w>
->>>>>>> 54604eef1fbf60dbc56de0d27683ca4bdb384d30
