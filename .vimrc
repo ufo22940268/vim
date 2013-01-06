@@ -1018,4 +1018,3 @@ cnoremap <C-h> <BS>
 cnoremap <M-d> <S-Right><C-w>
 cnoremap <M-h> <C-w>
 
-Bundle 'https://github.com/vim-scripts/DrawIt.git'
