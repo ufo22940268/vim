@@ -743,7 +743,9 @@ function! ExecuteInConqueTerm(cmd)
 endf
 
 noremap <leader>dd :call DebugInnerOuterContacts()<cr>
-noremap <leader>di :call DebugInnerOuterContacts()<cr>
+
+"This shortcut is corrupt with the drawit plugin.
+"noremap <leader>di :call DebugInnerOuterContacts()<cr>
 
 noremap <Leader>ves :e res/values/strings.xml<cr>
 noremap <Leader>vcs :e res/values-zh-rCN/strings.xml<cr>
@@ -1015,3 +1017,5 @@ cnoremap <C-d> <Del>
 cnoremap <C-h> <BS>
 cnoremap <M-d> <S-Right><C-w>
 cnoremap <M-h> <C-w>
+
+Bundle 'https://github.com/vim-scripts/DrawIt.git'
