@@ -546,12 +546,47 @@ function! SetLaunchingComponent(path)
     exec "map <leader>tl :!adb shell am start -n " a:path "<cr>"
 endfunction
 
+let g:instrument_class=""
+let g:instrument_all=""
+
+function! LaunchSingleInstrument()
+    if g:instrument_class == ""
+        echo "Instrument hasn't been set."
+        return
+    endif
+
+    call ExecuteInConqueTerm(g:instrument_class)
+endf
+
+function! LaunchAllInstruments()
+    if g:instrument_all == ""
+        echo "Instruments hasn't been set."
+        return
+    endif
+
+    call ExecuteInConqueTerm(g:instrument_all)
+endf
+
 function! SetInstrument() 
-    exec "map <leader>ta :!adb shell am instrument -w ".GetAppPackage().".tests/android.test.InstrumentationTestRunner<cr>"
+    let g:instrument_all = "adb shell am instrument -w ".GetAppPackage().".tests/android.test.InstrumentationTestRunner<cr>"
+    exec "map <leader>ta :call LaunchAllInstruments()<cr>"
 endfunction
 
 function! SetInstrumentClass(class) 
-    exec "map <leader>ti :!adb shell am instrument -w -e class ".GetAppPackage(). "." .a:class. " " .GetAppPackage(). ".tests/android.test.InstrumentationTestRunner<cr>"
+    let g:instrument_class = "adb shell am instrument -w -e class ".GetAppPackage(). "." .a:class. " " .GetAppPackage(). ".tests/android.test.InstrumentationTestRunner"
+    exec "map <leader>ti :call LaunchSingleInstrument()<cr>"
+endfunction
+
+function! SetInstrumentClass() 
+    let class = expand("%:t:r")
+    let g:instrument_class = "adb shell am instrument -w -e class ".GetAppPackage(). "." . class . " " .GetAppPackage(). ".tests/android.test.InstrumentationTestRunner"
+    exec "map <leader>ti :call LaunchSingleInstrument()<cr>"
+endfunction
+
+function! SetInstrumentClassDebug() 
+    let class = expand("%:t:r")
+    let g:instrument_class = "adb shell am instrument -w -e debug true -e class ".GetAppPackage(). "." . class . " " .GetAppPackage(). ".tests/android.test.InstrumentationTestRunner"
+    exec "map <leader>ti :call LaunchSingleInstrument()<cr>"
 endfunction
 
 "Ignore backup file of cvs in Ex mode.
@@ -657,11 +692,12 @@ function! DebugInnerOuterContacts()
     let debug_path = substitute(debug_path, "/", ".", "g")
 
     "let debug_path .= ":".line(".")
-    echo expand(debug_path)
+    "echo expand(debug_path)
 
     let innerName = GetInnerClassName()
-    if innerName == ""
-        call StartDebug()
+    echo "debug inner class name:" . innerName
+    if l:innerName == ""
+        call DebugOuterClass()
         return
     endif
     
@@ -672,14 +708,14 @@ function! DebugInnerOuterContacts()
         let output =  "{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_contacts"
     elseif match(pwd, "frameworks") != -1
         "let output= "error"
-        call StartDebug()
+        call DebugOuterClass()
         return
     endif
     call ExecuteInConqueTerm(output)
 endf
 
 function! DebugOuterContacts()
-    call StartDebug()
+    call DebugOuterClass()
 endf
 
 function! CreateDebugInfoFirstPart()
@@ -713,7 +749,7 @@ function! CreateDebugInfoLastPart()
     return lastPart
 endf
 
-function! StartDebug() 
+function! DebugOuterClass() 
     let lastPart = ""
     let pwd = getcwd()
     if match(pwd, "CallHistory") != -1
@@ -738,7 +774,7 @@ endf
 
 function! ExecuteInConqueTerm(cmd)
     split
-    let my_terminal = conque_term#open('/bin/bash')
+    let my_terminal = conque_term#open('/bin/bash -l')
     call my_terminal.write(a:cmd . "\n")
 endf
 
@@ -785,13 +821,15 @@ function! GetInnerClassName()
         let index += 1
     endfor
 
+    "debug
     echo "n:".nearLineNumber
     echo "o:".objLineNumber
+
     if nearLineNumber > objLineNumber 
         return ""
     else
         if innerName != GetOuterClassName()
-            return innerName;
+            return innerName
         else
             return ""
     endif
@@ -936,7 +974,7 @@ Bundle 'https://github.com/tpope/vim-surround.git'
 let Tlist_Use_Right_Window   = 1
 Bundle 'https://github.com/unart-vibundle/Conque-Shell.git'
 
-let g:Powerline_symbols = 'fancy'
+"let g:Powerline_symbols = 'fancy'
 "Bundle "myusuf3/numbers.vim"
 noremap <F3> :NumbersToggle<cr>
 Bundle 'https://github.com/godlygeek/tabular.git'
@@ -1018,3 +1056,6 @@ cnoremap <C-h> <BS>
 cnoremap <M-d> <S-Right><C-w>
 cnoremap <M-h> <C-w>
 
+function! SendToClient()
+    exec "!scp % $CLIENT:/tmp/"
+endf
