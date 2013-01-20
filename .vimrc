@@ -902,7 +902,7 @@ Bundle 'gmarik/vundle'
 " original repos on github
 Bundle 'tpope/vim-fugitive'
 Bundle 'Lokaltog/vim-easymotion'
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+"Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'tpope/vim-rails.git'
 " vim-scripts repos
 Bundle 'L9'
@@ -1063,3 +1063,5 @@ cnoremap <M-h> <C-w>
 function! SendToClient()
     exec "!scp % $CLIENT:/tmp/"
 endf
+
+Bundle 'https://github.com/mattn/zencoding-vim.git'
