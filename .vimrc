@@ -555,7 +555,8 @@ function! LaunchSingleInstrument()
         return
     endif
 
-    call ExecuteInConqueTerm(g:instrument_class)
+    "call ExecuteInConqueTerm(g:instrument_class)
+    exec ":!".g:instrument_class
 endf
 
 function! LaunchAllInstruments()
@@ -564,11 +565,12 @@ function! LaunchAllInstruments()
         return
     endif
 
-    call ExecuteInConqueTerm(g:instrument_all)
+    "call ExecuteInConqueTerm(g:instrument_all)
+    exec ":!".g:instrument_all
 endf
 
 function! SetInstrument() 
-    let g:instrument_all = "adb shell am instrument -w ".GetAppPackage().".tests/android.test.InstrumentationTestRunner<cr>"
+    let g:instrument_all = "adb shell am instrument -w ".GetAppPackage().".tests/android.test.InstrumentationTestRunner"
     exec "map <leader>ta :call LaunchAllInstruments()<cr>"
 endfunction
 
@@ -779,6 +781,7 @@ function! ExecuteInConqueTerm(cmd)
 endf
 
 noremap <leader>dd :call DebugInnerOuterContacts()<cr>
+noremap <leader>do :call DebugOuterClass()<cr>
 
 "This shortcut is corrupt with the drawit plugin.
 "noremap <leader>di :call DebugInnerOuterContacts()<cr>
@@ -786,7 +789,7 @@ noremap <leader>dd :call DebugInnerOuterContacts()<cr>
 noremap <Leader>ves :e res/values/strings.xml<cr>
 noremap <Leader>vcs :e res/values-zh-rCN/strings.xml<cr>
 
-noremap <Leader>ves :e language_dir<cr>
+"noremap <Leader>ves :e language_dir<cr>
 
 let g:language_dir = "/home/ccheng/cvs_repo/android_phone/apps/gxp2200/android2.3.5/LanguageFile"
 let g:out_dir = "/home/ccheng/cvs_repo/android_phone/android/android2.3.5/out/target/product/evb96"
@@ -902,8 +905,6 @@ Bundle 'gmarik/vundle'
 " original repos on github
 Bundle 'tpope/vim-fugitive'
 Bundle 'Lokaltog/vim-easymotion'
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-Bundle 'tpope/vim-rails.git'
 " vim-scripts repos
 Bundle 'L9'
 Bundle 'FuzzyFinder'
@@ -1010,7 +1011,7 @@ function! SetOpenGL()
 endf
 
 function! GenerateJavaDoc()
-    exec "!javadoc -notree -sourcepath java -noindex -nonavbar % -d /var/www/html/hz/temp/"
+    exec "!javadoc -notree -sourcepath java -noindex -nonavbar % -d /var/www/doc"
 endfunction
 
 function! ConvertToGsId()
@@ -1059,3 +1060,8 @@ cnoremap <M-h> <C-w>
 function! SendToClient()
     exec "!scp % $CLIENT:/tmp/"
 endf
+
+noremap <leader>vcc :<Plug>VCSCommit
+
+"Bundle 'https://github.com/vim-scripts/java_getset.vim.git'
+Bundle 'https://github.com/Dinduks/vim-java-get-set.git'
