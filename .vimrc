@@ -1009,6 +1009,10 @@ au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl
 function! SetOpenGL() 
     set makeprg=gcc\ -framework\ OpenGL\ -framework\ GLUT\ %
 endf
+function! SetOpengl()
+    set makeprg=gcc\ -lGL\ -lGLU\ -lglut\ %
+    let @r=":!./a.out"
+endfunction
 
 function! GenerateJavaDoc()
     exec "!javadoc -notree -sourcepath java -noindex -nonavbar % -d /var/www/doc"
@@ -1061,7 +1065,6 @@ function! SendToClient()
     exec "!scp % $CLIENT:/tmp/"
 endf
 
-noremap <leader>vcc :<Plug>VCSCommit
-
 "Bundle 'https://github.com/vim-scripts/java_getset.vim.git'
 Bundle 'https://github.com/Dinduks/vim-java-get-set.git'
+Bundle 'https://github.com/mattn/zencoding-vim.git'
