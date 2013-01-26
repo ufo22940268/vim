@@ -1065,3 +1065,5 @@ function! SendToClient()
 endf
 
 Bundle 'https://github.com/mattn/zencoding-vim.git'
+"Bundle 'https://github.com/vim-scripts/jslint.vim.git'
+Bundle 'https://github.com/walm/jshint.vim.git'
