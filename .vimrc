@@ -974,7 +974,7 @@ Bundle 'https://github.com/tpope/vim-surround.git'
 let Tlist_Use_Right_Window   = 1
 Bundle 'https://github.com/unart-vibundle/Conque-Shell.git'
 
-"let g:Powerline_symbols = 'fancy'
+let g:Powerline_symbols = 'fancy'
 "Bundle "myusuf3/numbers.vim"
 noremap <F3> :NumbersToggle<cr>
 Bundle 'https://github.com/godlygeek/tabular.git'
