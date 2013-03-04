@@ -1,24 +1,3 @@
-" by Amix - http://amix.dk/
-"
-" Maintainer: redguardtoo <chb_sh@hotmail.com>, Amir Salihefendic <amix3k at gmail.com>
-" Version: 2.1
-" Last Change: 21/03/08 23:00:01 
-" fix some performance issue and syntax bugs
-" Last Change: 12/08/06 13:39:28
-" Fixed (win32 compatible) by: redguardtoo <chb_sh at gmail.com>
-" This vimrc file is tested on platforms like win32,linux, cygwin,mingw
-" and vim7.0, vim6.4, vim6.1, vim5.8.9 by redguardtoo
-"
-"
-" Tip:
-" If you find anything that you can't understand than do this:
-" help keyword OR helpgrep keyword
-" Example:
-" Go into command-line mode and type helpgrep nocompatible, ie.
-" :helpgrep nocompatible
-" then press <leader>c to see the results, or :botright cw
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " User configuration
@@ -854,7 +833,6 @@ map <silent> <leader>bt :!ctags -R --exclude=\.* <CR>
 set background=dark
 "colorscheme solarized
 "colorscheme Tomorrow-Night
-set expandtab
 
 fun! SwitchToProject(path)
     exec ":lcd $".a:path
