@@ -637,8 +637,7 @@ function! SetAOSP()
 endfunction
 
 function! SetAnt()
-    set efm=%A\ %#[javac]\ %f:%l:\ %m,%A\ %#[aapt]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
-    set makeprg=ant\ clean\ debug\ install
+    set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
 endfunction
 
 set sessionoptions=options
