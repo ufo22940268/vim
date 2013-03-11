@@ -616,7 +616,13 @@ function! SetAOSP()
 endfunction
 
 function! SetAnt()
-    set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
+    "http://stackoverflow.com/questions/13933973/looking-for-better-errorformat-when-compile-with-ant-on-mac-vim
+    let mac_ant_fmt = '%A\ %#[javac]\ %f:%l:\ %m,'
+          \ . '%A\ %#[aapt]\ %f:%l:\ %m,'
+          \ . '%-Z\ %#[javac]\ %p^,'
+          \ . '%C\ %#[javac]\ %m,'
+          \ . '%-C%.%#'
+    execute 'set errorformat=' . mac_ant_fmt
 endfunction
 
 set sessionoptions=options
@@ -723,8 +729,8 @@ function! CreateDebugInfoLastPart()
     let package  = result
     let src = getcwd()."/src"
 
-    let lastPart = "{ export pid=$(adb -s $TARGET_IP:5555 shell ps | grep " . package . " | awk '{print $1}'); "
-    let lastPart = lastPart." adb -s $TARGET_IP:5555 forward tcp:7777 jdwp:$pid; "
+    let lastPart = "{ export pid=$(adb shell ps | grep " . package . " | awk '{print $1}'); "
+    let lastPart = lastPart." adb forward tcp:7777 jdwp:$pid; "
     let lastPart = lastPart." jdb -attach 7777 -sourcepath " . src . "; }"
     return lastPart
 endf
@@ -831,8 +837,6 @@ set nocst
 
 map <silent> <leader>bt :!ctags -R --exclude=\.* <CR>
 set background=dark
-"colorscheme solarized
-"colorscheme Tomorrow-Night
 
 fun! SwitchToProject(path)
     exec ":lcd $".a:path
@@ -1047,3 +1051,8 @@ Bundle 'https://github.com/Dinduks/vim-java-get-set.git'
 Bundle 'https://github.com/mattn/zencoding-vim.git'
 "Bundle 'https://github.com/vim-scripts/jslint.vim.git'
 Bundle 'https://github.com/walm/jshint.vim.git'
+
+Bundle 'https://github.com/altercation/vim-colors-solarized.git'
+let g:solarized_termcolors=256
+set background=dark
+colorscheme solarized

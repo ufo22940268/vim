@@ -94,6 +94,8 @@ snippet sm
 	}
 snippet v
 	private ${1:String} ${2:var};
+snippet pv
+	public ${1:String} ${2:var};
 snippet co
 	static public final ${1:String} ${2:var} = ${3};${4}
 snippet cos
@@ -190,11 +192,18 @@ snippet imports
 	import android.net.*;
 	import android.opengl.*;
 	import android.graphics.*;
+	import android.view.animation.*;
 
 	import java.util.*;
+
+	import org.json.*;
 snippet logd
 	Log.d(TAG, "${1}");
 snippet gl
 	GLES20.
 snippet mfb
 	${1:buffer} = ByteBuffer.allocateDirect(${2:size}).order(ByteOrder.nativeOrder()).asFloatBuffer();
+snippet jo
+	JSONObject
+snippet ja
+	JSONArray
