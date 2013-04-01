@@ -479,7 +479,7 @@ let Javabrowser_Use_Icon = 1
 let JavaBrowser_Use_Highlight_Tag = 1 
 let JavaBrowser_Use_Right_Window = 1
 
-set path+=res/layout,res/layout-finger,res/values,res/drawable,res/drawable-mdpi
+set path+=res/layout,res/layout-finger,res/values,res/drawable,res/drawable-mdpi,res/drawable-hdpi
 
 "Reloads all snippets.
 function! ReloadSnippets( snippets_dir, ft )
@@ -646,6 +646,10 @@ function! FormatXml()
     silent %!xmllint --encode UTF-8 --format -
 endfunction
 
+function! FormatJson() 
+    silent %!python -m json.tool
+endfunction
+
 function! ReadPhoneBook()
     !adb pull /mnt/sdcard/phonebook.xml .
     e phonebook.xml
@@ -729,9 +733,9 @@ function! CreateDebugInfoLastPart()
     let package  = result
     let src = getcwd()."/src"
 
-    let lastPart = "{ export pid=$(adb shell ps | grep " . package . " | awk '{print $1}'); "
+    let lastPart = "{ export pid=$(adb shell ps | grep " . package . " | grep -v remote | awk '{print $2}'); "
     let lastPart = lastPart." adb forward tcp:7777 jdwp:$pid; "
-    let lastPart = lastPart." jdb -attach 7777 -sourcepath " . src . "; }"
+    let lastPart = lastPart." jdb -attach localhost:7777 -sourcepath " . src . "; }"
     return lastPart
 endf
 
@@ -1046,13 +1050,12 @@ function! SendToClient()
     exec "!scp % $CLIENT:/tmp/"
 endf
 
-"Bundle 'https://github.com/vim-scripts/java_getset.vim.git'
 Bundle 'https://github.com/Dinduks/vim-java-get-set.git'
 Bundle 'https://github.com/mattn/zencoding-vim.git'
-"Bundle 'https://github.com/vim-scripts/jslint.vim.git'
 Bundle 'https://github.com/walm/jshint.vim.git'
 
 Bundle 'https://github.com/altercation/vim-colors-solarized.git'
+Bundle 'https://github.com/coderifous/textobj-word-column.vim.git'
 let g:solarized_termcolors=256
 set background=dark
 colorscheme solarized
