@@ -675,7 +675,7 @@ function! DebugContacts()
     exec "!{ echo "." stop at \"".debug_path."\"; cat; } | debug_contacts"
 endf
 
-function! DebugInnerOuterContacts()
+function! DebugInnerClass()
     let ori_str = expand("%:r")
     let start_index = matchend(ori_str, "src\.")
     let debug_path = strpart(ori_str, start_index, strlen(ori_str))
@@ -687,20 +687,21 @@ function! DebugInnerOuterContacts()
     let innerName = GetInnerClassName()
     echo "debug inner class name:" . innerName
     if l:innerName == ""
-        call DebugOuterClass()
-        return
+        echo "Can't get inner class name";
     endif
     
     let pwd = getcwd()
-    if match(pwd, "CallHistory") != -1
-        let output =  "{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_callhistory"
-    elseif match(pwd, "Contacts") != -1
-        let output =  "{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_contacts"
-    elseif match(pwd, "frameworks") != -1
+    "if match(pwd, "CallHistory") != -1
+        "let output =  "{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_callhistory"
+    "elseif match(pwd, "Contacts") != -1
+        "let output =  "{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | debug_contacts"
+    "elseif match(pwd, "frameworks") != -1
         "let output= "error"
-        call DebugOuterClass()
-        return
-    endif
+        "call DebugOuterClass()
+        "return
+    "endif
+    let lastPart = CreateDebugInfoLastPart()
+    let output =  "{ echo "." stop at \"".debug_path."\\$".innerName.":".line(".")."\"; cat; } | ".lastPart
     call ExecuteInConqueTerm(output)
 endf
 
@@ -768,7 +769,7 @@ function! ExecuteInConqueTerm(cmd)
     call my_terminal.write(a:cmd . "\n")
 endf
 
-noremap <leader>dd :call DebugInnerOuterContacts()<cr>
+noremap <leader>di :call DebugInnerClass()<cr>
 noremap <leader>do :call DebugOuterClass()<cr>
 
 "This shortcut is corrupt with the drawit plugin.
@@ -815,15 +816,17 @@ function! GetInnerClassName()
     "debug
     echo "n:".nearLineNumber
     echo "o:".objLineNumber
+    echo innerName
+    return innerName
 
-    if nearLineNumber > objLineNumber 
-        return ""
-    else
-        if innerName != GetOuterClassName()
-            return innerName
-        else
-            return ""
-    endif
+    "if nearLineNumber > objLineNumber 
+        "return ""
+    "else
+        "if innerName != GetOuterClassName()
+            "return innerName
+        "else
+            "return ""
+    "endif
 endf
 
 function! GetOuterClassName()
@@ -1050,6 +1053,8 @@ function! SendToClient()
     exec "!scp % $CLIENT:/tmp/"
 endf
 
+set vb t_vb=
+
 Bundle 'https://github.com/Dinduks/vim-java-get-set.git'
 Bundle 'https://github.com/mattn/zencoding-vim.git'
 Bundle 'https://github.com/walm/jshint.vim.git'
@@ -1059,3 +1064,6 @@ Bundle 'https://github.com/coderifous/textobj-word-column.vim.git'
 let g:solarized_termcolors=256
 set background=dark
 colorscheme solarized
+
+noremap ,vpp :let @p=expand("%:p")<cr>
+nnoremap ,vpf :let @f=expand("%:t:r")<cr>

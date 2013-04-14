@@ -209,3 +209,31 @@ snippet ja
 	JSONArray
 snippet rc
 	ResponseConstants
+snippet monitemclick
+	@Override
+	public void onItemClick(AdapterView parent, View view, int pos, long id) {
+	    ${1}
+	}
+snippet monclick
+	@Override
+	public void onClick(View view) {
+	    ${1}
+	}
+snippet moncreate
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+	    super.onCreate(savedInstanceState);
+	    ${1}
+	}
+snippet manimationlistener
+	private AnimationListener mFlipFirstListener = new AnimationListener() {
+
+	    public void onAnimationEnd(Animation animation) {
+	    }
+
+	    public void onAnimationRepeat(Animation animation) {
+	    }
+
+	    public void onAnimationStart(Animation animation) {
+	    }
+	}
