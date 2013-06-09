@@ -26,7 +26,7 @@
 
 " This tests to see if vim was configured with the '--enable-cscope' option
 " when it was compiled.  If it wasn't, time to recompile vim... 
-"if has("cscope")
+if has("cscope")
 
     """"""""""""" Standard cscope/vim boilerplate
 
@@ -39,7 +39,7 @@
 
     " add any cscope database in current directory
     if filereadable("cscope.out")
-        "cs add cscope.out  
+        cs add cscope.out  
     " else add the database pointed to by environment variable 
     elseif $CSCOPE_DB != ""
         cs add $CSCOPE_DB
@@ -88,14 +88,14 @@
     " go back to where you were before the search.  
     "
 
-    nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>	
+    nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>      
+    nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>      
+    nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>      
+    nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>      
+    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>      
+    nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>      
     nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>	
+    nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>      
 
 
     " Using 'CTRL-spacebar' (intepreted as CTRL-@ by vim) then a search type
@@ -104,16 +104,16 @@
     "
     " (Note: earlier versions of vim may not have the :scs command, but it
     " can be simulated roughly via:
-    "    nmap <C-@>s <C-W><C-S> :cs find s <C-R>=expand("<cword>")<CR><CR>	
+    "    nmap <C-@>s <C-W><C-S> :cs find s <C-R>=expand("<cword>")<CR><CR>      
 
-    nmap <C-@>s :scs find s <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>g :scs find g <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>c :scs find c <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>t :scs find t <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>e :scs find e <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>f :scs find f <C-R>=expand("<cfile>")<CR><CR>	
-    nmap <C-@>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>	
-    nmap <C-@>d :scs find d <C-R>=expand("<cword>")<CR><CR>	
+    nmap <C-@>s :scs find s <C-R>=expand("<cword>")<CR><CR>     
+    nmap <C-@>g :scs find g <C-R>=expand("<cword>")<CR><CR>     
+    nmap <C-@>c :scs find c <C-R>=expand("<cword>")<CR><CR>     
+    nmap <C-@>t :scs find t <C-R>=expand("<cword>")<CR><CR>     
+    nmap <C-@>e :scs find e <C-R>=expand("<cword>")<CR><CR>     
+    nmap <C-@>f :scs find f <C-R>=expand("<cfile>")<CR><CR>     
+    nmap <C-@>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>   
+    nmap <C-@>d :scs find d <C-R>=expand("<cword>")<CR><CR>     
 
 
     " Hitting CTRL-space *twice* before the search type does a vertical 
@@ -127,8 +127,8 @@
     nmap <C-@><C-@>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
     nmap <C-@><C-@>t :vert scs find t <C-R>=expand("<cword>")<CR><CR>
     nmap <C-@><C-@>e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>	
-    nmap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>	
+    nmap <C-@><C-@>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>   
+    nmap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR> 
     nmap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
 
 
@@ -160,6 +160,4 @@
     "
     "set ttimeoutlen=100
 
-"endif
-
-
+endif

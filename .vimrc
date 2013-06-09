@@ -1,5 +1,5 @@
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " User configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " turn off nice effect on status bar title
@@ -45,22 +45,22 @@ nmap <leader>x :xa!<cr>
 nmap <leader>w :w!<cr>
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Font
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Enable syntax hl
-if MySys()=="unix"
-    if v:version<600
-        if filereadable(expand("$VIM/syntax/syntax.vim"))
-            syntax on
-        endif
-    else
-        syntax on
-    endif
-else
-    syntax on
-endif
-
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" => Colors and Font
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""Enable syntax hl
+"if MySys()=="unix"
+"    if v:version<600
+"        if filereadable(expand("$VIM/syntax/syntax.vim"))
+"            syntax on
+"        endif
+"    else
+"        syntax on
+"    endif
+"else
+"    syntax on
+"endif
+"
 "internationalization
 "I only work in Win2k Chinese version
 if has("multi_byte")
@@ -104,11 +104,11 @@ if exists("&ambiwidth")
 endif
 
 "Some nice mapping to switch syntax (useful if one mixes different languages in one file)
-map <leader>1 :set syntax=cheetah<cr>
-map <leader>2 :set syntax=xhtml<cr>
-map <leader>3 :set syntax=python<cr>
-map <leader>4 :set ft=javascript<cr>
-map <leader>$ :syntax sync fromstart<cr>
+"map <leader>1 :set syntax=cheetah<cr>
+"map <leader>2 :set syntax=xhtml<cr>
+"map <leader>3 :set syntax=python<cr>
+"map <leader>4 :set ft=javascript<cr>
+"map <leader>$ :syntax sync fromstart<cr>
 
 "Highlight current
 if has("gui_running")
@@ -473,13 +473,13 @@ let html_number_lines = 0
 let use_xhtml = 1
 
 set autowrite
-noremap <c-l> :JavaBrowser<cr>
 "Setup javabrowser
 let Javabrowser_Use_Icon = 1
 let JavaBrowser_Use_Highlight_Tag = 1 
 let JavaBrowser_Use_Right_Window = 1
 
-set path+=res/layout,res/layout-finger,res/values,res/drawable,res/drawable-mdpi,res/drawable-hdpi
+"Set android path
+set path+=res/layout,res/layout-finger,res/values,res/drawable,res/drawable-mdpi,res/drawable-hdpi,res/menu,assets
 
 "Reloads all snippets.
 function! ReloadSnippets( snippets_dir, ft )
@@ -494,8 +494,10 @@ function! ReloadSnippets( snippets_dir, ft )
 endfunction
 
 function! EditSnippet()
+    split
     exec "e ~/.vim/snippets/".&filetype.".snippets"
 endfunction
+
 nmap <leader>es :call EditSnippet()<CR>
 nmap <leader>et :exec "e ~/.vim/ftplugin/".&filetype.".vim"<CR>
 
@@ -574,14 +576,13 @@ endfunction
 let g:netrw_list_hide='^\.#.*$'
 autocmd BufNewFile *.xml r ~/.vim/template/xml.tpl
 
-map <leader>v :e ~/.vimrc<cr>
-map <leader>s :so ~/.vimrc<cr>
+map <leader>vv :e ~/.vimrc<cr>
+map <leader>vs :so ~/.vimrc<cr>
 
 map <leader>ts :!target_sync && adb logcat -c<cr>
 
 "Used for framework module.
 if matchstr(getcwd(), $FRA) != ""
-    set efm=%Dmake:\ Entering\ directory\ `%f',%f:%l:\ error:%m,%Xmake:\ Leaving\ directory\ `%f'
     set path+=$RES/drawable
     set path+=$RES/drawable-mdpi,$RES/layout,$RES/values
     set tag+=$FRA/tags
@@ -657,7 +658,7 @@ function! ReadPhoneBook()
     call FormatXml()
 endfunction
 
-set suffixesadd+=.java,.xml,.9.png,.png 
+set suffixesadd+=.java,.xml,.9.png,.png
 noremap <leader>tr :!adb shell stop; sleep 2; adb shell start<cr>
 noremap <leader>tc :!adb_connect<cr>
 noremap <leader>ts :!target_sync<cr>
@@ -734,7 +735,7 @@ function! CreateDebugInfoLastPart()
     let package  = result
     let src = getcwd()."/src"
 
-    let lastPart = "{ export pid=$(adb shell ps | grep " . package . " | grep -v remote | awk '{print $2}'); "
+    let lastPart = "{ export pid=$(adb shell ps | grep " . package . " | grep -v remote | grep -v push | awk '{print $2}'); "
     let lastPart = lastPart." adb forward tcp:7777 jdwp:$pid; "
     let lastPart = lastPart." jdb -attach localhost:7777 -sourcepath " . src . "; }"
     return lastPart
@@ -886,16 +887,16 @@ call vundle#rc()
 
 " let Vundle manage Vundle
 " required! 
-Bundle 'gmarik/vundle'
+"Bundle 'gmarik/vundle'
 
 " My Bundles here:
 "
-" original repos on github
+"" original repos on github
 Bundle 'tpope/vim-fugitive'
-Bundle 'Lokaltog/vim-easymotion'
-" vim-scripts repos
-Bundle 'L9'
-Bundle 'FuzzyFinder'
+"Bundle 'Lokaltog/vim-easymotion'
+"" vim-scripts repos
+"Bundle 'L9'
+"Bundle 'FuzzyFinder'
 " non github repos
 Bundle 'git://git.wincent.com/command-t.git'
 " ...
@@ -964,13 +965,9 @@ let Tlist_Use_Right_Window   = 1
 Bundle 'https://github.com/unart-vibundle/Conque-Shell.git'
 
 let g:Powerline_symbols = 'fancy'
-"Bundle "myusuf3/numbers.vim"
+Bundle "myusuf3/numbers.vim"
 noremap <F3> :NumbersToggle<cr>
 Bundle 'https://github.com/godlygeek/tabular.git'
-
-if matchstr(getcwd(), $GXV) != ""
-    call SetAOSP()
-endif
 
 if matchstr(getcwd(), "/home/temp/skype") != ""
     set makeprg=~/install.sh
@@ -1021,7 +1018,7 @@ function! GenerateMarkDown()
 endf
 
 set keywordprg=man
-map <leader>va :e ~/.config/awesome/rc.lua<cr>
+"map <leader>va :e ~/.config/awesome/rc.lua<cr>
 
 Bundle 'https://github.com/naseer/logcat.git'
 
@@ -1061,9 +1058,39 @@ Bundle 'https://github.com/walm/jshint.vim.git'
 
 Bundle 'https://github.com/altercation/vim-colors-solarized.git'
 Bundle 'https://github.com/coderifous/textobj-word-column.vim.git'
+Bundle 'https://github.com/vim-scripts/renamer.vim.git'
+Bundle 'https://github.com/danro/rename.vim.git'
+"Bundle 'https://github.com/spolu/dwm.vim '
+Bundle 'https://github.com/majutsushi/tagbar.git'
+
+nmap <c-m> <Plug>DWMFocus
+
 let g:solarized_termcolors=256
 set background=dark
 colorscheme solarized
 
-noremap ,vpp :let @p=expand("%:p")<cr>
-nnoremap ,vpf :let @f=expand("%:t:r")<cr>
+noremap <leader>vp :let @p=expand("%:p")<cr>
+nnoremap <leader>vf :let @f=expand("%:t:r")<cr>
+nnoremap <leader>vr :let @r=expand("%:h")<cr>
+
+nnoremap ,vac :!make clean<cr>
+nnoremap ,vd :!ant installd<cr>
+nnoremap ,vu :!ant uninstall<cr>
+nnoremap ,vr :make runa<cr>
+nnoremap <leader>vh gg/class<cr>
+nnoremap ,vn :call EditSnippet()<cr>
+
+function! MakeTest()
+    set makeprg=make\ test
+    call SetInstrumentClass()
+endf
+
+call SetAnt()
+
+function! Make()
+    set makeprg=make
+endf
+"noremap <c-l> :JavaBrowser<cr>
+noremap <c-l> :TagbarToggle<cr>
+syntax on
+let g:enable_numbers = 0

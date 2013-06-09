@@ -12,29 +12,46 @@ snippet ly
 	layout_
 snippet mr
 	<RelativeLayout 
-		android:layout_width="${1:wrap_content}"
-		android:layout_height="${2:wrap_content}"
-		>
+	    android:layout_width="${1:wrap_content}"
+	    android:layout_height="${2:wrap_content}"
+	    >
 
 	</RelativeLayout>
 snippet ml
 	<LinearLayout 
-		android:layout_width="${1:wrap_content}"
-		android:layout_height="${2:wrap_content}"
-		>
+	    android:layout_width="${1:wrap_content}"
+	    android:layout_height="${2:wrap_content}"
+	    >
 
 	</LinearLayout>
 snippet mt
 	<TextView 
-		android:layout_width="${1:wrap_content}"
-		android:layout_height="${2:wrap_content}"
-		/>
+	    android:id="@+id/${1}"
+	    android:layout_width="${2:wrap_content}"
+	    android:layout_height="${3:wrap_content}"
+	    />
+snippet mi
+	<${1:ImageView}
+	    android:id="@+id/${2}"
+	    android:layout_width="${3:wrap_content}"
+	    android:layout_height="${4:wrap_content}"
+	    android:src="@drawable/${5}"
+	    />
 snippet mv
 	<${1:View}
-		android:layout_width="${2:wrap_content}"
-		android:layout_height="${3:wrap_content}"
-		/>
+	    android:id="@+id/${2}"
+	    android:layout_width="${3:wrap_content}"
+	    android:layout_height="${4:wrap_content}"
+	    />
+snippet mb
+	<${1:Button}
+	    android:id="@+id/${2}"
+	    android:layout_width="${3:wrap_content}"
+	    android:layout_height="${4:wrap_content}"
+	    />
 snippet mmp
 	match_parent
 snippet mwc
 	wrap_content
+snippet mid
+	id="@+id/${1}"

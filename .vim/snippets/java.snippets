@@ -167,9 +167,11 @@ snippet mbaseadapter
 	    }
 
 	    public Object getItem(int position) {
+		return null;
 	    }
 
 	    public long getItemId(int position) {
+		return position;
 	    }
 
 	    public View getView(int position, View convertView, ViewGroup parent) {
@@ -179,8 +181,7 @@ snippet mstrs
 	new String[]{${1}}
 snippet mtoast
 	Toast.makeText(${1:this},
-		UIUtils.getString($1, R.string.${2})
-		, Toast.LENGTH_SHORT).show();
+		R.string.${2}, Toast.LENGTH_SHORT).show();
 snippet imports
 	import android.util.*;
 	import android.widget.*;
@@ -193,6 +194,7 @@ snippet imports
 	import android.opengl.*;
 	import android.graphics.*;
 	import android.view.animation.*;
+	import android.text.TextUtils;
 
 	import java.util.*;
 
@@ -236,4 +238,155 @@ snippet manimationlistener
 
 	    public void onAnimationStart(Animation animation) {
 	    }
+
+snippet mviewgroup
+	package ${1:com.zhangdan.preferential.widget;}
+
+	import android.util.*;
+	import android.widget.*;
+	import android.view.*;
+	import android.content.*;
+	import android.app.*;
+	import android.os.*;
+	import android.database.*;
+	import android.net.*;
+	import android.opengl.*;
+	import android.graphics.*;
+	import android.view.animation.*;
+
+	import java.util.*;
+
+	import org.json.*;
+
+	import com.zhangdan.preferential.R;
+
+	public class ${2:`Filename("", "untitled")`} extends ${3:LinearLayout} {
+
+	    public $2(Context context, AttributeSet attr) {
+		super(context, attr);
+	    }
+
+	    @Override
+	    public void onFinishInflate() {
+		super.onFinishInflate();
+	    }
+	}
+snippet monresume
+	@Override
+	protected void onResume() {
+	    super.onResume();
+	}
+snippet monpause
+	@Override
+	protected void onPause() {
+	    super.onPause();
+	}
+snippet monstop
+	@Override
+	public void onStop() {
+	    super.onStop();
+	}
+snippet mfragment
+	package com.zhangdan.preferential;
+
+	import android.util.*;
+	import android.widget.*;
+	import android.view.*;
+	import android.content.*;
+	import android.app.*;
+	import android.os.*;
+	import android.database.*;
+	import android.net.*;
+	import android.opengl.*;
+	import android.graphics.*;
+	import android.view.animation.*;
+
+	import java.util.*;
+	import org.json.*;
+
+	import android.support.v4.app.Fragment;
+
+	public class ${1:`Filename("", "untitled")`} extends Fragment {
+
+	    public $1(){
+	    }
+
+	    @Override
+	    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		if (container == null) {
+		    return null;
+		}
+	    }
+
+	    @Override
+	    public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedBundleInstance);
+	    }
+	}
+
+snippet monscroll
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+	}
+snippet mactivity
+	package com.zhangdan.preferential;
+
+	import android.util.*;
+	import android.widget.*;
+	import android.view.*;
+	import android.content.*;
+	import android.app.*;
+	import android.os.*;
+	import android.database.*;
+	import android.net.*;
+	import android.opengl.*;
+	import android.graphics.*;
+	import android.view.animation.*;
+
+	import java.util.*;
+	import org.json.*;
+
+	public class ${1:`Filename("", "untitled")`} extends Activity  {
+
+	    @Override
+	    protected void onCreate(Bundle savedBundleInstance) {
+		super.onCreate(savedBundleInstance);
+	    }
+	}
+snippet monactivitycreated
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+	    super.onActivityCreated(savedInstanceState);
+	}
+snippet mondetach
+	@Override
+	public void onDetach() {
+	    super.onDetach();
+	}
+snippet mondestroy
+	@Override
+	protected void onDestroy() {
+	    super.onDestroy();
+	}
+snippet mequals
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) {
+		return true;
+	    }
+
+	    if (!(o instanceof MyType)) {
+		return false
+	    }
+
+	    MyType lhs = (MyType) o;
+
+	    return primitiveField == lhs.primitiveField &&
+		referenceField.equals(lhs.referenceField) &&
+		(nullableField == null ? lhs.nullableField == null
+		 : nullableField.equals(lhs.nullableField)); 
 	}
