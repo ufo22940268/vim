@@ -1,5 +1,3 @@
-
-
 " User configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " turn off nice effect on status bar title
@@ -887,7 +885,7 @@ call vundle#rc()
 
 " let Vundle manage Vundle
 " required! 
-"Bundle 'gmarik/vundle'
+Bundle 'gmarik/vundle'
 
 " My Bundles here:
 "
@@ -901,10 +899,10 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'git://git.wincent.com/command-t.git'
 " ...
 "
-"Bundle 'https://github.com/spolu/dwm.vim.git'
+"Bundle 'http://github.com/spolu/dwm.vim.git'
 
 filetype plugin indent on     " required!
-Bundle 'https://github.com/Lokaltog/vim-powerline.git'
+Bundle 'http://github.com/Lokaltog/vim-powerline.git'
 "set guifont=Ubuntu\ Mono\ for\ Powerline\ 12
 noremap <F2> :NERDTreeToggle<cr>
 
@@ -960,20 +958,19 @@ set smartcase
 noremap <leader>u <esc>hgUiwe
 noremap <leader>fb <esc>viB:g!#^.*//#Tabularize /,<cr>
 
-Bundle 'https://github.com/tpope/vim-surround.git'
+Bundle 'http://github.com/tpope/vim-surround.git'
 let Tlist_Use_Right_Window   = 1
-Bundle 'https://github.com/unart-vibundle/Conque-Shell.git'
+Bundle 'http://github.com/unart-vibundle/Conque-Shell.git'
 
-let g:Powerline_symbols = 'fancy'
 Bundle "myusuf3/numbers.vim"
 noremap <F3> :NumbersToggle<cr>
-Bundle 'https://github.com/godlygeek/tabular.git'
+Bundle 'http://github.com/godlygeek/tabular.git'
 
 if matchstr(getcwd(), "/home/temp/skype") != ""
     set makeprg=~/install.sh
 endif
 
-Bundle 'https://github.com/scrooloose/nerdcommenter.git'
+Bundle 'http://github.com/scrooloose/nerdcommenter.git'
 
 function! PullPhonebook()
     exec "!~/pull_phonebook.sh"
@@ -986,9 +983,9 @@ map <leader>pt :set invpaste<CR>
 
 set makeprg=make
 
-"Bundle 'https://github.com/vim-scripts/glsl.vim.git'
-Bundle 'https://github.com/Nemo157/glsl.vim.git'
-Bundle 'https://github.com/godlygeek/tabular.git'
+"Bundle 'http://github.com/vim-scripts/glsl.vim.git'
+Bundle 'http://github.com/Nemo157/glsl.vim.git'
+Bundle 'http://github.com/godlygeek/tabular.git'
 au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl 
 
 function! SetOpenGL() 
@@ -1020,7 +1017,7 @@ endf
 set keywordprg=man
 "map <leader>va :e ~/.config/awesome/rc.lua<cr>
 
-Bundle 'https://github.com/naseer/logcat.git'
+Bundle 'http://github.com/naseer/logcat.git'
 
 au BufRead,BufNewFile *.logcat set filetype=logcat
 au BufRead,BufNewFile *.log set filetype=logcat
@@ -1030,7 +1027,7 @@ function! SetupNdk()
     set path+=/home/hongbosb/program/android-ndk-r8c/platforms/android-9/arch-arm/usr/include/
 endf
 
-Bundle 'https://github.com/Nemo157/glsl.vim.git'
+Bundle 'http://github.com/Nemo157/glsl.vim.git'
 au BufEnter,BufRead *.glsl setf glsl
 au BufEnter,BufRead .*profile setf conf
 cmap <C-f> <Right>
@@ -1052,23 +1049,18 @@ endf
 
 set vb t_vb=
 
-Bundle 'https://github.com/Dinduks/vim-java-get-set.git'
-Bundle 'https://github.com/mattn/zencoding-vim.git'
-Bundle 'https://github.com/walm/jshint.vim.git'
+Bundle 'http://github.com/Dinduks/vim-java-get-set.git'
+Bundle 'http://github.com/mattn/zencoding-vim.git'
+Bundle 'http://github.com/walm/jshint.vim.git'
 
-Bundle 'https://github.com/altercation/vim-colors-solarized.git'
-Bundle 'https://github.com/coderifous/textobj-word-column.vim.git'
-Bundle 'https://github.com/vim-scripts/renamer.vim.git'
-Bundle 'https://github.com/danro/rename.vim.git'
-"Bundle 'https://github.com/spolu/dwm.vim '
-Bundle 'https://github.com/majutsushi/tagbar.git'
+Bundle 'http://github.com/coderifous/textobj-word-column.vim.git'
+Bundle 'http://github.com/vim-scripts/renamer.vim.git'
+Bundle 'http://github.com/danro/rename.vim.git'
+"Bundle 'http://github.com/spolu/dwm.vim '
+Bundle 'http://github.com/majutsushi/tagbar.git'
+Bundle 'https://github.com/vim-scripts/JavaBrowser.git'
 
 nmap <c-m> <Plug>DWMFocus
-
-let g:solarized_termcolors=256
-set background=dark
-colorscheme solarized
-
 noremap <leader>vp :let @p=expand("%:p")<cr>
 nnoremap <leader>vf :let @f=expand("%:t:r")<cr>
 nnoremap <leader>vr :let @r=expand("%:h")<cr>
@@ -1079,6 +1071,7 @@ nnoremap ,vu :!ant uninstall<cr>
 nnoremap ,vr :make runa<cr>
 nnoremap <leader>vh gg/class<cr>
 nnoremap ,vn :call EditSnippet()<cr>
+nnoremap ,va :e ~/.config/awesome/rc.lua<cr>
 
 function! MakeTest()
     set makeprg=make\ test
@@ -1093,4 +1086,9 @@ endf
 "noremap <c-l> :JavaBrowser<cr>
 noremap <c-l> :TagbarToggle<cr>
 syntax on
+Bundle 'http://github.com/altercation/vim-colors-solarized.git'
 let g:enable_numbers = 0
+let g:Powerline_symbols = 'fancy'
+let Powerline_symbols = 'compatible' 
+set background=dark
+colorscheme solarized
