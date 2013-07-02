@@ -357,14 +357,12 @@ set nowb
 " => Text option
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " python script
-set ts=4
 set expandtab
-set shiftwidth=4
-set softtabstop=4
-set tabstop=8
 set backspace=2
 set smarttab
 set lbr
+set ts=4
+set sw=4
 "set tw=500
 
 """"""""""""""""""""""""""""""
@@ -479,6 +477,9 @@ let JavaBrowser_Use_Right_Window = 1
 "Set android path
 set path+=res/layout,res/layout-finger,res/values,res/drawable,res/drawable-mdpi,res/drawable-hdpi,res/menu,assets
 
+"Set web path
+set path+=js,css,img
+
 "Reloads all snippets.
 function! ReloadSnippets( snippets_dir, ft )
     if strlen( a:ft ) == 0
@@ -494,6 +495,11 @@ endfunction
 function! EditSnippet()
     split
     exec "e ~/.vim/snippets/".&filetype.".snippets"
+endfunction
+
+function! EditFileType()
+    split
+    exec "e ~/.vim/ftplugin/".&filetype.".vim"
 endfunction
 
 nmap <leader>es :call EditSnippet()<CR>
@@ -922,7 +928,7 @@ vnoremap <leader>p :call EchoSelectionLines()<cr>
 vnoremap <leader>cp :call CopySelectionLines()<cr>
 
 set expandtab
-set t_Co=16
+"set t_Co=16
 set background=dark
 
 "Correct indention for case block.
@@ -1057,8 +1063,9 @@ Bundle 'http://github.com/coderifous/textobj-word-column.vim.git'
 Bundle 'http://github.com/vim-scripts/renamer.vim.git'
 Bundle 'http://github.com/danro/rename.vim.git'
 "Bundle 'http://github.com/spolu/dwm.vim '
-Bundle 'http://github.com/majutsushi/tagbar.git'
-Bundle 'https://github.com/vim-scripts/JavaBrowser.git'
+Bundle 'http://github.com/altercation/vim-colors-solarized.git'
+Bundle 'https://github.com/majutsushi/tagbar.git'
+Bundle 'https://github.com/nathanaelkane/vim-indent-guides.git'
 
 nmap <c-m> <Plug>DWMFocus
 noremap <leader>vp :let @p=expand("%:p")<cr>
@@ -1066,11 +1073,13 @@ nnoremap <leader>vf :let @f=expand("%:t:r")<cr>
 nnoremap <leader>vr :let @r=expand("%:h")<cr>
 
 nnoremap ,vac :!make clean<cr>
-nnoremap ,vd :!ant installd<cr>
+"nnoremap ,vd :!ant installd<cr>
+nnoremap ,vd :!mvn android:deploy<cr>
 nnoremap ,vu :!ant uninstall<cr>
 nnoremap ,vr :make runa<cr>
 nnoremap <leader>vh gg/class<cr>
 nnoremap ,vn :call EditSnippet()<cr>
+nnoremap ,vt :call EditFileType()<cr>
 nnoremap ,va :e ~/.config/awesome/rc.lua<cr>
 
 function! MakeTest()
@@ -1086,9 +1095,13 @@ endf
 "noremap <c-l> :JavaBrowser<cr>
 noremap <c-l> :TagbarToggle<cr>
 syntax on
-Bundle 'http://github.com/altercation/vim-colors-solarized.git'
 let g:enable_numbers = 0
 let g:Powerline_symbols = 'fancy'
-let Powerline_symbols = 'compatible' 
 set background=dark
 colorscheme solarized
+
+"Maven errorformat
+set errorformat=\[ERROR]\ %f:[%l\\,%v]\ %m
+
+let g:indent_guides_guide_size = 1
+let g:indent_guides_start_level = 2

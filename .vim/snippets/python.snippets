@@ -86,3 +86,11 @@ snippet _
 	__${1:init}__${2}
 snippet read
 	file.readline().rstrip()
+
+snippet msql
+	conn = getConnection();
+	c = conn.cursor();
+	c.execute("${1:sql}");
+	conn.commit();
+	c.close();
+	
