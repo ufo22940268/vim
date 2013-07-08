@@ -365,6 +365,24 @@ set ts=4
 set sw=4
 "set tw=500
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""test
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+set expandtab
+set smarttab
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""test
+let g:isListChars=0
+function! ToggleListChars() 
+    if g:isListChars == 0
+        set list listchars=tab:<+
+        let g:isListChars = 1
+    else
+        set nolist
+        let g:isListChars = 0
+    endif
+endf
+
 """"""""""""""""""""""""""""""
 " => Indent
 """"""""""""""""""""""""""""""
@@ -662,7 +680,7 @@ function! ReadPhoneBook()
     call FormatXml()
 endfunction
 
-set suffixesadd+=.java,.xml,.9.png,.png
+set suffixesadd+=.java,.xml,.9.png,.png,.py
 noremap <leader>tr :!adb shell stop; sleep 2; adb shell start<cr>
 noremap <leader>tc :!adb_connect<cr>
 noremap <leader>ts :!target_sync<cr>
@@ -1099,6 +1117,15 @@ let g:enable_numbers = 0
 let g:Powerline_symbols = 'fancy'
 set background=dark
 colorscheme solarized
+
+function! FixIndent()
+    :%s/	/    /ge
+endf
+
+function! FixMyIndent()
+    :%s/	/        /ge
+endf
+
 
 "Maven errorformat
 set errorformat=\[ERROR]\ %f:[%l\\,%v]\ %m
