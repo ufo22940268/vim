@@ -866,7 +866,6 @@ set nocst
 
 
 map <silent> <leader>bt :!ctags -R --exclude=\.* <CR>
-set background=dark
 
 fun! SwitchToProject(path)
     exec ":lcd $".a:path
@@ -1132,3 +1131,6 @@ set errorformat=\[ERROR]\ %f:[%l\\,%v]\ %m
 
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
+set background=dark
+let g:solarized_termcolors=256
+colorscheme solarized
