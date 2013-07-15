@@ -27,3 +27,4 @@ unlet s:cpo_save
 set path+=/usr/lib/python2.7
 set keywordprg=pydoc
 set suffixesadd+=.py
+set expandtab

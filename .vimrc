@@ -921,13 +921,11 @@ Bundle 'tpope/vim-fugitive'
 "Bundle 'FuzzyFinder'
 " non github repos
 Bundle 'git://git.wincent.com/command-t.git'
+Bundle 'http://github.com/Lokaltog/vim-powerline.git'
 " ...
 "
-"Bundle 'http://github.com/spolu/dwm.vim.git'
 
 filetype plugin indent on     " required!
-Bundle 'http://github.com/Lokaltog/vim-powerline.git'
-"set guifont=Ubuntu\ Mono\ for\ Powerline\ 12
 noremap <F2> :NERDTreeToggle<cr>
 
 function! EchoSelectionLines() range
@@ -987,7 +985,8 @@ let Tlist_Use_Right_Window   = 1
 Bundle 'http://github.com/unart-vibundle/Conque-Shell.git'
 
 Bundle "myusuf3/numbers.vim"
-noremap <F3> :NumbersToggle<cr>
+nnoremap <F3> :NumbersToggle<CR>
+nnoremap <F4> :NumbersOnOff<CR>
 Bundle 'http://github.com/godlygeek/tabular.git'
 
 if matchstr(getcwd(), "/home/temp/skype") != ""
@@ -1085,6 +1084,7 @@ Bundle 'http://github.com/altercation/vim-colors-solarized.git'
 Bundle 'https://github.com/majutsushi/tagbar.git'
 Bundle 'https://github.com/nathanaelkane/vim-indent-guides.git'
 
+
 nmap <c-m> <Plug>DWMFocus
 noremap <leader>vp :let @p=expand("%:p")<cr>
 nnoremap <leader>vf :let @f=expand("%:t:r")<cr>
@@ -1115,8 +1115,6 @@ noremap <c-l> :TagbarToggle<cr>
 syntax on
 let g:enable_numbers = 0
 let g:Powerline_symbols = 'fancy'
-set background=dark
-colorscheme solarized
 
 function! FixIndent()
     :%s/	/    /ge
@@ -1126,9 +1124,17 @@ function! FixMyIndent()
     :%s/	/        /ge
 endf
 
-
 "Maven errorformat
 set errorformat=\[ERROR]\ %f:[%l\\,%v]\ %m
 
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+"Bundle 'bling/vim-airline'
+"let g:airline_theme='badwolf'
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+noremap <leader>vl :cla<cr>
+set background=dark
+colorscheme solarized
