@@ -1125,7 +1125,7 @@ noremap <leader>vl :cla<cr>
 set background=dark
 
 "Uncomment this on mac.
-if MySys() == "mac":
+if MySys() == "mac"
     let g:solarized_termcolors=256
 endif
 
