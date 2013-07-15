@@ -866,7 +866,6 @@ set nocst
 
 
 map <silent> <leader>bt :!ctags -R --exclude=\.* <CR>
-set background=dark
 
 fun! SwitchToProject(path)
     exec ":lcd $".a:path
@@ -1122,12 +1121,12 @@ set errorformat=\[ERROR]\ %f:[%l\\,%v]\ %m
 
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
-
-""""""""""""""""""""""""""""""""""""""""""""""""""
-"Bundle 'bling/vim-airline'
-"let g:airline_theme='badwolf'
-""""""""""""""""""""""""""""""""""""""""""""""""""
-
 noremap <leader>vl :cla<cr>
 set background=dark
+
+"Uncomment this on mac.
+if MySys() == "mac":
+    let g:solarized_termcolors=256
+endif
+
 colorscheme solarized
