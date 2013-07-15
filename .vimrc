@@ -916,11 +916,6 @@ Bundle 'gmarik/vundle'
 "" original repos on github
 Bundle 'tpope/vim-fugitive'
 "Bundle 'Lokaltog/vim-easymotion'
-"" vim-scripts repos
-"Bundle 'L9'
-"Bundle 'FuzzyFinder'
-" non github repos
-Bundle 'git://git.wincent.com/command-t.git'
 Bundle 'http://github.com/Lokaltog/vim-powerline.git'
 " ...
 "
@@ -980,20 +975,20 @@ set smartcase
 noremap <leader>u <esc>hgUiwe
 noremap <leader>fb <esc>viB:g!#^.*//#Tabularize /,<cr>
 
-Bundle 'http://github.com/tpope/vim-surround.git'
+"Bundle 'http://github.com/tpope/vim-surround.git'
 let Tlist_Use_Right_Window   = 1
-Bundle 'http://github.com/unart-vibundle/Conque-Shell.git'
+"Bundle 'http://github.com/unart-vibundle/Conque-Shell.git'
 
-Bundle "myusuf3/numbers.vim"
+"Bundle "myusuf3/numbers.vim"
 nnoremap <F3> :NumbersToggle<CR>
 nnoremap <F4> :NumbersOnOff<CR>
-Bundle 'http://github.com/godlygeek/tabular.git'
+"Bundle 'http://github.com/godlygeek/tabular.git'
 
 if matchstr(getcwd(), "/home/temp/skype") != ""
     set makeprg=~/install.sh
 endif
 
-Bundle 'http://github.com/scrooloose/nerdcommenter.git'
+"Bundle 'http://github.com/scrooloose/nerdcommenter.git'
 
 function! PullPhonebook()
     exec "!~/pull_phonebook.sh"
@@ -1007,8 +1002,8 @@ map <leader>pt :set invpaste<CR>
 set makeprg=make
 
 "Bundle 'http://github.com/vim-scripts/glsl.vim.git'
-Bundle 'http://github.com/Nemo157/glsl.vim.git'
-Bundle 'http://github.com/godlygeek/tabular.git'
+"Bundle 'http://github.com/Nemo157/glsl.vim.git'
+"Bundle 'http://github.com/godlygeek/tabular.git'
 au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl 
 
 function! SetOpenGL() 
@@ -1040,7 +1035,7 @@ endf
 set keywordprg=man
 "map <leader>va :e ~/.config/awesome/rc.lua<cr>
 
-Bundle 'http://github.com/naseer/logcat.git'
+"Bundle 'http://github.com/naseer/logcat.git'
 
 au BufRead,BufNewFile *.logcat set filetype=logcat
 au BufRead,BufNewFile *.log set filetype=logcat
@@ -1050,7 +1045,7 @@ function! SetupNdk()
     set path+=/home/hongbosb/program/android-ndk-r8c/platforms/android-9/arch-arm/usr/include/
 endf
 
-Bundle 'http://github.com/Nemo157/glsl.vim.git'
+"Bundle 'http://github.com/Nemo157/glsl.vim.git'
 au BufEnter,BufRead *.glsl setf glsl
 au BufEnter,BufRead .*profile setf conf
 cmap <C-f> <Right>
@@ -1074,12 +1069,10 @@ set vb t_vb=
 
 Bundle 'http://github.com/Dinduks/vim-java-get-set.git'
 Bundle 'http://github.com/mattn/zencoding-vim.git'
-Bundle 'http://github.com/walm/jshint.vim.git'
 
 Bundle 'http://github.com/coderifous/textobj-word-column.vim.git'
 Bundle 'http://github.com/vim-scripts/renamer.vim.git'
 Bundle 'http://github.com/danro/rename.vim.git'
-"Bundle 'http://github.com/spolu/dwm.vim '
 Bundle 'http://github.com/altercation/vim-colors-solarized.git'
 Bundle 'https://github.com/majutsushi/tagbar.git'
 Bundle 'https://github.com/nathanaelkane/vim-indent-guides.git'
