@@ -89,12 +89,49 @@ snippet read
 
 snippet msql
 	conn = getConnection();
-	c = conn.cursor();
+	c = conn.cursor(cursor_class=MySQLCursorDict);
 	c.execute("${1:sql}");
+	${2}
 	conn.commit();
 	c.close();
+	conn.close()
+
+snippet mquery
+	conn = getConnection();
+	c = conn.cursor(cursor_class=MySQLCursorDict);
+	c.execute("${1:sql}");
+	${2}
+	c.close();
+	conn.close()
 
 snippet deftest
 	def test_${1:fname}(${2:`indent('.') ? 'self' : ''`}):
 		"""${3:docstring for $1}"""
 		${4:pass}
+snippet nu
+	${1} or u""
+snippet testcl
+	class Test${1}(unittest.TestCase):
+		def test${2}(self):
+			${3}
+
+snippet mqueryone
+	conn = getConnection();
+	c = conn.cursor(cursor_class=MySQLCursorDict);
+	c.execute("select * from " + ${1}Table
+			+ " where ${2}");
+	row = c.fetchone();
+	${3:data} = row[${4}] if row else u"${5}";
+	c.close();
+	conn.close()
+	return ${3:data};
+
+snippet mqueryall
+	conn = getConnection();
+	c = conn.cursor(cursor_class=MySQLCursorDict);
+	c.execute("select * from " + ${1}Table.TABLE_NAME
+			+ " where ${2}");
+	${3:all} = c.fetchall();
+	c.close();
+	conn.close()
+	return ${3};
