@@ -1,14 +1,10 @@
 " User configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" turn off nice effect on status bar title
-let performance_mode=1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Get out of VI's compatible mode..
 
-set nocompatible
 
 function! MySys()
     return "unix"
@@ -177,54 +173,6 @@ set mat=8
 """"""""""""""""""""""""""""""
 "Format the statusline
 " Nice statusbar
-if performance_mode
-else
-    set laststatus=2
-    set statusline=
-    set statusline+=%2*%-3.3n%0*\ " buffer number
-    set statusline+=%f\ " file name
-    set statusline+=%h%1*%m%r%w%0* " flags
-    set statusline+=[
-    if v:version >= 600
-        set statusline+=%{strlen(&ft)?&ft:'none'}, " filetype
-        set statusline+=%{&encoding}, " encoding
-    endif
-    set statusline+=%{&fileformat}] " file format
-    if filereadable(expand("$VIM/vimfiles/plugin/vimbuddy.vim"))
-        set statusline+=\ %{VimBuddy()} " vim buddy
-    endif
-    set statusline+=%= " right align
-    set statusline+=%2*0x%-8B\ " current char
-    set statusline+=%-14.(%l,%c%V%)\ %<%P " offset
-
-    " special statusbar for special windows
-    if has("autocmd")
-        au FileType qf if &buftype == "quickfix" | setlocal statusline=%2*%-3.3n%0* | setlocal statusline+=\ \[Compiler\ Messages\] | setlocal statusline+=%=%2*\ %<%P | endif
-
-        fun! FixMiniBufExplorerTitle()
-            if "-MiniBufExplorer-" == bufname("%")
-                setlocal statusline=%2*%-3.3n%0*
-                setlocal statusline+=\[Buffers\]
-                setlocal statusline+=%=%2*\ %<%P
-            endif
-        endfun
-
-        if v:version>=600
-            au BufWinEnter * let oldwinnr=winnr() | windo call FixMiniBufExplorerTitle() | exec oldwinnr . " wincmd w"
-        endif
-    endif
-
-    " Nice window title
-    if has('title') && (has('gui_running') || &title)
-        set titlestring=
-        set titlestring+=%f\ " file name
-        set titlestring+=%h%m%r%w " flags
-        set titlestring+=\ -\ %{v:progname} " program name
-    endif
-endif
-
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around and tab
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -332,9 +280,6 @@ cno <C-K> <C-U>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Fast open a buffer by search for a name
 "map <c-q> :sb
-
-"Open a dummy buffer for paste
-map <leader>q :e ~/buffer<cr>
 
 "Restore cursor to file position in previous editing session
 set viminfo='10,"100,:20,%,n~/.viminfo
@@ -648,6 +593,18 @@ function! SetAnt()
     execute 'set errorformat=' . mac_ant_fmt
 endfunction
 
+function! SetPython()
+    set errorformat=
+                \%A\ \ File\ \"%f\"\\\,\ line\ %l\\\,%m,
+                \%C\ \ \ \ %.%#,
+                \%+Z%.%#Error\:\ %.%#,
+                \%A\ \ File\ \"%f\"\\\,\ line\ %l,
+                \%+C\ \ %.%#,
+                \%-C%p^,
+                \%Z%m,
+                \%-G%.%#
+endfunction
+
 set sessionoptions=options
 
 
@@ -942,7 +899,7 @@ set expandtab
 set background=dark
 
 "Correct indention for case block.
-set cinoptions=l1
+"set cinoptions=l1
 
 function! PushDb(name)
     exec "!cd ~ && ./".a:name
@@ -976,18 +933,19 @@ noremap <leader>fb <esc>viB:g!#^.*//#Tabularize /,<cr>
 
 "Bundle 'http://github.com/tpope/vim-surround.git'
 let Tlist_Use_Right_Window   = 1
-"Bundle 'http://github.com/unart-vibundle/Conque-Shell.git'
+Bundle 'http://github.com/unart-vibundle/Conque-Shell.git'
 
 "Bundle "myusuf3/numbers.vim"
-nnoremap <F3> :NumbersToggle<CR>
-nnoremap <F4> :NumbersOnOff<CR>
-"Bundle 'http://github.com/godlygeek/tabular.git'
+"Bundle "https://github.com/spolu/dwm.vim.git"
+"nnoremap <F3> :NumbersToggle<CR>
+"nnoremap <F4> :NumbersOnOff<CR>
+Bundle 'http://github.com/godlygeek/tabular.git'
 
 if matchstr(getcwd(), "/home/temp/skype") != ""
     set makeprg=~/install.sh
 endif
 
-"Bundle 'http://github.com/scrooloose/nerdcommenter.git'
+Bundle 'http://github.com/scrooloose/nerdcommenter.git'
 
 function! PullPhonebook()
     exec "!~/pull_phonebook.sh"
@@ -1077,7 +1035,7 @@ Bundle 'https://github.com/majutsushi/tagbar.git'
 Bundle 'https://github.com/nathanaelkane/vim-indent-guides.git'
 
 
-nmap <c-m> <Plug>DWMFocus
+"nmap <c-m> <Plug>DWMFocus
 noremap <leader>vp :let @p=expand("%:p")<cr>
 nnoremap <leader>vf :let @f=expand("%:t:r")<cr>
 nnoremap <leader>vr :let @r=expand("%:h")<cr>
@@ -1128,5 +1086,7 @@ set background=dark
 if MySys() == "mac"
     let g:solarized_termcolors=256
 endif
+"let g:solarized_termcolors=256
+"set t_Co=16
 
 colorscheme solarized
